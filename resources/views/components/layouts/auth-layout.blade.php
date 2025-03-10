@@ -5,37 +5,31 @@
 
 <body>
 
+    <!-- Page content -->
+    <div class="page-content">
 
-<!-- Page content -->
-<div class="page-content">
+        <!-- Main content -->
+        <div class="content-wrapper">
 
-    {{--    <!-- Main sidebar -->--}}
-    {{--    @include('includes.sidebar')--}}
-    {{--    <!-- /main sidebar -->--}}
+            <!-- Inner content -->
+            <div class="content-inner">
 
+                <!-- Content area -->
+                {{ $slot }}
+                <!-- /content area -->
 
-    <!-- Main content -->
-    <div class="content-wrapper">
+                <!-- Footer -->
+                @include('includes.footer')
+                <!-- /footer -->
 
-        <!-- Inner content -->
-        <div class="content-inner">
-
-            <!-- Content area -->
-            {{ $slot }}
-            <!-- /content area -->
-
-            <!-- Footer -->
-            @include('includes.footer')
-            <!-- /footer -->
+            </div>
+            <!-- /inner content -->
 
         </div>
-        <!-- /inner content -->
+        <!-- /main content -->
 
     </div>
-    <!-- /main content -->
-
-</div>
-<!-- /page content -->
+    <!-- /page content -->
 
 
 

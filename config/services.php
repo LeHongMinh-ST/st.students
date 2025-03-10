@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'azure' => [
+        'client_id' => env('MICROSOFT_APP_ID'),
+        'client_secret' => env('MICROSOFT_APP_SECRET'),
+        'redirect' => env('MICROSOFT_APP_CALLBACK_URL'),
+        'tenant' => env('MICROSOFT_APP_TENANT_ID'),
+        'proxy' => env('PROXY'),  // optionally
+    ],
 ];

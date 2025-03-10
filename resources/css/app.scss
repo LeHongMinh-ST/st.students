@@ -1,0 +1,103 @@
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../**/*.vue";
+
+@theme {
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+}
+
+@import "mixin";
+
+.fc-event-main {
+    .fc-event-title {
+        font-size: 14px;
+    }
+    .fc-event-img {
+        margin-top: 5px;
+        img {
+            width: 36px;
+            border-radius: 50%;
+        }
+    }
+    .fc-event-team {
+        //margin-left: 5px;
+        font-size: 14px;
+    }
+}
+
+.single-line-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+.navbar-st {
+    --navbar-bg: #1376bc;
+    --navbar-hover-bg: rgba(var(--white-rgb), 0.1);
+    --navbar-disabled-bg: transparent;
+    --navbar-hover-active-bg: rgba(var(--white-rgb), 0.15);
+    --navbar-hover-active-color: #fff;
+    --navbar-active-bg: rgba(var(--white-rgb), 0.15);
+    --navbar-color: #fff;
+    --navbar-link-color: #fff;
+    --navbar-link-hover-color: #fff;
+    --navbar-hover-color: #fff;
+    //.navbar-nav-link {
+    //    color: var(--navbar-color);
+    //}
+}
+
+.required {
+    color: #ef4444;
+}
+
+.w-check-box-table {
+    width: 5px;
+}
+
+.fs-table {
+    font-size: 13px;
+}
+
+.register-container {
+    max-width: 1280px;
+    margin: 0 auto;
+
+    .register-image-wrapper {
+        padding: 20px;
+        text-align: center;
+        img {
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .line {
+            margin: 10px auto 20px;
+            background: #e5e5e5;
+            width: 50px;
+            height: 1px;
+        }
+    }
+
+    .lucky-number-success {
+        font-size: 100px;
+    }
+}
+
+.lucky-number {
+    font-size: 150px;
+    font-weight: 600;
+}
+
+.gift-content {
+    font-size: 80px;
+}
+
+//.table-group-member {
+//    max-height: 500px;
+//    overflow-y: auto;
+//}

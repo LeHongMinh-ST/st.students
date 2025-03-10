@@ -7,7 +7,12 @@ const isDocker = process.env.DOCKER === "true";
 export default defineConfig({
     plugins: [
         laravel({
-            input: ["resources/css/app.css", "resources/js/app.js"],
+            input: [
+                "resources/css/app.scss",
+                "resources/css/auth.scss",
+                "resources/js/app.js",
+                "resources/js/auth/login.js",
+            ],
             refresh: true,
         }),
     ],

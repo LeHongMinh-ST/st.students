@@ -22,6 +22,10 @@ migrate:
 migrate-rollback:
 	@$(EXEC_PHP) php artisan migrate:rollback
 
+# Refresh migrations (rollback and re-run)
+migrate-refresh:
+	@$(EXEC_PHP) php artisan migrate:refresh
+
 # Run database seeders
 seed:
 	@$(EXEC_PHP) php artisan db:seed
@@ -33,18 +37,22 @@ seed-class:
 # Create a new controller
 controller:
 	@$(EXEC_PHP) php artisan make:controller $(name)
+	# @$(EXEC_PHP) chmod 666 /var/www/app/Http/Controllers/$(name).php
 
 # Create a new model
 model:
 	@$(EXEC_PHP) php artisan make:model $(name)
+	# @$(EXEC_PHP) chmod 666 /var/www/app/Models/$(name).php
 
 # Create a new job
 job:
 	@$(EXEC_PHP) php artisan make:job $(name)
+	# @$(EXEC_PHP) chmod 666 /var/www/app/Jobs/$(name).php
 
 # Create a new migration
 migration:
 	@$(EXEC_PHP) php artisan make:migration $(name)
+	# @$(EXEC_PHP) chmod 666 /var/www/database/migrations/*.php
 
 # Clear application cache
 clear-cache:

@@ -1,0 +1,61 @@
+@import "mixin";
+
+.login-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include sp {
+        display: block;
+        width: 100%;
+    }
+
+    .card-body {
+        padding: 50px;
+        @include sp {
+            padding: 30px 10px;
+        }
+    }
+
+    .login-image {
+        width: 472px;
+        @include sp {
+            width: 100%;
+        }
+    }
+
+    .login-image-wrapper {
+        padding: 20px;
+        text-align: center;
+        @include sp {
+            //display: none;
+        }
+
+        .line {
+            margin: 10px auto 20px auto;
+            background: #e5e5e5;
+            width: 50px;
+            height: 1px;
+        }
+    }
+
+    .login-form {
+        margin: 0 auto;
+        @include sp {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .validation-error-label {
+            color: red;
+        }
+    }
+
+    .login-row {
+        @include sp {
+            flex-wrap: wrap-reverse;
+        }
+    }
+}
