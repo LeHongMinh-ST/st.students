@@ -24,19 +24,21 @@ export default defineConfig({
         watch: {
             usePolling: true,
         },
-        port: 5173,
+        port: 5174,
         ...(isDocker
             ? {
                   https: {
                       key: fs.readFileSync(
-                          "/etc/nginx/certs/st.sso.dev-key.pem",
+                          "/etc/nginx/certs/st.students.dev-key.pem",
                       ),
-                      cert: fs.readFileSync("/etc/nginx/certs/st.sso.dev.pem"),
+                      cert: fs.readFileSync(
+                          "/etc/nginx/certs/st.students.dev.pem",
+                      ),
                   },
                   hmr: {
                       protocol: "wss",
-                      host: "st.sso.dev",
-                      port: 5173,
+                      host: "st.students.dev",
+                      port: 5174,
                   },
               }
             : {

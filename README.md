@@ -11,7 +11,7 @@
 
 ### 1. Clone the Repository
 ```sh
-git clone git@github.com:LeHongMinh-ST/st.sso.git
+git clone git@github.com:LeHongMinh-ST/st.stduents.git
 cd st.sso
 ```
 
@@ -45,7 +45,7 @@ mkcert -install
 mkdir -p .docker/local/certs
 
 # Generate SSL certificates for the domain st.sso.dev
-mkcert -key-file .docker/local/certs/st.sso.dev-key.pem -cert-file .docker/local/certs/st.sso.dev.pem st.sso.dev localhost 127.0.0.1 ::1
+mkcert -key-file .docker/local/certs/st.students.dev-key.pem -cert-file .docker/local/certs/st.students.dev.pem st.students.dev localhost 127.0.0.1 ::1
 ```
 
 ### 4. Add Domain to Hosts File
@@ -53,12 +53,12 @@ Add the following line to your system's hosts file:
 
 **macOS/Linux:**
 ```sh
-echo "127.0.0.1 st.sso.dev" | sudo tee -a /etc/hosts
+echo "127.0.0.1 st.students.dev" | sudo tee -a /etc/hosts
 ```
 
 **Windows (Run PowerShell as Administrator):**
 ```powershell
-Add-Content -Path "C:\Windows\System32\drivers\etc\hosts" -Value "127.0.0.1 st.sso.dev"
+Add-Content -Path "C:\Windows\System32\drivers\etc\hosts" -Value "127.0.0.1 st.students.dev"
 ```
 
 ### 5. Start Docker Containers

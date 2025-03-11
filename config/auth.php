@@ -119,4 +119,9 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    'sso' => [
+        'uri' => env('SSO_URL', 'https://st.sso.dev:8882'),
+        'client_id' => env('SSO_CLIENT_ID', 'client_id'),
+        'client_secret' => env('SSO_CLIENT_SECRET', 'client_secret'),
+    ],
 ];
