@@ -7,7 +7,7 @@
         </div>
 
         <div class="flex-1 navbar-brand flex-lg-0">
-            <a href="/" class="d-inline-flex align-items-center">
+            <a href="{{ route('dashboard') }}" class="d-inline-flex align-items-center">
                 <img class="w-auto h-48px" src="{{ asset('assets/images/logo-admin.png') }}" alt="">
             </a>
         </div>

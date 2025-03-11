@@ -4,7 +4,7 @@
             <div class="page-header-content d-lg-flex">
                 <div class="d-flex">
                     <h4 class="mb-0 page-title">
-                        Home - <span class="fw-normal">Dashboard</span>
+                        Bảng điều khiển
                     </h4>
 
                     <a href="#page_header" class="p-0 border-transparent btn btn-light align-self-center collapsed d-lg-none rounded-pill ms-auto" data-bs-toggle="collapse">
@@ -17,9 +17,8 @@
             <div class="page-header-content d-lg-flex border-top">
                 <div class="d-flex">
                     <div class="py-2 breadcrumb">
-                        <a href="index.html" class="breadcrumb-item"><i class="ph-house"></i></a>
-                        <a href="#" class="breadcrumb-item">Home</a>
-                        <span class="breadcrumb-item active">Dashboard</span>
+                        <a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
+                        <span class="breadcrumb-item active">Bảng điều khiển</span>
                     </div>
 
                     <a href="#breadcrumb_elements" class="p-0 border-transparent btn btn-light align-self-center collapsed d-lg-none rounded-pill ms-auto" data-bs-toggle="collapse">
@@ -33,6 +32,40 @@
 
 
     <div class="content">
-        Hello
+        <div class="mb-3">
+            <h6 class="mb-0">Xin chào {{ auth()->user()->full_name }} </h6>
+            <span class="text-muted">Chúc một ngày làm việc tốt lành!</span>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+
+                <!-- Top placement -->
+                <div class="card">
+                    <div class="card-img-actions">
+                        <img class="card-img-top img-fluid" src="{{ asset('assets/images/default-app.png') }}" alt="">
+                        <div class="card-img-actions-overlay card-img-top">
+                            <a href="/" class="btn btn-outline-white border-width-2" data-popup="lightbox">
+                                Truy cập
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">Hệ thống quản lý sinh viên</h5>
+                        <p class="card-text">
+                            Hệ thống quản lý sinh viên giúp quản lý thông tin sinh viên, điểm số, trạng thái sinh viên,...
+                        </p>
+                    </div>
+
+
+                </div>
+                <!-- /top placement -->
+            </div>
+
+
+
+
+        </div>
     </div>
 </x-admin-layout>

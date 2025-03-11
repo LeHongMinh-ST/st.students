@@ -6,7 +6,7 @@
         <!-- Sidebar header -->
         <div class="sidebar-section">
             <div class="sidebar-section-body d-flex justify-content-center">
-                <h5 class="my-auto sidebar-resize-hide flex-grow-1">ST SSO</h5>
+                <h5 class="my-auto sidebar-resize-hide flex-grow-1">ST Singer Sign-On</h5>
 
                 <div>
                     <button type="button"
@@ -31,8 +31,8 @@
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('admin.campaigns.*') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}"
+                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         <i class="ph-house"></i>
                         <span>Bảng điều khiển</span>
                     </a>
