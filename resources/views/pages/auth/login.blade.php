@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row login-row">
-                    <div class="col-xl-6">
+                    <div class="col-xl-6 d-flex align-items-center">
                         <div class="login-image-wrapper">
                             <img class="login-image" src="{{ asset('assets/images/login.svg') }}" alt="login">
                             <div class="line"></div>
