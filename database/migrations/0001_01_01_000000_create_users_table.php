@@ -13,18 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('user_name');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('phone')->nullable();
-            $table->string('role');
+            $table->bigInteger('sso_id');
             $table->string('status');
-            $table->string('code')->unique();
-            $table->unsignedBigInteger('department_id')->nullable()->constrained()->nullOnDelete();
-            $table->unsignedBigInteger('faculty_id')->nullable()->constrained()->nullOnDelete();
-            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

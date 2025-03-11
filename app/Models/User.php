@@ -11,8 +11,6 @@ use Laravel\Passport\HasApiTokens;
 
 /**
  * @property int $id
- * @property string $name
- * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
@@ -55,11 +53,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'user_name',
+        'sso_id',
+        'status'
     ];
 
     protected $casts = [
-        'role' => Role::class,
         'status' => Status::class,
     ];
 }
