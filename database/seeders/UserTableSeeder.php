@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class UserTableSeeder extends Seeder
 {
@@ -14,11 +13,11 @@ class UserTableSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'user_name' => 'sytem_admin',
-            'first_name' => 'System',
-            'last_name' => 'Admin',
+            'user_name' => 'system_admin',
+            'first_name' => 'Admin',
+            'last_name' => 'System',
             'email' => 'stdse@vnua.edu.vn',
-            'password' => Hash::make('123456aA@'),
+            'password' => '123456aA@',
             'role' => 'super_admin',
             'status' => 'active',
             'code' => 'ADMIN001',

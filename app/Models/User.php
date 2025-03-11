@@ -108,4 +108,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Faculty::class);
     }
+
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->last_name} {$this->first_name}";
+    }
 }
