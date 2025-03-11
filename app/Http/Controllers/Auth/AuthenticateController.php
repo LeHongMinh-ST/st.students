@@ -13,7 +13,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticateController extends Controller
@@ -76,7 +75,7 @@ class AuthenticateController extends Controller
                 'last_name' => $name['last_name'],
                 'first_name' => $name['first_name'],
                 'email' => $azureUser->getEmail(),
-                'password' => Hash::make('password'),
+                'password' => 'password',
                 'role' => Role::Officer->value,
                 'status' => 'active',
                 'code' => 'ST-OFFICER-'.time(),
