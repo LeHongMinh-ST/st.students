@@ -61,7 +61,7 @@ Route::get('/auth/callback', function (Request $request) {
 
     Auth::login($user);
 
-    return redirect('/dashboard');
+    return redirect()->route('dashboard');
 })->name('sso.callback');
 
 Route::middleware('auth.sso')->group(function () {

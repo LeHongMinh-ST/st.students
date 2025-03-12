@@ -6,7 +6,7 @@
         <!-- Sidebar header -->
         <div class="sidebar-section">
             <div class="sidebar-section-body d-flex justify-content-center">
-                <h5 class="my-auto sidebar-resize-hide flex-grow-1">ST Singer Sign-On</h5>
+                <h5 class="my-auto sidebar-resize-hide flex-grow-1">ST Students</h5>
 
                 <div>
                     <button type="button"
@@ -39,25 +39,6 @@
                 </li>
 
 
-                <li class="nav-item-header">
-                    <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Hệ thống</div>
-                    <i class="ph-dots-three sidebar-resize-show"></i>
-                </li>
-                <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('admin.teachers.*') ? 'active' : '' }}">
-                        <i class="ph-user"></i>
-                        <span>Người dùng</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('admin.teachers.*') ? 'active' : '' }}">
-                        <i class="ph-package"></i>
-                        <span>Ứng dụng khách</span>
-                    </a>
-                </li>
 
 
             </ul>
