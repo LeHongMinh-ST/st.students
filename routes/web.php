@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
-Route::get('sso-login', function () {
-    $redirectUri = config('auth.sso.client_id');
-    $ssoLoginUri = config('auth.sso.login_uri');
+Route::post('/logout', function() {
+    Auth::logout();
+    Session::forget('access_token');
+    Session::forget('userData');
 
-    return redirect("$ssoLoginUri?client_id=$redirectUri");
-})->name('sso.login');
+})->name('handleLogout');
 
 Route::get('/auth/redirect', function () {
     $query = http_build_query([
@@ -46,9 +46,9 @@ Route::get('/auth/callback', function (Request $request) {
 
      // Get user information using access token
     $userResponse = Http::withToken($data['access_token'])->get(config('auth.sso.uri').'/api/user');
- 
+
     $userData = $userResponse->json();
-    
+
     $user = User::where('sso_id', $userData['id'])->first();
     if(!$user) {
         $user = User::create([

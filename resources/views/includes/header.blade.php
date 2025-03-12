@@ -33,7 +33,7 @@
                         </a>
                         <div class="dropdown-divider"></div>
 
-                        <form action="{{ '' }}" method="POST">
+                        <form action="{{ route('handleLogout') }}" method="POST">
                             @csrf
                             <button type="submit" class="dropdown-item">
                                 <i class="ph-sign-out me-2"></i>
