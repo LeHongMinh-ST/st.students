@@ -2,96 +2,72 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\Role;
-use App\Helpers\Helper;
+use App\Enums\Status;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Authenticate\LoginRequest;
 use App\Models\User;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 class AuthenticateController extends Controller
 {
-    public function showLoginForm(): View|Application|Factory|RedirectResponse
+    public function redirectToSSO()
     {
-        if (Auth::check()) {
-            return redirect()->route('dashboard');
+        $query = http_build_query([
+            'client_id' => config('auth.sso.client_id'),
+            'redirect_uri' => route('sso.callback'),
+            'response_type' => 'code',
+            'scope' => '',
+        ]);
+
+        return redirect(config('auth.sso.uri') . '/oauth/authorize?' . $query);
+    }
+
+    public function handleCallback(Request $request)
+    {
+        $response = Http::asForm()->post(config('auth.sso.uri') . '/oauth/token', [
+            'grant_type' => 'authorization_code',
+            'client_id' => config('auth.sso.client_id'),
+            'client_secret' => config('auth.sso.client_secret'),
+            'redirect_uri' => route('sso.callback'),
+            'code' => $request->code,
+        ]);
+
+        $data = $response->json();
+
+        if (! isset($data['access_token'])) {
+            return abort(401);
         }
 
-        return view('pages.auth.login');
-    }
+        Session::put('access_token', $data['access_token']);
 
-    public function login(LoginRequest $request): RedirectResponse
-    {
-        $request->merge([$this->username() => request()->input('username')]);
-        $credentials = $request->only([$this->username(), 'password']);
-        if (! Auth::attempt($credentials, (bool) ($request->get('remember')))) {
-            return redirect()->back()
-                ->withErrors(['message' => ['Vui lòng kiểm tra lại tài khoản hoặc mật khẩu!']])
-                ->withInput();
-        }
+        // Get user information using access token
+        $userResponse = Http::withToken($data['access_token'])->get(config('auth.sso.uri') . '/api/user');
 
-        return redirect()->intended(route('dashboard'));
-    }
+        $userData = $userResponse->json();
 
-    public function logout(): RedirectResponse
-    {
-        Auth::logout();
-
-        return redirect()->route('login');
-    }
-
-    private function username(): string
-    {
-        return filter_var(request()->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
-    }
-
-    public function redirectToSocialite(Request $request): RedirectResponse
-    {
-        $redirectAfterLogin = $request->get('redirect', null);
-
-        session(['redirect_after_login' => $redirectAfterLogin]);
-
-        $url = Socialite::driver('azure')->stateless()->redirect()->getTargetUrl();
-
-        return redirect($url);
-    }
-
-    public function handleSocialteCallback(): RedirectResponse
-    {
-        $azureUser = Socialite::driver('azure')->stateless()->user();
-
-        $user = User::where('email', $azureUser->getEmail())->first();
-
-        if (! $user) {
-            $name = Helper::splitFullName($azureUser->getName());
+        $user = User::where('sso_id', $userData['id'])->first();
+        if (!$user) {
             $user = User::create([
-                'user_name' => $azureUser->getEmail(),
-                'last_name' => $name['last_name'],
-                'first_name' => $name['first_name'],
-                'email' => $azureUser->getEmail(),
-                'password' => 'password',
-                'role' => Role::Officer->value,
-                'status' => 'active',
-                'code' => 'ST-OFFICER-'.time(),
+                'sso_id' => $userData['id'],
+                'status' => Status::Active,
             ]);
         }
 
-        Auth::login($user, true);
+        Session::put('userData', $userData);
 
-        $redirectUrl = session('redirect_after_login');
+        Auth::login($user);
 
-        session()->forget('redirect_after_login');
+        return redirect()->route('dashboard');
+    }
 
-        if ($redirectUrl) {
-            return redirect($redirectUrl);
-        }
-
-        return redirect()->intended(route('dashboard', absolute: false));
+    public function logout()
+    {
+        Auth::logout();
+        Session::forget('access_token');
+        Session::forget('userData');
+        
+        return redirect()->route(config('auth.sso.uri'));
     }
 }
