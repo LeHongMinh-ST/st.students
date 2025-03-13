@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AuthenticateController extends Controller
 {
@@ -40,7 +41,7 @@ class AuthenticateController extends Controller
             return abort(401);
         }
 
-        Session::put('access_token', $data['access_token']);
+        Cache::put('access_token', $data['access_token'], now()->addHours(1));
 
         // Get user information using access token
         $userResponse = Http::withToken($data['access_token'])->get(config('auth.sso.uri') . '/api/user');
@@ -54,8 +55,8 @@ class AuthenticateController extends Controller
                 'status' => Status::Active,
             ]);
         }
-
-        Session::put('userData', $userData);
+    
+        Cache::put('userData', $userData, now()->addHours(1));
 
         Auth::login($user);
 
@@ -67,7 +68,7 @@ class AuthenticateController extends Controller
         Auth::logout();
         Session::forget('access_token');
         Session::forget('userData');
-        
+
         return redirect()->route(config('auth.sso.uri'));
     }
 }
