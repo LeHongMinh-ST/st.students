@@ -38,8 +38,76 @@
                     </a>
                 </li>
 
+                <li class="nav-item-header">
+                    <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Lớp học</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+
+                <li class="nav-item">
+                    <a href=""
+                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="ph-house"></i>
+                        <span>Lớp học</span>
+                    </a>
+                </li>
+
+                <li class="nav-item-header">
+                    <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Sinh viên</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+
+                <li class="nav-item">
+                    <a href=""
+                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="ph-house"></i>
+                        <span>Khóa sinh viên</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href=""
+                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="ph-house"></i>
+                        <span>Sinh viên tốt nghiệp</span>
+                    </a>
+                </li>
 
 
+                <li class="nav-item">
+                    <a href=""
+                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="ph-house"></i>
+                        <span>Cảnh báo sinh viên</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href=""
+                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="ph-house"></i>
+                        <span>Buộc thôi học</span>
+                    </a>
+                </li>
+
+                <li class="nav-item-header">
+                    <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Hệ thống</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+
+                <li class="nav-item">
+                    <a href=""
+                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="ph-house"></i>
+                        <span>Người dùng</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href=""
+                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="ph-house"></i>
+                        <span>Phân quyền</span>
+                    </a>
+                </li>
 
             </ul>
         </div>
