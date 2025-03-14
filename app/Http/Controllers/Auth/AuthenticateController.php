@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class AuthenticateController extends Controller
 {
@@ -22,12 +22,12 @@ class AuthenticateController extends Controller
             'scope' => '',
         ]);
 
-        return redirect(config('auth.sso.uri') . '/oauth/authorize?' . $query);
+        return redirect(config('auth.sso.uri').'/oauth/authorize?'.$query);
     }
 
     public function handleCallback(Request $request)
     {
-        $response = Http::asForm()->post(config('auth.sso.uri') . '/oauth/token', [
+        $response = Http::asForm()->post(config('auth.sso.uri').'/oauth/token', [
             'grant_type' => 'authorization_code',
             'client_id' => config('auth.sso.client_id'),
             'client_secret' => config('auth.sso.client_secret'),
@@ -44,18 +44,18 @@ class AuthenticateController extends Controller
         Cache::put('access_token', $data['access_token'], now()->addHours(1));
 
         // Get user information using access token
-        $userResponse = Http::withToken($data['access_token'])->get(config('auth.sso.uri') . '/api/user');
+        $userResponse = Http::withToken($data['access_token'])->get(config('auth.sso.uri').'/api/user');
 
         $userData = $userResponse->json();
 
         $user = User::where('sso_id', $userData['id'])->first();
-        if (!$user) {
+        if (! $user) {
             $user = User::create([
                 'sso_id' => $userData['id'],
                 'status' => Status::Active,
             ]);
         }
-    
+
         Cache::put('userData', $userData, now()->addHours(1));
 
         Auth::login($user);

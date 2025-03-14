@@ -23,6 +23,7 @@ class AuthenticateSSO
                 'response_type' => 'code',
                 'scope' => '',
             ]);
+
             return redirect(config('auth.sso.uri').'/oauth/authorize?'.$query);
         }
 

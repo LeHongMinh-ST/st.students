@@ -54,7 +54,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'sso_id',
-        'status'
+        'status',
     ];
 
     protected $casts = [
