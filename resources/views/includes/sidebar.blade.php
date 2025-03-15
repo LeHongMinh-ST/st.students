@@ -45,8 +45,8 @@
 
                 <li class="nav-item">
                     <a href=""
-                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="ph-house"></i>
+                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                        <i class="ph-buildings"></i>
                         <span>Lớp học</span>
                     </a>
                 </li>
@@ -58,16 +58,16 @@
 
                 <li class="nav-item">
                     <a href=""
-                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="ph-house"></i>
+                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                        <i class="ph-users-four"></i>
                         <span>Khóa sinh viên</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a href=""
-                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="ph-house"></i>
+                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                        <i class="ph-student"></i>
                         <span>Sinh viên tốt nghiệp</span>
                     </a>
                 </li>
@@ -75,16 +75,16 @@
 
                 <li class="nav-item">
                     <a href=""
-                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="ph-house"></i>
+                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                        <i class="ph-warning-circle"></i>
                         <span>Cảnh báo sinh viên</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a href=""
-                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="ph-house"></i>
+                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                        <i class="ph-x-circle"></i>
                         <span>Buộc thôi học</span>
                     </a>
                 </li>
@@ -96,15 +96,15 @@
 
                 <li class="nav-item">
                     <a href=""
-                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="ph-house"></i>
+                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                        <i class="ph-user"></i>
                         <span>Người dùng</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href=""
-                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="ph-house"></i>
+                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                        <i class="ph-lock"></i>
                         <span>Phân quyền</span>
                     </a>
                 </li>
