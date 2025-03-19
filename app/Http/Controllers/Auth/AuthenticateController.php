@@ -65,12 +65,12 @@ class AuthenticateController extends Controller
 
         Session::put('userData', $userData);
 
-        if ($user->role !== Role::SuperAdmin && empty($user['faculty_id'])) {
+        if ($userData['role'] !== Role::SuperAdmin->value && empty($userData['faculty_id'])) {
             return abort(403);
         }
 
-        if ($user->role !== Role::SuperAdmin) {
-            Session::put('faculty_id', $user['faculty_id']);
+        if ($userData['role'] !== Role::SuperAdmin->value) {
+            Session::put('faculty_id', $userData['faculty_id']);
         }
 
         Auth::login($user);
