@@ -97,18 +97,3 @@
 .gift-content {
     font-size: 80px;
 }
-
-#overlay {
-    position: fixed;
-    top: 78px;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 78px);
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    display: none;
-}
-
-.hidden {
-    display: none;
-}
