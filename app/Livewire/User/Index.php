@@ -4,14 +4,18 @@ namespace App\Livewire\User;
 
 use App\Services\SsoService;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class Index extends Component
 {
+    #[Url]
     public int $page = 1;
 
     public int $totalPages = 0;
 
+    #[Url]
     public string $search = '';
 
     public function render()
@@ -43,6 +47,7 @@ class Index extends Component
         return $responses['data'];
     }
 
+    #[On('onPageChange')]
     public function onUpdatePage($page)
     {
         $this->page = (int) $page;
