@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -22,7 +23,7 @@ class RoleController extends Controller
         return view('pages.role.create');
     }
 
-    public function edit($role): View|Application|Factory|RedirectResponse
+    public function edit(Role $role): View|Application|Factory|RedirectResponse
     {
         return view('pages.role.edit', compact('role'));
     }
