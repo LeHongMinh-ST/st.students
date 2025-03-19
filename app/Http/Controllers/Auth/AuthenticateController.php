@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\SsoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -94,9 +95,7 @@ class AuthenticateController extends Controller
 
     public function logout()
     {
-        Auth::logout();
-        Session::forget('access_token');
-        Session::forget('userData');
+        app(SsoService::class)->clearAuth();
 
         return redirect(config('auth.sso.uri'));
     }

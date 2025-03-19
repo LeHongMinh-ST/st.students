@@ -17,6 +17,11 @@
 
         <ul class="flex-row order-1 nav justify-content-end order-lg-2 align-items-center">
             @if (auth()->check())
+                @if ($auth['role'] == \App\Enums\Role::SuperAdmin->value)
+                    <li class="ms-lg-2">
+                        <livewire:commons.faculty-selected />
+                    </li>
+                @endif
                 <li class="nav-item nav-item-dropdown-lg dropdown ms-lg-2">
                     <a href="#" class="p-1 navbar-nav-link align-items-center rounded-pill" data-bs-toggle="dropdown">
                         <div class="status-indicator-container">
