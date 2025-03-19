@@ -17,6 +17,6 @@ Route::middleware('auth.sso')->group(function () {
         //
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-        Route::resource('roles', RoleController::class)->except(['store', 'update', 'destroy']);
+        Route::resource('roles', RoleController::class)->except(['show', 'store', 'update', 'destroy']);
     });
 });

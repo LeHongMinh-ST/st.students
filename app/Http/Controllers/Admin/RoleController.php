@@ -14,4 +14,14 @@ class RoleController extends Controller
     {
         return view('pages.role.index');
     }
+
+    public function create(): View|Application|Factory|RedirectResponse
+    {
+        return view('pages.role.create');
+    }
+
+    public function edit($role): View|Application|Factory|RedirectResponse
+    {
+        return view('pages.role.edit', compact('role'));
+    }
 }
