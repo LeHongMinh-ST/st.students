@@ -7,9 +7,9 @@ class Helper
 {
     public static function splitFullName($fullName)
     {
-        $parts = explode(' ', trim($fullName));
+        $parts = explode(' ', mb_trim($fullName));
 
-        if (count($parts) === 1) {
+        if (1 === count($parts)) {
             return ['last_name' => $parts[0], 'first_name' => ''];
         }
 

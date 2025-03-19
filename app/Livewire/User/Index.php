@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\User;
 
 use App\Services\SsoService;
@@ -39,7 +41,7 @@ class Index extends Component
             $params['search'] = $this->search;
         }
 
-        $responses = app(SsoService::class)->get("/api/faculties/$facultyId/users", $params);
+        $responses = app(SsoService::class)->get("/api/faculties/{$facultyId}/users", $params);
 
         $this->page = @$responses['current_page'] ?? 1;
         $this->totalPages = @$responses['last_page'] ?? 1;
@@ -48,7 +50,7 @@ class Index extends Component
     }
 
     #[On('onPageChange')]
-    public function onUpdatePage($page)
+    public function onUpdatePage($page): void
     {
         $this->page = (int) $page;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -10,11 +12,11 @@ Route::post('/logout', [AuthenticateController::class, 'logout'])->name('handleL
 Route::get('/auth/redirect', [AuthenticateController::class, 'redirectToSSO'])->name('sso.redirect');
 Route::get('/auth/callback', [AuthenticateController::class, 'handleCallback'])->name('sso.callback');
 
-Route::middleware('auth.sso')->group(function () {
+Route::middleware('auth.sso')->group(function (): void {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::middleware('check.faculty')->group(function () {
-        //
+    Route::middleware('check.faculty')->group(function (): void {
+
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
         Route::resource('roles', RoleController::class)->except(['show', 'store', 'update', 'destroy']);

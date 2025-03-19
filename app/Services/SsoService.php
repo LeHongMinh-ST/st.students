@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
@@ -20,13 +22,13 @@ class SsoService
     public function get(string $endPoint, $data = [])
     {
         try {
-            $response = Http::withToken($this->accessToken)->get(config('auth.sso.uri').$endPoint, $data);
+            $response = Http::withToken($this->accessToken)->get(config('auth.sso.uri') . $endPoint, $data);
 
             return $response->json();
         } catch (Throwable $th) {
             Log::error($th->getMessage());
 
-            if ($th->getCode() === 401) {
+            if (401 === $th->getCode()) {
                 $this->clearAuth();
                 abort(401);
             }
@@ -38,13 +40,13 @@ class SsoService
     public function post(string $endPoint, $data = [])
     {
         try {
-            $response = Http::withToken($this->accessToken)->post(config('auth.sso.uri').$endPoint, $data);
+            $response = Http::withToken($this->accessToken)->post(config('auth.sso.uri') . $endPoint, $data);
 
             return $response->json();
         } catch (Throwable $th) {
             Log::error($th->getMessage());
 
-            if ($th->getCode() === 401) {
+            if (401 === $th->getCode()) {
                 $this->clearAuth();
                 abort(401);
             }
@@ -53,7 +55,7 @@ class SsoService
         }
     }
 
-    public function clearAuth()
+    public function clearAuth(): void
     {
         Auth::logout();
         Session::forget('access_token');

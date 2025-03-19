@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Enums\Role;
@@ -12,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Throwable;
 
 class AuthenticateController extends Controller
 {
@@ -24,7 +27,7 @@ class AuthenticateController extends Controller
             'scope' => '',
         ]);
 
-        return redirect(config('auth.sso.uri').'/oauth/authorize?'.$query);
+        return redirect(config('auth.sso.uri') . '/oauth/authorize?' . $query);
     }
 
     public function handleCallback(Request $request)
@@ -45,16 +48,23 @@ class AuthenticateController extends Controller
             Auth::login($user);
 
             return redirect()->route('dashboard');
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::error($th->getMessage());
 
             return abort(401);
         }
     }
 
+    public function logout()
+    {
+        app(SsoService::class)->clearAuth();
+
+        return redirect(config('auth.sso.uri'));
+    }
+
     private function getAccessToken(string $code): array
     {
-        $response = Http::asForm()->post(config('auth.sso.uri').'/oauth/token', [
+        $response = Http::asForm()->post(config('auth.sso.uri') . '/oauth/token', [
             'grant_type' => 'authorization_code',
             'client_id' => config('auth.sso.client_id'),
             'client_secret' => config('auth.sso.client_secret'),
@@ -67,7 +77,7 @@ class AuthenticateController extends Controller
 
     private function getUserData(string $accessToken): array
     {
-        $response = Http::withToken($accessToken)->get(config('auth.sso.uri').'/api/user');
+        $response = Http::withToken($accessToken)->get(config('auth.sso.uri') . '/api/user');
 
         return $response->json();
     }
@@ -91,12 +101,5 @@ class AuthenticateController extends Controller
         if ($userData['role'] !== Role::SuperAdmin->value) {
             Session::put('faculty_id', $userData['faculty_id']);
         }
-    }
-
-    public function logout()
-    {
-        app(SsoService::class)->clearAuth();
-
-        return redirect(config('auth.sso.uri'));
     }
 }

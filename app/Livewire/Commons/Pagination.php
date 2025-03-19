@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Commons;
 
 use Livewire\Component;
@@ -10,13 +12,13 @@ class Pagination extends Component
 
     public $totalPages;
 
-    public function mount($currentPage = 1, $totalPages = 1)
+    public function mount($currentPage = 1, $totalPages = 1): void
     {
         $this->currentPage = $currentPage;
         $this->totalPages = $totalPages;
     }
 
-    public function previousPage()
+    public function previousPage(): void
     {
         if ($this->currentPage > 1) {
             $this->currentPage--;
@@ -24,7 +26,7 @@ class Pagination extends Component
         }
     }
 
-    public function nextPage()
+    public function nextPage(): void
     {
         if ($this->currentPage < $this->totalPages) {
             $this->currentPage++;
@@ -32,7 +34,7 @@ class Pagination extends Component
         }
     }
 
-    public function gotoPage($page)
+    public function gotoPage($page): void
     {
         if ($page >= 1 && $page <= $this->totalPages) {
             $this->currentPage = $page;

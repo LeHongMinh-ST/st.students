@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Commons;
 
 use App\Services\SsoService;
@@ -19,7 +21,7 @@ class FacultySelected extends Component
         ]);
     }
 
-    public function mount()
+    public function mount(): void
     {
         $sessionFaculty = Session::get('facultyId');
         if ($sessionFaculty) {
@@ -27,19 +29,17 @@ class FacultySelected extends Component
         }
     }
 
-    private function fetchData()
-    {
-        $responses = cache()->remember('faculties', 60, function () {
-            return app(SsoService::class)->get('/api/faculties/get-all');
-        });
-
-        return $responses['data'] ?? [];
-    }
-
-    public function updatedFacultyId($facultyId)
+    public function updatedFacultyId($facultyId): void
     {
         Session::put('facultyId', $facultyId);
 
         $this->dispatch('reloadPage');
+    }
+
+    private function fetchData()
+    {
+        $responses = cache()->remember('faculties', 60, fn () => app(SsoService::class)->get('/api/faculties/get-all'));
+
+        return $responses['data'] ?? [];
     }
 }
