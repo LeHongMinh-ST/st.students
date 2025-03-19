@@ -5,52 +5,82 @@
 
 <body>
 
-<!-- Main navbar -->
-@include('includes.header')
-<!-- /main navbar -->
+    <!-- Main navbar -->
+    @include('includes.header')
+    <!-- /main navbar -->
+    <div id="overlay" class="hidden"></div>
+
+    <!-- Page content -->
+    <div class="page-content">
+
+        <!-- Main sidebar -->
+        @include('includes.sidebar')
+        <!-- /main sidebar -->
 
 
-<!-- Page content -->
-<div class="page-content">
+        <!-- Main content -->
+        <div class="content-wrapper">
 
-    <!-- Main sidebar -->
-    @include('includes.sidebar')
-    <!-- /main sidebar -->
+            <!-- Inner content -->
+            <div class="content-inner">
 
-
-    <!-- Main content -->
-    <div class="content-wrapper">
-
-        <!-- Inner content -->
-        <div class="content-inner">
-
-            <!-- Page header -->
-            @if (isset($header))
-                {{ $header }}
-            @endif
-            <!-- /page header -->
+                <!-- Page header -->
+                @if (isset($header))
+                    {{ $header }}
+                @endif
+                <!-- /page header -->
 
 
-            <!-- Content area -->
-            {{ $slot }}
-            <!-- /content area -->
+                <!-- Content area -->
+                {{ $slot }}
+                <!-- /content area -->
 
 
-            <!-- Footer -->
-            @include('includes.footer')
-            <!-- /footer -->
+                <!-- Footer -->
+                @include('includes.footer')
+                <!-- /footer -->
+
+            </div>
+            <!-- /inner content -->
 
         </div>
-        <!-- /inner content -->
+        <!-- /main content -->
 
     </div>
-    <!-- /main content -->
-
-</div>
-<!-- /page content -->
+    <!-- /page content -->
 
 
-@livewireScripts
+    @livewireScripts
+
+    @php
+        $facultyId = session('facultyId');
+    @endphp
+
+    <style>
+        #overlay {
+            position: fixed;
+            top: 78px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 78px);
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let facultyId = @json($facultyId ?? null);
+            if (!facultyId) {
+                document.getElementById('overlay').style.display = "block";
+            }
+        });
+    </script>
 </body>
 
 </html>
