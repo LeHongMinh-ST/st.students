@@ -15,8 +15,8 @@ class Index extends Component
 
     public int $totalPages = 0;
 
-    #[Url]
-    public string $search = '';
+    #[Url(as: 'q')]
+    public ?string $search = '';
 
     public function render()
     {
