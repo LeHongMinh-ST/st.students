@@ -4,7 +4,7 @@
             <div class="page-header-content d-lg-flex">
                 <div class="d-flex">
                     <h4 class="mb-0 page-title">
-                        Vai trò - Danh sách vai trò
+                        Vai trò - Chỉnh sửa
                     </h4>
 
                     <a href="#page_header" class="p-0 border-transparent btn btn-light align-self-center collapsed d-lg-none rounded-pill ms-auto" data-bs-toggle="collapse">
@@ -18,7 +18,8 @@
                 <div class="d-flex">
                     <div class="py-2 breadcrumb">
                         <a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
-                        <span class="breadcrumb-item active">vai trò</span>
+                        <a href="{{ route('roles.index') }}" class="breadcrumb-item">Vai trò</a>
+                        <span class="breadcrumb-item active">{{ $role->name }}</span>
                     </div>
 
                     <a href="#breadcrumb_elements" class="p-0 border-transparent btn btn-light align-self-center collapsed d-lg-none rounded-pill ms-auto" data-bs-toggle="collapse">
@@ -32,6 +33,6 @@
 
 
     <div class="content">
-        <livewire:role.index />
+        <livewire:role.edit :role="$role" />
     </div>
 </x-admin-layout>

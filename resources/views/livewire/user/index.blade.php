@@ -25,8 +25,8 @@
             <table class="table fs-table" wire:loading.remove>
                 <thead>
                     <tr class="table-light">
-                        <th>STT</th>
-                        <th>Họ và tên</th>
+                        <th width="5%">STT</th>
+                        <th width="30%">Họ và tên</th>
                         <th>Email</th>
                         <th>Điện thoại</th>
                         <th>Loại người dùng</th>
