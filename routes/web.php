@@ -10,4 +10,8 @@ Route::get('/auth/callback', [AuthenticateController::class, 'handleCallback'])-
 
 Route::middleware('auth.sso')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::middleware('check.faculty')->group(function () {
+        //
+    });
 });
