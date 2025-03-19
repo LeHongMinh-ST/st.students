@@ -1,3 +1,6 @@
+@php
+    $auth = session('userData');
+@endphp
 <div class="border-opacity-10 navbar navbar-dark navbar-expand-lg navbar-static border-bottom border-bottom-white">
     <div class="container-fluid">
         <div class="d-flex d-lg-none me-2">
@@ -20,14 +23,14 @@
                 <li class="nav-item nav-item-dropdown-lg dropdown ms-lg-2">
                     <a href="#" class="p-1 navbar-nav-link align-items-center rounded-pill" data-bs-toggle="dropdown">
                         <div class="status-indicator-container">
-                            <img src="{{ Avatar::create('a')->toBase64() }}" class="w-32px h-32px rounded-pill" alt="">
+                            <img src="{{ Avatar::create($auth['last_name'] . ' ' . $auth['first_name'])->toBase64() }}" class="w-32px h-32px rounded-pill" alt="">
                         </div>
                         <span class="status-indicator bg-success"></span>
-                        <span class="d-none d-lg-inline-block mx-lg-2">{{ 'admins' }}</span>
+                        <span class="d-none d-lg-inline-block mx-lg-2">{{ $auth['last_name'] . ' ' . $auth['first_name'] }}</span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a href="#" class="dropdown-item">
+                        <a href="{{ config('auth.sso.uri') }}/profile" target="_blank" class="dropdown-item">
                             <i class="ph-gear me-2"></i>
                             Tài khoản
                         </a>

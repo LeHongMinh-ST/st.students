@@ -20,7 +20,7 @@ class Pagination extends Component
     {
         if ($this->currentPage > 1) {
             $this->currentPage--;
-            $this->dispatch('onPageChange', $this->currentPage);
+            $this->dispatch('onPageChange', page: $this->currentPage);
         }
     }
 
@@ -28,7 +28,7 @@ class Pagination extends Component
     {
         if ($this->currentPage < $this->totalPages) {
             $this->currentPage++;
-            $this->dispatch('onPageChange', $this->currentPage);
+            $this->dispatch('onPageChange', page: $this->currentPage);
         }
     }
 
@@ -36,7 +36,7 @@ class Pagination extends Component
     {
         if ($page >= 1 && $page <= $this->totalPages) {
             $this->currentPage = $page;
-            $this->dispatch('onPageChange', $this->currentPage);
+            $this->dispatch('onPageChange', page: $this->currentPage);
         }
     }
 
