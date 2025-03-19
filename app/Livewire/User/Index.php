@@ -41,10 +41,10 @@ class Index extends Component
 
         $responses = app(SsoService::class)->get("/api/faculties/$facultyId/users", $params);
 
-        $this->page = $responses['current_page'] ?? 1;
-        $this->totalPages = $responses['last_page'] ?? 1;
+        $this->page = @$responses['current_page'] ?? 1;
+        $this->totalPages = @$responses['last_page'] ?? 1;
 
-        return $responses['data'];
+        return @$responses['data'] ?? [];
     }
 
     #[On('onPageChange')]

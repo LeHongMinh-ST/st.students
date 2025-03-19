@@ -29,7 +29,9 @@ class FacultySelected extends Component
 
     private function fetchData()
     {
-        $responses = app(SsoService::class)->get('/api/faculties/get-all');
+        $responses = cache()->remember('faculties', 60, function () {
+            return app(SsoService::class)->get('/api/faculties/get-all');
+        });
 
         return $responses['data'] ?? [];
     }

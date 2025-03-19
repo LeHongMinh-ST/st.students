@@ -46,7 +46,7 @@
                 <li class="nav-item">
                     <a href=""
                        class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
-                        <i class="ph-buildings"></i>
+                        <i class="ph-books"></i>
                         <span>Lớp học</span>
                     </a>
                 </li>
