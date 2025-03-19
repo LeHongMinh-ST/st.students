@@ -95,8 +95,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                    <a href="{{ route('user.index') }}"
+                       class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}">
                         <i class="ph-user"></i>
                         <span>Người dùng</span>
                     </a>
