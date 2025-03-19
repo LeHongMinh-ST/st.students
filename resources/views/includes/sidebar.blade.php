@@ -95,15 +95,15 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('user.index') }}"
-                       class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}">
+                    <a href="{{ route('users.index') }}"
+                       class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
                         <i class="ph-user"></i>
                         <span>Người dùng</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                    <a href="{{ route('roles.index') }}"
+                       class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
                         <i class="ph-lock"></i>
                         <span>Phân quyền</span>
                     </a>

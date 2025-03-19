@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticateController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,8 @@ Route::middleware('auth.sso')->group(function () {
 
     Route::middleware('check.faculty')->group(function () {
         //
-        Route::get('/users', [UserController::class, 'index'])->name('user.index');
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+        Route::resource('roles', RoleController::class)->except(['store', 'update', 'destroy']);
     });
 });
