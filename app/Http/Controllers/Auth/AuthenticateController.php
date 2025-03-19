@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Role;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class AuthenticateController extends Controller
@@ -42,8 +44,14 @@ class AuthenticateController extends Controller
 
         Session::put('access_token', $data['access_token']);
 
-        // Get user information using access token
-        $userResponse = Http::withToken($data['access_token'])->get(config('auth.sso.uri').'/api/user');
+        try {
+            // Get user information using access token
+            $userResponse = Http::withToken($data['access_token'])->get(config('auth.sso.uri').'/api/user');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+
+            return abort(401);
+        }
 
         $userData = $userResponse->json();
 
@@ -56,6 +64,14 @@ class AuthenticateController extends Controller
         }
 
         Session::put('userData', $userData);
+
+        if ($user->role !== Role::SuperAdmin && empty($user['faculty_id'])) {
+            return abort(403);
+        }
+
+        if ($user->role !== Role::SuperAdmin) {
+            Session::put('faculty_id', $user['faculty_id']);
+        }
 
         Auth::login($user);
 
