@@ -19,6 +19,9 @@ class Edit extends Component
     #[Validate(as: 'tên khoa')]
     public string $name;
 
+    #[Validate(as: 'mô tả')]
+    public $description;
+
     public array $permissionIds = [];
 
     public array $groupIds = [];
@@ -93,6 +96,7 @@ class Edit extends Component
 
             $this->role->update([
                 'name' => $this->name,
+                'description' => $this->description
             ]);
 
             $this->role->permissions()->sync($this->permissionIds);

@@ -32,7 +32,7 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description', 'faculty_id'];
 
     public function users(): BelongsToMany
     {

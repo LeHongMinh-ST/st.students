@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Role;
 
 use App\Models\Role;
+use App\Services\SsoService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
@@ -15,6 +16,10 @@ class Create extends Component
 {
     #[Validate(as: 'tên khoa')]
     public $name;
+
+
+    #[Validate(as: 'mô tả')]
+    public $description;
 
     private bool $isLoading = false;
 
@@ -41,8 +46,12 @@ class Create extends Component
             $this->isLoading = true;
             $this->validate();
 
+            $facultyId = app(SsoService::class)->getFacultyId();
+
             $role = Role::create([
                 'name' => $this->name,
+                'description' => $this->description,
+                'faculty_id' => $facultyId
             ]);
 
             session()->flash('success', 'Tạo mới thành công!');

@@ -21,6 +21,19 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="description" class="col-form-label">
+                                        Mô tả
+                                    </label>
+                                    <textarea wire:model.live="description" id="description"
+                                              class="form-control @error('description') is-invalid @enderror"></textarea>
+                                    @error('description')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
