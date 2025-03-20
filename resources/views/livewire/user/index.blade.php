@@ -49,7 +49,7 @@
                                 <x-role-badge :role="$item['role']" />
                             </td>
                             <td>
-
+                                <span data-bs-popup="tooltip" title="{{ @$item['local_user']['role_name'] }}" class="text-role-name">{{ @$item['local_user']['role_name'] ?? '-' }}</span>
                             </td>
                         </tr>
                     @empty

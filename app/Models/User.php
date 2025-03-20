@@ -63,6 +63,8 @@ class User extends Authenticatable
         'status' => Status::class,
     ];
 
+    protected $appends = ['role_name'];
+
     public function userRoles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_role');
@@ -92,5 +94,10 @@ class User extends Authenticatable
         }
 
         return $query;
+    }
+
+    public function getRoleNameAttribute(): string
+    {
+        return $this->userRoles()->pluck('name')->implode(', ');
     }
 }
