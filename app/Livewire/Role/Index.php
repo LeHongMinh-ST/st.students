@@ -6,6 +6,7 @@ namespace App\Livewire\Role;
 
 use App\Helpers\Constants;
 use App\Models\Role;
+use App\Services\SsoService;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -19,8 +20,11 @@ class Index extends Component
 
     public function render()
     {
+        $facultyId = app(SsoService::class)->getFacultyId();
+
         $roles = Role::query()
             ->search($this->search)
+            ->where('faculty_id', $facultyId)
             ->orderBy('created_at', 'desc')
             ->paginate(Constants::PER_PAGE);
 
