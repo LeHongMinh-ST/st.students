@@ -8,6 +8,7 @@ use App\Models\GroupPermission;
 use App\Models\Role;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Throwable;
@@ -52,6 +53,7 @@ class Edit extends Component
     {
         $this->role = $role;
         $this->name = $role->name;
+        $this->description = $role->description;
         $this->permissionIds = $role->permissions->pluck('id')->toArray();
         $this->syncGroupIds();
         $this->updateGroupIndeterminateStates();
@@ -108,6 +110,19 @@ class Edit extends Component
         } finally {
             $this->isLoading = false;
         }
+    }
+
+    #[On('deleteRole')]
+    public function delete()
+    {
+        $this->role->delete();
+        session()->flash('success', 'Xoá thành công!');
+        return redirect()->route('roles.index');
+    }
+
+    public function openDeleteModal(): void
+    {
+        $this->dispatch('onOpenDeleteModal');
     }
 
     private function syncPermissions(): void

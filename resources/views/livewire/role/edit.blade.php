@@ -98,6 +98,11 @@
                         <i class="ph-floppy-disk fw-semibold"></i>
                         Lưu
                     </button>
+
+                    <button wire:click="openDeleteModal()" class="shadow btn btn-danger fw-semibold flex-fill">
+                        <i class="ph-trash fw-semibold"></i>
+                        Xoá
+                    </button>
                     <a href="{{ route('roles.index') }}" type="button" class="btn btn-warning flex-fill fw-semibold"><i
                            class="ph-arrow-counter-clockwise fw-semibold"></i> Trở lại</a>
                 </div>
@@ -112,5 +117,20 @@
             document.getElementById(`group-${state.detail.groupId}`).indeterminate = state.detail.indeterminate;
 
         });
+
+        window.addEventListener('onOpenDeleteModal', () => {
+            new swal({
+                title: "Bạn có chắc chắn?",
+                text: "Dữ liệu sau khi xóa không thể phục hồi!",
+                showCancelButton: true,
+                confirmButtonColor: "#EE4444",
+                confirmButtonText: "Đồng ý!",
+                cancelButtonText: "Đóng!"
+            }).then((value) => {
+                if (value.isConfirmed) {
+                    Livewire.dispatch('deleteRole')
+                }
+            })
+        })
     </script>
 @endscript

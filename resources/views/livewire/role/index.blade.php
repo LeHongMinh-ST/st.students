@@ -26,7 +26,8 @@
                 <thead>
                     <tr class="table-light">
                         <th width="5%">STT</th>
-                        <th width="80%">Tên</th>
+                        <th width="40%">Tên vai trò</th>
+                        <th width="40%">Mô tả</th>
                         <th>Ngày tạo</th>
                     </tr>
                 </thead>
@@ -34,11 +35,12 @@
                     @forelse($roles as $item)
                         <tr>
                             <td class="text-center" width="5%">{{ $loop->index + 1 + $roles->perPage() * ($roles->currentPage() - 1) }}</td>
-                            <td width="80%">
+                            <td width="40%">
                                 <a href="{{ route('roles.edit', $item->id) }}" class="fw-semibold">
                                     {{ $item->name }}
                                 </a>
                             </td>
+                            <td width="40%">{{ $item->description }}</td>
 
                             <td width="10%">{{ $item->created_at->format('d/m/Y') }}</td>
                         </tr>

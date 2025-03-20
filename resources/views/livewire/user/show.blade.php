@@ -68,7 +68,8 @@
                                                     <input type="checkbox" class="form-check-input" wire:model.live="selectAll" id="selectAll">
                                                 </div>
                                             </th>
-                                            <th width="80%">Tên vai trò</th>
+                                            <th width="40%">Tên vai trò</th>
+                                            <th width="40%">Mô tả</th>
                                             <th>Ngày tạo</th>
                                         </tr>
                                     </thead>
@@ -85,6 +86,7 @@
                                                         {{ $item->name }}
                                                     </span>
                                                 </td>
+                                                <td width="40%">{{ $item->description }}</td>
 
                                                 <td width="10%">{{ $item->created_at->format('d/m/Y') }}</td>
                                             </tr>
