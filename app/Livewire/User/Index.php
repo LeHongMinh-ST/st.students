@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\User;
 
+use App\Enums\Status;
 use App\Models\User;
 use App\Services\SsoService;
 use Livewire\Attributes\On;
@@ -53,6 +54,12 @@ class Index extends Component
 
         $users = collect($usersFromApi)->map(function ($user) use ($localUsers) {
             $localUser = $localUsers[$user['id']] ?? null;
+            if (!$localUser) {
+                $localUser = User::create([
+                    'sso_id' => $user['id'],
+                    'status' => Status::Active->value
+                ]);
+            }
             $user['local_user'] = $localUser ? $localUser->toArray() : null;
             return $user;
         })->toArray();
