@@ -7,11 +7,14 @@
                 </div>
             </div>
             <div class="gap-2 d-flex">
-                <div>
-                    <a href="{{ route('roles.create') }}" type="button" class="px-2 shadow btn btn-primary btn-icon fw-semibold">
-                        <i class="px-1 ph-plus-circle fw-semibold"></i><span>Thêm mới</span>
-                    </a>
-                </div>
+                @can('create', \App\Models\Role::class)
+                    <div>
+                        <a href="{{ route('roles.create') }}" type="button" class="px-2 shadow btn btn-primary btn-icon fw-semibold">
+                            <i class="px-1 ph-plus-circle fw-semibold"></i><span>Thêm mới</span>
+                        </a>
+                    </div>
+                @endcan
+
             </div>
         </div>
 
