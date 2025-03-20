@@ -13,7 +13,15 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermission('users.index');
+        return $user->hasPermission('user.index');
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function view(User $user): bool
+    {
+        return $user->hasPermission('user.show');
     }
 
     /**
@@ -21,7 +29,7 @@ class UserPolicy
      */
     public function assignRole(User $user): bool
     {
-        return $user->hasPermission('users.assign-role');
+        return $user->hasPermission('user.assign-role');
     }
 
 }

@@ -6,6 +6,7 @@ namespace App\Livewire\Role;
 
 use App\Models\GroupPermission;
 use App\Models\Role;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -81,6 +82,8 @@ class Edit extends Component
 
     public function submit(): void
     {
+        Gate::authorize('update', $this->role);
+
         if ($this->isLoading) {
             return;
         }

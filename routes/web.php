@@ -16,9 +16,7 @@ Route::middleware('auth.sso')->group(function (): void {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::middleware('check.faculty')->group(function (): void {
-
-        Route::get('/users', [UserController::class, 'index'])->name('users.index');
-
-        Route::resource('roles', RoleController::class)->except(['show', 'store', 'update', 'destroy']);
+        Route::resource('users', UserController::class)->only(['index', 'show']);
+        Route::resource('roles', RoleController::class)->only(['index','create','edit']);
     });
 });

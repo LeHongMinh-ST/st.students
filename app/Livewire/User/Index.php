@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire\User;
 
+use App\Models\User;
 use App\Services\SsoService;
-use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -31,7 +31,7 @@ class Index extends Component
 
     public function fetchData()
     {
-        $facultyId = Session::get('facultyId');
+        $facultyId = app(SsoService::class)->getFacultyId();
 
         $params = [
             'page' => $this->page,
@@ -45,8 +45,19 @@ class Index extends Component
 
         $this->page = @$responses['current_page'] ?? 1;
         $this->totalPages = @$responses['last_page'] ?? 1;
+        $usersFromApi = @$responses['data'] ?? [];
 
-        return @$responses['data'] ?? [];
+        $ssoIds = collect($usersFromApi)->pluck('id')->toArray();
+
+        $localUsers = User::whereIn('sso_id', $ssoIds)->get()->keyBy('sso_id');
+
+        $users = collect($usersFromApi)->map(function ($user) use ($localUsers) {
+            $localUser = $localUsers[$user['id']] ?? null;
+            $user['local_user'] = $localUser ? $localUser->toArray() : null;
+            return $user;
+        })->toArray();
+
+        return $users;
     }
 
     #[On('onPageChange')]

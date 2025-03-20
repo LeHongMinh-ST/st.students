@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -29,10 +30,7 @@ class SsoService
         } catch (Throwable $th) {
             Log::error($th->getMessage());
 
-            if (401 === $th->getCode()) {
-                $this->clearAuth();
-                abort(401);
-            }
+            $this->handleError($th->getCode());
 
             return [];
         }
@@ -47,10 +45,7 @@ class SsoService
         } catch (Throwable $th) {
             Log::error($th->getMessage());
 
-            if (401 === $th->getCode()) {
-                $this->clearAuth();
-                abort(401);
-            }
+            $this->handleError($th->getCode());
 
             return [];
         }
@@ -75,5 +70,39 @@ class SsoService
         }
 
         return $userData;
+    }
+
+    public function getFacultyId()
+    {
+
+        $userData = $this->getDataUser();
+
+
+        return  $userData['role'] === Role::SuperAdmin->value
+            ? Session::get('facultyId')
+        : $userData['faculty_id'] ?? null;
+
+    }
+
+    private function handleError(int $codeError): void
+    {
+
+        if (401 === $codeError) {
+            $this->clearAuth();
+            abort(401);
+        }
+
+        if (404 === $codeError) {
+            abort(404);
+        }
+
+        if (500 === $codeError) {
+            abort(500);
+        }
+
+        if (403 === $codeError) {
+            abort(403);
+        }
+
     }
 }

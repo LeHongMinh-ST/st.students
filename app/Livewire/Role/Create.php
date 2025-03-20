@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Role;
 
 use App\Models\Role;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -31,6 +32,8 @@ class Create extends Component
 
     public function submit()
     {
+        Gate::authorize('create', Role::class);
+
         if ($this->isLoading) {
             return;
         }
