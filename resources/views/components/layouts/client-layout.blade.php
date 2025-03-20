@@ -5,49 +5,47 @@
 
 <body>
 
-{{--<!-- Main navbar -->--}}
-{{--@include('includes.header')--}}
-{{--<!-- /main navbar -->--}}
-
-
-<!-- Page content -->
-<div class="page-content">
 
 
 
-    <!-- Main content -->
-    <div class="content-wrapper">
-
-        <!-- Inner content -->
-        <div class="content-inner">
-
-            <!-- Page header -->
-            @if (isset($header))
-                {{ $header }}
-            @endif
-            <!-- /page header -->
+    <!-- Page content -->
+    <div class="page-content">
 
 
-            <!-- Content area -->
-            {{ $slot }}
-            <!-- /content area -->
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+
+            <!-- Inner content -->
+            <div class="content-inner">
+
+                <!-- Page header -->
+                @if (isset($header))
+                    {{ $header }}
+                @endif
+                <!-- /page header -->
 
 
-            <!-- Footer -->
-            @include('includes.footer')
-            <!-- /footer -->
+                <!-- Content area -->
+                {{ $slot }}
+                <!-- /content area -->
+
+
+                <!-- Footer -->
+                @include('includes.footer')
+                <!-- /footer -->
+
+            </div>
+            <!-- /inner content -->
 
         </div>
-        <!-- /inner content -->
+        <!-- /main content -->
 
     </div>
-    <!-- /main content -->
-
-</div>
-<!-- /page content -->
+    <!-- /page content -->
 
 
-@livewireScripts
+    @livewireScripts
 </body>
 
 </html>

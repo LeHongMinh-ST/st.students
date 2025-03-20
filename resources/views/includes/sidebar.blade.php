@@ -89,25 +89,33 @@
                     </a>
                 </li>
 
-                <li class="nav-item-header">
-                    <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Hệ thống</div>
-                    <i class="ph-dots-three sidebar-resize-show"></i>
-                </li>
+                @if (Auth::user()->can('viewAny', \App\Models\User::class) || Auth::user()->can('viewAny', \App\Models\Role::class))
+                    <li class="nav-item-header">
+                        <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Hệ thống</div>
+                        <i class="ph-dots-three sidebar-resize-show"></i>
+                    </li>
+                @endif
 
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}"
-                       class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
-                        <i class="ph-user"></i>
-                        <span>Người dùng</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('roles.index') }}"
-                       class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
-                        <i class="ph-lock"></i>
-                        <span>Vai trò</span>
-                    </a>
-                </li>
+
+                @can('viewAny', \App\Models\User::class)
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}"
+                           class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
+                            <i class="ph-user"></i>
+                            <span>Người dùng</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('viewAny', \App\Models\Role::class)
+                    <li class="nav-item">
+                        <a href="{{ route('roles.index') }}"
+                           class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
+                            <i class="ph-lock"></i>
+                            <span>Vai trò</span>
+                        </a>
+                    </li>
+                @endcan
+
 
             </ul>
         </div>

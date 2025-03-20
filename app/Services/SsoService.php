@@ -19,6 +19,7 @@ class SsoService
         $this->accessToken = Session::get('access_token');
     }
 
+
     public function get(string $endPoint, $data = [])
     {
         try {
@@ -61,5 +62,18 @@ class SsoService
         Session::forget('access_token');
         Session::forget('userData');
         Session::forget('facultyId');
+    }
+
+    public function getDataUser()
+    {
+
+        $userData = Session::get('userData');
+
+        if (!$userData) {
+            app(SsoService::class)->clearAuth();
+            return redirect()->route('dashboard');
+        }
+
+        return $userData;
     }
 }

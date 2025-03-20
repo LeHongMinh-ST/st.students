@@ -10,4 +10,21 @@ enum Role: string
     case Officer = 'officer';
     case Teacher = 'teacher';
     case Student = 'student';
+    case Normal = 'normal';
+
+    public static function getDescription()
+    {
+        return [
+            self::SuperAdmin->value => 'Quản trị viên',
+            self::Officer->value => 'Cán bộ khoa',
+            self::Teacher->value => 'Giáo viên',
+            self::Student->value => 'Học sinh',
+            self::Normal->value => 'Cơ bản',
+        ];
+    }
+
+    public function getLabel(): string
+    {
+        return self::getDescription()[$this->value];
+    }
 }

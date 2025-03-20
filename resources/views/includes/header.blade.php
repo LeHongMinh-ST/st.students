@@ -1,5 +1,5 @@
 @php
-    $auth = session('userData');
+    $auth = app(\App\Services\SsoService::class)->getDataUser();
 @endphp
 <div class="border-opacity-10 navbar navbar-dark navbar-expand-lg navbar-static border-bottom border-bottom-white">
     <div class="container-fluid">

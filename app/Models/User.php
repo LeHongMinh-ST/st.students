@@ -75,10 +75,10 @@ class User extends Authenticatable
         if (!$userData) {
             return false;
         }
-
-        if ($userData['role'] === RoleEnum::SuperAdmin->value) {
-            return true;
-        }
+        //
+        // if ($userData['role'] === RoleEnum::SuperAdmin->value) {
+        //     return true;
+        // }
 
         return $this->userRoles()->whereHas('permissions', function ($query) use ($permissionCode): void {
             $query->where('code', $permissionCode);
