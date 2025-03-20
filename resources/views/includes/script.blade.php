@@ -45,11 +45,11 @@
                 type: 'error',
             }).show();
         @endif
-        @error('error')
-            new Noty({
-                title: 'Lỗi',
-                type: 'error',
-            }).show();
-        @enderror
+        {{-- @error('error') --}}
+        {{--    new Noty({ --}}
+        {{--        title: 'Lỗi', --}}
+        {{--        type: 'error', --}}
+        {{--    }).show(); --}}
+        {{-- @enderror --}}
     })
 </script>
