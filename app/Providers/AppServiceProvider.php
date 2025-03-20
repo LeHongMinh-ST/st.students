@@ -12,7 +12,6 @@ use App\View\Components\Table\TableEmpty;
 use App\View\Components\User\RoleBadge;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
@@ -41,11 +40,6 @@ class AppServiceProvider extends ServiceProvider
                 && in_array($request->user()->role, [
                     Role::SuperAdmin,
                 ]));
-
-        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event): void {
-            $event->extendSocialite('azure', \SocialiteProviders\Azure\Provider::class);
-        });
-
 
 
         Blade::component('auth-layout', AuthLayout::class);
