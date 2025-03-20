@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Enums\Role;
+use App\Services\SsoService;
 use App\View\Components\Layouts\AdminLayout;
 use App\View\Components\Layouts\AuthLayout;
 use App\View\Components\Layouts\ClientLayout;
@@ -36,10 +37,10 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        LogViewer::auth(fn ($request) => $request->user()
-                && in_array($request->user()->role, [
-                    Role::SuperAdmin,
-                ]));
+        LogViewer::auth(function () {
+            $userData = app(SsoService::class)->getDataUser();
+            return $userData['role'] === Role::SuperAdmin->value;
+        });
 
 
         Blade::component('auth-layout', AuthLayout::class);
