@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\Role as RoleEnum;
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Session;
 use Laravel\Passport\HasApiTokens;
 
 /**
@@ -65,8 +67,19 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'user_role');
     }
+
     public function hasPermission(string $permissionCode): bool
     {
+        $userData = Session::get('userData');
+
+        if (!$userData) {
+            return false;
+        }
+
+        if ($userData['role'] === RoleEnum::SuperAdmin->value) {
+            return true;
+        }
+
         return $this->userRoles()->whereHas('permissions', function ($query) use ($permissionCode): void {
             $query->where('code', $permissionCode);
         })->exists();
