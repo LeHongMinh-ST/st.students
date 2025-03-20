@@ -50,6 +50,7 @@ class Edit extends Component
         $this->name = $role->name;
         $this->permissionIds = $role->permissions->pluck('id')->toArray();
         $this->syncGroupIds();
+        $this->updateGroupIndeterminateStates();
     }
 
     public function updatedGroupIds(): void
