@@ -31,7 +31,7 @@ class Create extends Component
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255|unique:roles,name',
+            'name' => 'required|max:255',
         ];
     }
 
