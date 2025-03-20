@@ -52,4 +52,12 @@ class Role extends Model
 
         return $query;
     }
+
+    protected static function booted(): void
+    {
+        static::deleting(function ($role): void {
+            $role->users()->detach();
+            $role->permissions()->detach();
+        });
+    }
 }
