@@ -37,7 +37,7 @@
                         <tr>
                             <td class="text-center" width="5%">{{ $key + 1 + 10 * ($page - 1) }}</td>
                             <td width="30%">
-                                <a class="fw-semibold" href="{{ route('user.show', $item['id']) }}">
+                                <a class="fw-semibold" href="">
                                     <img src="{{ Avatar::create($item['full_name'])->toBase64() }}" class="w-32px h-32px" alt="">
                                     {{ $item['full_name'] }}
                                 </a>

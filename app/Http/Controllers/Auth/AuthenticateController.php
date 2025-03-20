@@ -99,7 +99,7 @@ class AuthenticateController extends Controller
         }
 
         if ($userData['role'] !== Role::SuperAdmin->value) {
-            Session::put('faculty_id', $userData['faculty_id']);
+            Session::put('facultyId', $userData['facultyId']);
         }
     }
 }
