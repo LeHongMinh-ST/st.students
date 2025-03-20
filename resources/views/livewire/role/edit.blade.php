@@ -34,6 +34,10 @@
                             Quyền
                         </div>
                         <div class="card-body">
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" wire:model.live="selectAll" id="selectAll">
+                                <label class="form-check-label fw-bold" for="selectAll">Tất cả các quyền</label>
+                            </div>
                             @foreach ($groupPermissions as $group)
                                 <div class="row">
                                     <div class="col">
@@ -46,14 +50,13 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
-
                                                 <div class="row">
                                                     @foreach ($group->permissions as $item)
                                                         <div class="col-12 col-sm-6 col-md-3">
                                                             <div class="form-check">
-                                                                <input type="checkbox" wire:model.live="permissionIds" class="form-check-input" value="{{ $item->id }}"id="group-{{ $item->id }}"
+                                                                <input type="checkbox" wire:model.live="permissionIds" class="form-check-input" value="{{ $item->id }}" id="permission-{{ $item->id }}"
                                                                        @if (in_array($item->id, $permissionIds)) checked @endif>
-                                                                <label class="form-check-label" for="group-{{ $item->id }}">{{ $item->name }}</label>
+                                                                <label class="form-check-label" for="permission-{{ $item->id }}">{{ $item->name }}</label>
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -89,3 +92,12 @@
         </div>
     </div>
 </div>
+
+@script
+    <script>
+        window.addEventListener('setGroupIndeterminate', function(state) {
+            document.getElementById(`group-${state.detail.groupId}`).indeterminate = state.detail.indeterminate;
+
+        });
+    </script>
+@endscript

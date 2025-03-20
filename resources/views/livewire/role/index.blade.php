@@ -30,9 +30,9 @@
                 <tbody>
                     @forelse($roles as $item)
                         <tr>
-                            <td class="text-center" width="5%">{{ $loop->index + 1 + $faculties->perPage() * ($faculties->currentPage() - 1) }}</td>
+                            <td class="text-center" width="5%">{{ $loop->index + 1 + $roles->perPage() * ($roles->currentPage() - 1) }}</td>
                             <td width="80%">
-                                <a href="{{ route('faculty.show', $item->id) }}" class="fw-semibold">
+                                <a href="{{ route('roles.edit', $item->id) }}" class="fw-semibold">
                                     {{ $item->name }}
                                 </a>
                             </td>

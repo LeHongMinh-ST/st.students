@@ -22,7 +22,11 @@ class Edit extends Component
 
     public array $groupIds = [];
 
+    public bool $selectAll = false;
+
     private bool $isLoading = false;
+
+    private array $groupIndeterminateStates = [];
 
     public function render()
     {
@@ -33,57 +37,44 @@ class Edit extends Component
         ]);
     }
 
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|max:255|unique:roles,name,' . $this->role->id,
+        ];
+    }
+
     public function mount(Role $role): void
     {
         $this->role = $role;
         $this->name = $role->name;
         $this->permissionIds = $role->permissions->pluck('id')->toArray();
+        $this->syncGroupIds();
     }
 
-    public function updatedPermissionIds($permissionId): void
+    public function updatedGroupIds(): void
     {
-        dd($permissionId, $this->permissionIds);
-        if (in_array($permissionId, $this->permissionIds)) {
-            $this->permissionIds = array_diff($this->permissionIds, [$permissionId]);
-
-            $groups = GroupPermission::whereHas('permissions', function ($query) use ($permissionId): void {
-                $query->where('id', $permissionId);
-            })->get();
-
-            foreach ($groups as $group) {
-                $groupPermissions = $group->permissions->pluck('id')->toArray();
-                if (array_intersect($groupPermissions, $this->permissionIds) !== $groupPermissions) {
-                    $this->groupIds = array_diff($this->groupIds, [$group->id]);
-                }
-            }
-        } else {
-            $this->permissionIds[] = $permissionId;
-
-            $groups = GroupPermission::whereHas('permissions', function ($query) use ($permissionId): void {
-                $query->where('id', $permissionId);
-            })->get();
-
-            foreach ($groups as $group) {
-                $groupPermissions = $group->permissions->pluck('id')->toArray();
-                if (empty(array_diff($groupPermissions, $this->permissionIds))) {
-                    if (!in_array($group->id, $this->groupIds)) {
-                        $this->groupIds[] = $group->id;
-                    }
-                }
-            }
-        }
+        $this->syncPermissions();
     }
 
-    public function toogleGroup(int $groupId): void
+    public function updatedPermissionIds(): void
     {
-        if (in_array($groupId, $this->groupIds)) {
-            $this->groupIds = array_diff($this->groupIds, [$groupId]);
-            $permissions = GroupPermission::find($groupId)->permissions;
-            $this->permissionIds = array_diff($this->permissionIds, $permissions->pluck('id')->toArray());
+        $this->syncGroupIds();
+        $this->updateGroupIndeterminateStates();
+    }
+
+    public function updatedSelectAll(): void
+    {
+        if ($this->selectAll) {
+            $this->groupIds = GroupPermission::pluck('id')->toArray();
+            $this->permissionIds = GroupPermission::with('permissions')
+                ->get()
+                ->pluck('permissions.*.id')
+                ->flatten()
+                ->toArray();
         } else {
-            $this->groupIds[] = $groupId;
-            $permissions = GroupPermission::find($groupId)->permissions;
-            $this->permissionIds = array_merge($this->permissionIds, $permissions->pluck('id')->toArray());
+            $this->groupIds = [];
+            $this->permissionIds = [];
         }
     }
 
@@ -100,14 +91,54 @@ class Edit extends Component
                 'name' => $this->name,
             ]);
 
-            $this->role->permissions()->sync($this->permissions);
+            $this->role->permissions()->sync($this->permissionIds);
 
-            $this->dispatch('alert', type: 'success', message: 'Cập nhật thất bại!');
+            $this->dispatch('alert', type: 'success', message: 'Cập nhật thành công');
         } catch (Throwable $th) {
             Log::error($th->getMessage());
-            $this->dispatch('alert', type: 'error', message: 'Cập nhật thất bại!');
+            $this->dispatch('alert', type: 'error', message: 'Cập nhật thất bại!');
         } finally {
             $this->isLoading = false;
         }
     }
+
+    private function syncPermissions(): void
+    {
+        $selectedGroups = GroupPermission::with('permissions')->whereIn('id', $this->groupIds)->get();
+
+        $this->permissionIds = $selectedGroups->pluck('permissions.*.id')->flatten()->unique()->toArray();
+    }
+
+    private function syncGroupIds(): void
+    {
+        $this->groupIds = GroupPermission::whereHas('permissions', function ($query): void {
+            $query->whereIn('id', $this->permissionIds);
+        })->get()->filter(function ($group) {
+            $groupPermissionIds = $group->permissions->pluck('id')->toArray();
+            $selectedPermissionsCount = count(array_intersect($groupPermissionIds, $this->permissionIds));
+
+            if ($selectedPermissionsCount > 0 && $selectedPermissionsCount < count($groupPermissionIds)) {
+                $this->groupIndeterminateStates[$group->id] = true;
+            } else {
+                $this->groupIndeterminateStates[$group->id] = false;
+            }
+
+            return count($groupPermissionIds) === $selectedPermissionsCount;
+        })->pluck('id')->toArray();
+    }
+
+    private function updateGroupIndeterminateStates(): void
+    {
+        foreach (GroupPermission::with('permissions')->get() as $group) {
+            $groupPermissionIds = $group->permissions->pluck('id')->toArray();
+            $selectedPermissionsCount = count(array_intersect($groupPermissionIds, $this->permissionIds));
+
+            $this->dispatch(
+                "setGroupIndeterminate",
+                groupId: $group->id,
+                indeterminate: $selectedPermissionsCount > 0 && $selectedPermissionsCount < count($groupPermissionIds)
+            );
+        }
+    }
+
 }
