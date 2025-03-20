@@ -29,7 +29,8 @@
                         <th width="30%">Họ và tên</th>
                         <th>Email</th>
                         <th>Điện thoại</th>
-                        <th>Loại người dùng</th>
+                        <th>Loại tài khoản</th>
+                        <th>Vai trò</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,8 +44,13 @@
                                 </a>
                             </td>
                             <td>{{ $item['email'] }}</td>
-                            <td>{{ $item['phone'] }}</td>
-                            <td>{{ $item['role'] }}</td>
+                            <td>{{ empty($item['phone']) ? '-' : $item['phone'] }}</td>
+                            <td>
+                                <x-role-badge :role="$item['role']" />
+                            </td>
+                            <td>
+
+                            </td>
                         </tr>
                     @empty
                         <x-table-empty :colspan="5" />
