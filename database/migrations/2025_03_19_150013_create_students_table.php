@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Enums\Gender;
 use App\Enums\SocialPolicyObject;
-use App\Enums\StudentRole;
 use App\Enums\StudentStatus;
 use App\Enums\TrainingType;
 use Illuminate\Database\Migrations\Migration;
@@ -19,7 +18,6 @@ return new class () extends Migration {
     {
         Schema::create('students', function (Blueprint $table): void {
             $table->id();
-            $table->string('role')->default(StudentRole::Basic->value);
             $table->string('status')->default(StudentStatus::CurrentlyStudying->value);
             $table->string('school_year')->nullable();
             $table->integer('admission_year')->nullable();

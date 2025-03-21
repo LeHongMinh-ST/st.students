@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Student extends Model
 {
     protected $fillable = [
-        'role',
         'status',
         'school_year',
         'person_email',
@@ -54,7 +53,7 @@ class Student extends Model
     public function classes(): BelongsToMany
     {
         return $this->belongsToMany(ClassGenerate::class, 'class_students')
-            ->withPivot(['start_date', 'end_date', 'status'])
+            ->withPivot(['role', 'start_date', 'end_date', 'status'])
             ->withTimestamps();
     }
 

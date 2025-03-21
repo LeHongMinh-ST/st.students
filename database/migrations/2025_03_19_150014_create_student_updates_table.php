@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Enums\Gender;
 use App\Enums\SocialPolicyObject;
-use App\Enums\StudentInfoUpdateStatus;
+use App\Enums\StudentUpdateStatus;
 use App\Enums\TrainingType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -36,7 +36,7 @@ return new class () extends Migration {
             $table->text('note')->nullable();
             $table->json('change_column');
             $table->unsignedBigInteger('student_id')->index();
-            $table->string('status')->default(StudentInfoUpdateStatus::Pending->value);
+            $table->string('status')->default(StudentUpdateStatus::Pending->value);
             $table->timestamps();
         });
     }

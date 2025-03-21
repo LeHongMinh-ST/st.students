@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\Status;
+use App\Enums\StudentRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,7 @@ return new class () extends Migration {
             $table->id();
             $table->unsignedBigInteger('class_id')->index();
             $table->unsignedBigInteger('student_id')->index();
+            $table->string('role')->default(StudentRole::Basic->value);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->string('status')->default(Status::Active->value);
