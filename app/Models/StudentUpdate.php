@@ -6,7 +6,7 @@ namespace App\Models;
 
 use App\Enums\Gender;
 use App\Enums\SocialPolicyObject;
-use App\Enums\StudentInfoUpdateStatus;
+use App\Enums\StudentUpdateStatus;
 use App\Enums\TrainingType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,7 +38,7 @@ class StudentUpdate extends Model
     ];
 
     protected $casts = [
-        'status' => StudentInfoUpdateStatus::class,
+        'status' => StudentUpdateStatus::class,
         'gender' => Gender::class,
         'training_type' => TrainingType::class,
         'social_policy_object' => SocialPolicyObject::class,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\StudentInfoUpdateStatus;
+use App\Enums\StudentUpdateStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -20,7 +20,7 @@ class ApproveStudentUpdates extends Model
     ];
 
     protected $casts = [
-        'status' => StudentInfoUpdateStatus::class,
+        'status' => StudentUpdateStatus::class,
     ];
 
     public function approveable(): MorphTo
