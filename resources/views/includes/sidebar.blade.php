@@ -54,7 +54,7 @@
                 <li class="nav-item">
                     <a href=""
                        class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
-                        <i class="ph-books"></i>
+                        <i class="ph-address-book"></i>
                         <span>Lớp học chủ nhiệm</span>
                     </a>
                 </li>
@@ -62,7 +62,7 @@
                 <li class="nav-item">
                     <a href=""
                        class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
-                        <i class="ph-books"></i>
+                        <i class="ph-book-bookmark"></i>
                         <span>Cố vấn học tập</span>
                     </a>
                 </li>
