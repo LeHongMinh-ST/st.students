@@ -12,16 +12,10 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table): void {
+        Schema::create('student_warnings', function (Blueprint $table): void {
             $table->id();
-            $table->string('name');
-            $table->timestamps();
-        });
-
-        Schema::create('user_role', function (Blueprint $table): void {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('student_id')->index();
+            $table->unsignedBigInteger('warning_id')->index();
             $table->timestamps();
         });
     }
@@ -31,7 +25,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
-        Schema::dropIfExists('user_role');
+        Schema::dropIfExists('student_warnings');
     }
 };
