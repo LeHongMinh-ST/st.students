@@ -90,12 +90,14 @@ class Edit extends Component
     {
         Gate::authorize('update', $this->role);
 
+        $this->validate();
+
         if ($this->isLoading) {
             return;
         }
+
         try {
             $this->isLoading = true;
-            $this->validate();
 
             $this->role->update([
                 'name' => $this->name,
@@ -107,6 +109,7 @@ class Edit extends Component
             LogActivityHelper::create("Cập nhật vai trò", "cập nhật vai trò {$this->role->name}");
 
             $this->dispatch('alert', type: 'success', message: 'Cập nhật thành công');
+
         } catch (Throwable $th) {
             Log::error($th->getMessage());
             $this->dispatch('alert', type: 'error', message: 'Cập nhật thất bại!');

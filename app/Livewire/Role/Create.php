@@ -18,7 +18,6 @@ class Create extends Component
     #[Validate(as: 'tên khoa')]
     public $name;
 
-
     #[Validate(as: 'mô tả')]
     public $description;
 
