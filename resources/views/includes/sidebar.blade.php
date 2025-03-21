@@ -47,7 +47,23 @@
                     <a href=""
                        class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
                         <i class="ph-books"></i>
-                        <span>Lớp học</span>
+                        <span>Danh sách lớp học</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href=""
+                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                        <i class="ph-books"></i>
+                        <span>Lớp học chủ nhiệm</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href=""
+                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                        <i class="ph-books"></i>
+                        <span>Cố vấn học tập</span>
                     </a>
                 </li>
 
