@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-enum StudentInfoUpdateStatus: string
+enum StudentUpdateStatus: string
 {
     case Pending = 'pending';
     case ClassOfficerApproved = 'class_officer_approved';

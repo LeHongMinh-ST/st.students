@@ -12,7 +12,7 @@ enum StudentRole: string
     case ViceSecretary = 'vice_secretary';
     case Basic = 'basic';
 
-    public function label(): string
+    public function getLabel(): string
     {
         return match($this) {
             self::President => 'President',
