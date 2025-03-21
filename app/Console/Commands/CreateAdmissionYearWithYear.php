@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Helpers\SchoolHelper;
 use App\Models\AdmissionYear;
-use App\Supports\SchoolHelper;
 use Illuminate\Console\Command;
 
 class CreateAdmissionYearWithYear extends Command

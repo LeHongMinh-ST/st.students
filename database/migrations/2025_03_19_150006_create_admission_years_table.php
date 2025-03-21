@@ -14,7 +14,7 @@ return new class () extends Migration {
     {
         Schema::create('admission_years', function (Blueprint $table): void {
             $table->id();
-            $table->string('admission_years');
+            $table->string('admission_year');
             $table->string('school_year');
             $table->timestamps();
         });

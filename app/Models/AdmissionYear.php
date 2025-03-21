@@ -19,7 +19,7 @@ class AdmissionYear extends Model
     // ------------------------ RELATIONS -------------------------//
     public function students(): HasMany
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Student::class, 'admission_year');
     }
 
     public function generalClasses(): HasMany

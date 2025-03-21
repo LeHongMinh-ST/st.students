@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticateController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,7 @@ Route::middleware('auth.sso')->group(function (): void {
 
     Route::middleware('check.faculty')->group(function (): void {
         Route::resource('users', UserController::class)->only(['index', 'show']);
+        Route::resource('students', StudentController::class)->only(['index', 'show', 'edit', 'destroy']);
         Route::resource('roles', RoleController::class)->only(['index','create','edit']);
     });
 });

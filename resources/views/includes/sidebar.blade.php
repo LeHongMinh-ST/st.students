@@ -73,8 +73,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                    <a href="{{ route('students.index') }}"
+                       class="nav-link {{ request()->routeIs('students.*') ? 'active' : '' }}">
                         <i class="ph-users-four"></i>
                         <span>Khóa sinh viên</span>
                     </a>

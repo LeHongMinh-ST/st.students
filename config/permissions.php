@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 return [
     [
-        'name' => 'Danh sách người dùng',
+        'name' => 'Xem danh sách',
         'code' => 'user.index',
         'group' => 'user'
     ],
@@ -19,7 +19,7 @@ return [
         'group' => 'user'
     ],
     [
-        'name' => 'Danh sách vai trò',
+        'name' => 'Xem danh sách',
         'code' => 'role.index',
         'group' => 'role'
     ],
@@ -37,14 +37,34 @@ return [
     ],
     [
 
-        'name' => 'Xoa vai trò',
+        'name' => 'Xóa vai trò',
         'code' => 'role.delete',
         'group' => 'role'
     ],
     [
 
-        'name' => 'Danh sách nhật ký hoạt động',
+        'name' => 'Xem danh sách',
         'code' => 'log.index',
         'group' => 'log'
+    ],
+    [
+        'name' => 'Xem danh sách',
+        'code' => 'student.index',
+        'group' => 'student'
+    ],
+    [
+        'name' => 'Tạo sinh viên',
+        'code' => 'student.create',
+        'group' => 'student'
+    ],
+    [
+        'name' => 'Sửa sinh viên',
+        'code' => 'student.edit',
+        'group' => 'student'
+    ],
+    [
+        'name' => 'Xóa sinh viên',
+        'code' => 'student.delete',
+        'group' => 'student'
     ]
 ];

@@ -35,6 +35,7 @@ class Student extends Model
         'social_policy_object',
         'note',
         'user_id',
+        'admission_year',
     ];
 
     protected $casts = [
