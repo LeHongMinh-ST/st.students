@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 return  [
     [
-        'name' => 'Quản lý người dùng',
+        'name' => 'Người dùng',
         'code' => 'user'
     ],
     [
-        'name' => 'Quản lý vai trò',
+        'name' => 'Vai trò',
         'code' => 'role'
+    ],
+    [
+        'name' => 'Nhật ký hoạt động',
+        'code' => 'log'
     ]
 ];

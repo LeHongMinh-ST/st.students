@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Livewire\User;
 
 use App\Helpers\Constants;
+use App\Helpers\LogActivityHelper;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Show extends Component
@@ -50,13 +52,17 @@ class Show extends Component
 
     public function updatedRoleIds(): void
     {
-        $this->user->userRoles()->sync($this->roleIds);
+        DB::transaction(function (): void {
+            $this->user->userRoles()->sync($this->roleIds);
+            LogActivityHelper::create("Phân quyền", "gán quyền {$this->user->roleName} cho người dùng {$this->userData['full_name']}");
+        });
     }
 
     public function updatedSelectAll(): void
     {
         if ($this->selectAll) {
             $this->roleIds = Role::all()->pluck('id')->toArray();
+
         } else {
             $this->roleIds = [];
         }

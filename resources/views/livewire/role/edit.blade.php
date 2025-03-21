@@ -99,10 +99,13 @@
                         Lưu
                     </button>
 
-                    <button wire:click="openDeleteModal()" class="shadow btn btn-danger fw-semibold flex-fill">
-                        <i class="ph-trash fw-semibold"></i>
-                        Xoá
-                    </button>
+                    @can('delete', $role)
+                        <button wire:click="openDeleteModal()" class="shadow btn btn-danger fw-semibold flex-fill">
+                            <i class="ph-trash fw-semibold"></i>
+                            Xoá
+                        </button>
+                    @endcan
+
                     <a href="{{ route('roles.index') }}" type="button" class="btn btn-warning flex-fill fw-semibold"><i
                            class="ph-arrow-counter-clockwise fw-semibold"></i> Trở lại</a>
                 </div>

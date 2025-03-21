@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Role;
 
+use App\Helpers\LogActivityHelper;
 use App\Models\Role;
 use App\Services\SsoService;
 use Illuminate\Support\Facades\Gate;
@@ -53,6 +54,8 @@ class Create extends Component
                 'description' => $this->description,
                 'faculty_id' => $facultyId
             ]);
+
+            LogActivityHelper::create("Tạo vai trò", "tạo vai trò {$role->name}");
 
             session()->flash('success', 'Tạo mới thành công!');
             return redirect()->route('roles.edit', $role->id);

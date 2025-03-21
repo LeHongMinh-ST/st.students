@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Role;
 
+use App\Helpers\LogActivityHelper;
 use App\Models\GroupPermission;
 use App\Models\Role;
 use Illuminate\Support\Facades\Gate;
@@ -102,6 +103,8 @@ class Edit extends Component
             ]);
 
             $this->role->permissions()->sync($this->permissionIds);
+
+            LogActivityHelper::create("Cập nhật vai trò", "cập nhật vai trò {$this->role->name}");
 
             $this->dispatch('alert', type: 'success', message: 'Cập nhật thành công');
         } catch (Throwable $th) {

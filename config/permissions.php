@@ -34,5 +34,17 @@ return [
         'name' => 'Sửa vai trò',
         'code' => 'role.edit',
         'group' => 'role'
+    ],
+    [
+
+        'name' => 'Xoa vai trò',
+        'code' => 'role.delete',
+        'group' => 'role'
+    ],
+    [
+
+        'name' => 'Danh sách nhật ký hoạt động',
+        'code' => 'log.index',
+        'group' => 'log'
     ]
 ];
