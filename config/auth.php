@@ -125,5 +125,6 @@ return [
         'uri' => env('SSO_URL', 'https://st.sso.dev:8882'),
         'client_id' => env('SSO_CLIENT_ID', 'client_id'),
         'client_secret' => env('SSO_CLIENT_SECRET', 'client_secret'),
+        'api_key' => env('SSO_API_KEY', 'api_key'),
     ],
 ];
