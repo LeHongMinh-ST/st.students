@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,16 +13,13 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table): void {
+        Schema::create('class_students', function (Blueprint $table): void {
             $table->id();
-            $table->string('name');
-            $table->timestamps();
-        });
-
-        Schema::create('user_role', function (Blueprint $table): void {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('class_id')->index();
+            $table->unsignedBigInteger('student_id')->index();
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->string('status')->default(Status::Active->value);
             $table->timestamps();
         });
     }
@@ -31,7 +29,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
-        Schema::dropIfExists('user_role');
+        Schema::dropIfExists('class_students');
     }
 };
