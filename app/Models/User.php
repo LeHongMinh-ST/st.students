@@ -87,14 +87,6 @@ class User extends Authenticatable
         })->exists();
     }
 
-    public function scopeSearch($query, $search)
-    {
-        if ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
-        }
-
-        return $query;
-    }
 
     public function getRoleNameAttribute(): string
     {

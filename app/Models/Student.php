@@ -16,6 +16,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Student extends Model
 {
     protected $fillable = [
+        'first_name',
+        'last_name',
+        'email',
+        'code',
         'status',
         'school_year',
         'person_email',
@@ -76,5 +80,14 @@ class Student extends Model
     {
         return $this->belongsToMany(GraduationCeremony::class, 'graduation_ceremony_students')
             ->withTimestamps();
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        return $query;
     }
 }

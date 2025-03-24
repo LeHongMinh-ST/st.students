@@ -4,7 +4,7 @@
             <h5 class="mb-0">
                 Khóa {{ $admissionYear->admission_year }}
             </h5>
-            <span class="text-muted">Năm học {{ $admissionYear->shool_year }}</span>
+            <span class="text-muted">Năm học {{ $admissionYear->school_year }}</span>
         </div>
     @else
         <div class="py-2 mb-3">
@@ -13,6 +13,6 @@
             </h5>
             <span class="text-muted">Danh sách khóa học</span>
         </div>
-        <livewire:student.admission-list />
+        <livewire:student.admission-list :admissionYear="$admissionYear" />
     @endif
 </div>

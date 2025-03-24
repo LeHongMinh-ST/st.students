@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Auth;
 use App\Enums\Role;
 use App\Enums\Status;
 use App\Http\Controllers\Controller;
+use App\Models\Student;
 use App\Models\User;
 use App\Services\SsoService;
 use Illuminate\Http\Request;
@@ -84,10 +85,25 @@ class AuthenticateController extends Controller
 
     private function findOrCreateUser(array $userData): User
     {
-        return User::firstOrCreate(
+        $user =  User::firstOrCreate(
             ['sso_id' => $userData['id']],
             ['status' => Status::Active]
         );
+
+        if ($user['role'] === Role::Student->value) {
+            Student::updateOrCreate([
+                'code' => $userData['code'],
+                'email' => $userData['email']
+            ], [
+                'user_id' => $user->id,
+                'first_name' => $userData['first_name'],
+                'last_name' => $userData['last_name'],
+                'email' => $userData['email'],
+                'phone' => $userData['phone'],
+                'code' => $userData['code']
+            ]);
+        }
+        return $user;
     }
 
     private function storeSessionData(array $userData): void
