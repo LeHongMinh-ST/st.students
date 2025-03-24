@@ -25,6 +25,13 @@ class Import extends Component
         $this->previewFile();
     }
 
+    public function resetFile(): void
+    {
+        $this->file = null;
+        $this->fileName = "Kéo & thả file vào đây hoặc click để chọn";
+        $this->previewData = [];
+    }
+
     public function previewFile(): void
     {
         if (!$this->file) {

@@ -3,7 +3,7 @@
         <div class="card-body">
             <form id="uploadForm" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label class="form-label fw-bold"><i class="ph-file-arrow-up"></i>Chọn file để tải lên</label>
+                    <label class="form-label fw-bold"><i class="mr-1 ph-file-arrow-up"></i>Chọn tệp để tải lên</label>
                     <div class="p-4 text-center dropzone d-block" id="dropzoneFile" wire:ignore.self>
                         <div class="mt-4">
                             <i class="ph-cloud-arrow-up display-4"></i>
@@ -18,7 +18,7 @@
                 <!-- Nút tải file mẫu -->
                 <div class="mb-3">
                     <a href="{{ route('file.download-template', ['name' => 'template_course.xlsx']) }}">
-                        <i class="ph-download-simple me-1"></i> Tải file mẫu
+                        <i class="ph-download-simple me-1"></i> Tải tệp mẫu
                     </a>
                 </div>
 
@@ -26,6 +26,9 @@
                     <div class="text-center">
                         <button type="submit" class="mt-3 btn btn-primary">
                             <i class="ph-cloud-arrow-up me-1"></i> Tải lên
+                        </button>
+                        <button type="button" class="mt-3 btn btn-danger" wire:click="resetFile">
+                            <i class="ph-x me-1"></i> Huỷ
                         </button>
                     </div>
                 @endif
@@ -38,12 +41,12 @@
     @if ($previewData)
         <div class="mt-4 border-0 shadow-lg card">
             <div class="card-header">
-                <div class="fw-bold"><i class="ph-file-text"></i>Xem trước dữ liệu</div>
+                <div class="fw-bold"><i class="mr-1 ph-file-text"></i>Xem trước dữ liệu ({{ count($previewData) }} bản ghi đầu)</div>
             </div>
             <div wire:loading wire:target="previewFile" class="my-3 text-center w-100">
                 <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive table-preview table-container">
                 <table class="table fs-table" wire:loading.remove>
                     <thead>
                         <tr class="table-light">

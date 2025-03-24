@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace App\Imports;
 
 use Maatwebsite\Excel\Concerns\ToArray;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class StudentPreviewImport implements ToArray
+class StudentPreviewImport implements ToArray, WithChunkReading
 {
     public array $data = [];
 
+
     public function array(array $array): void
     {
-        // Bỏ dòng tiêu đề
         array_shift($array);
 
-        // Lưu dữ liệu vào biến
         $this->data = array_map(fn ($row) => [
             'ma_nhap_hoc'    => $row[1] ?? '',
             'ma_sv'          => $row[2] ?? '',
@@ -34,5 +34,10 @@ class StudentPreviewImport implements ToArray
             'ho_ten_me'      => $row[15] ?? '',
             'sdt_me'         => $row[16] ?? '',
         ], $array);
+    }
+
+    public function chunkSize(): int
+    {
+        return 500;
     }
 }

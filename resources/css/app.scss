@@ -112,3 +112,45 @@
 .cursor-poiter {
     cursor: pointer;
 }
+.table-preview {
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        background-color: #f8f9fa;
+        z-index: 10;
+    }
+
+    th,
+    td {
+        text-align: left;
+        white-space: nowrap; /* Ngăn chữ xuống dòng */
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    table th,
+    table td {
+        min-width: 150px; /* Cài đặt chiều rộng tối thiểu */
+        max-width: 100%; /* Cho phép cột mở rộng linh hoạt */
+    }
+
+    /* Tạo khung cuộn cho tbody */
+    &.table-container {
+        max-height: 480px;
+        height: 480px;
+        overflow-y: auto;
+    }
+
+    tbody {
+        overflow-y: auto;
+        max-height: 480px;
+    }
+}
