@@ -5,7 +5,6 @@
                 Khóa {{ $admissionYear->admission_year }}
             </h5>
             <span class="text-muted">Năm học {{ $admissionYear->shool_year }}</span>
-
         </div>
     @else
         <div class="py-2 mb-3">
@@ -13,7 +12,6 @@
                 Khóa học
             </h5>
             <span class="text-muted">Danh sách khóa học</span>
-
         </div>
         <livewire:student.admission-list />
     @endif
