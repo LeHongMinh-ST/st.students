@@ -15,6 +15,13 @@
                     </div>
                 </div>
 
+                <!-- Nút tải file mẫu -->
+                <div class="mb-3">
+                    <a href="{{ route('file.download-template', ['name' => 'template_course.xlsx']) }}">
+                        <i class="ph-download-simple me-1"></i> Tải file mẫu
+                    </a>
+                </div>
+
                 @if ($file)
                     <div class="text-center">
                         <button type="submit" class="mt-3 btn btn-primary">
