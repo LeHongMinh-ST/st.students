@@ -21,9 +21,13 @@ class StudentList extends Component
 
     public function render()
     {
-        $students = $this->admissionYear->students()->paginate(Constants::PER_PAGE);
+        $students = $this->admissionYear->students()
+            ->search($this->search)
+            ->paginate(Constants::PER_PAGE);
 
-        return view('livewire.student.student-list');
+        return view('livewire.student.student-list', [
+            'students' => $students
+        ]);
     }
 
     public function mount(AdmissionYear $admissionYear): void

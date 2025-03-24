@@ -85,9 +85,17 @@ class Student extends Model
     public function scopeSearch($query, $search)
     {
         if ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
+            $searchTerm = '%' . $search . '%';
+            $query->whereRaw("CONCAT(last_name, ' ', first_name) LIKE ?", [$searchTerm])
+                ->orWhere('email', 'like', $searchTerm)
+                ->orWhere('code', 'like', $searchTerm);
         }
 
         return $query;
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->last_name . ' ' . $this->first_name;
     }
 }

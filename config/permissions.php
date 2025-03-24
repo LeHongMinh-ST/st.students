@@ -53,7 +53,7 @@ return [
         'group' => 'student'
     ],
     [
-        'name' => 'Tạo sinh viên',
+        'name' => 'Import sinh viên',
         'code' => 'student.create',
         'group' => 'student'
     ],

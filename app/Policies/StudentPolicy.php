@@ -30,7 +30,7 @@ class StudentPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasPermission('student.create');
     }
 
     /**
