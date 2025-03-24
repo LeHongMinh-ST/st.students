@@ -43,7 +43,7 @@
             <div class="card-header">
                 <div class="fw-bold"><i class="mr-1 ph-file-text"></i>Xem trước dữ liệu ({{ count($previewData) }} bản ghi đầu)</div>
             </div>
-            <div wire:loading wire:target="previewFile" class="my-3 text-center w-100">
+            <div wire:loading wire:target="file" class="my-3 text-center w-100">
                 <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
             </div>
             <div class="table-responsive table-preview table-container">
