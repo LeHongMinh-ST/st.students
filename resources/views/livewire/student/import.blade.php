@@ -12,6 +12,9 @@
                             <p class="text-muted">{{ $fileName }}</p>
                             <input type="file" name="file" wire:model.live="file" class="d-none" id="fileInput" accept=".xls,.xlsx,.csv">
                         </div>
+                        <div wire:loading wire:target="file" class="my-3 text-center w-100">
+                            <span class="spinner-border spinner-border-sm"></span> Đang đọc dữ liệu...
+                        </div>
                     </div>
                 </div>
 
@@ -27,7 +30,11 @@
                         <button type="submit" class="mt-3 btn btn-primary">
                             <i class="ph-cloud-arrow-up me-1"></i> Tải lên
                         </button>
-                        <button type="button" class="mt-3 btn btn-danger" wire:click="resetFile">
+
+                        <button type="button" wire:loading wire:target="resetFile" class="mt-3 btn btn-danger disabled">
+                            <span class="spinner-border spinner-border-sm"></span> Huỷ
+                        </button>
+                        <button type="button" class="mt-3 btn btn-danger" wire:loading.remove wire:target="resetFile" wire:click="resetFile">
                             <i class="ph-x me-1"></i> Huỷ
                         </button>
                     </div>
@@ -38,18 +45,18 @@
         </div>
     </div>
 
+
     @if ($previewData)
         <div class="mt-4 border-0 shadow-lg card">
             <div class="card-header">
-                <div class="fw-bold"><i class="mr-1 ph-file-text"></i>Xem trước dữ liệu ({{ count($previewData) }} bản ghi đầu)</div>
+                <div class="fw-bold"><i class="mr-1 ph-file-text"></i>Xem trước dữ liệu ({{ count($previewData) }} bản ghi)</div>
             </div>
-            <div wire:loading wire:target="file" class="my-3 text-center w-100">
-                <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
-            </div>
+
             <div class="table-responsive table-preview table-container">
-                <table class="table fs-table" wire:loading.remove>
+                <table class="table fs-table">
                     <thead>
                         <tr class="table-light">
+                            <th>STT</th>
                             <th>Mã nhập học</th>
                             <th>Mã SV</th>
                             <th>Họ tên</th>
@@ -71,6 +78,7 @@
                     <tbody>
                         @foreach ($previewData as $row)
                             <tr>
+                                <td>{{ $row['stt'] }}</td>
                                 <td>{{ $row['ma_nhap_hoc'] }}</td>
                                 <td>{{ $row['ma_sv'] }}</td>
                                 <td>{{ $row['ho_ten'] }}</td>

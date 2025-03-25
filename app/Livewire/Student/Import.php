@@ -16,6 +16,7 @@ class Import extends Component
     public $file;
     public $fileName = "Kéo & thả file vào đây hoặc click để chọn";
     public $previewData = [];
+    public $previewLoading = false;
 
     public function updatedFile(): void
     {
@@ -38,11 +39,14 @@ class Import extends Component
             return;
         }
 
+        $this->previewLoading = true;
 
         $import = new StudentPreviewImport();
         Excel::import($import, $this->file);
 
         $this->previewData = $import->data;
+
+        $this->previewLoading = false;
     }
 
     public function render()
