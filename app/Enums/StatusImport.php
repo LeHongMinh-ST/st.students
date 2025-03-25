@@ -10,4 +10,5 @@ enum StatusImport: string
     case Processing = 'processing';
     case Completed = 'completed';
     case Failed = 'failed';
+    case PartialyFaild = 'partially_failed';
 }

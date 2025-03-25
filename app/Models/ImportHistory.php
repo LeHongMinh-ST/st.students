@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ImportHistory extends Model
 {
     protected $fillable = [
+        'path',
         'file_name',
         'status',
         'total_records',

@@ -12,22 +12,29 @@
                             <p class="text-muted">{{ $fileName }}</p>
                             <input type="file" name="file" wire:model.live="file" class="d-none" id="fileInput" accept=".xls,.xlsx,.csv">
                         </div>
-                        <div wire:loading wire:target="file" class="my-3 text-center w-100">
+                        <div wire:loading wire:target="file" class="text-center w-100">
                             <span class="spinner-border spinner-border-sm"></span> Đang đọc dữ liệu...
                         </div>
                     </div>
                 </div>
 
                 <!-- Nút tải file mẫu -->
-                <div class="mb-3">
+                <div class="mb-2">
                     <a href="{{ route('file.download-template', ['name' => 'template_course.xlsx']) }}">
                         <i class="ph-download-simple me-1"></i> Tải tệp mẫu
                     </a>
                 </div>
 
                 @if ($file)
-                    <div class="text-center">
-                        <button type="submit" class="mt-3 btn btn-primary">
+                    <div class="text-center" wire:transition>
+                        <button type="button" class="btn btn-danger" wire:click="testEvent">
+                            <i class="ph-x me-1"></i> test
+                        </button>
+
+                        <button type="button" class="mt-3 btn btn-primary" wire:loading wire:target="import">
+                            <span class="spinner-border spinner-border-sm"></span> Tải lên
+                        </button>
+                        <button type="button" class="mt-3 btn btn-primary" wire:loading.remove wire:target="import" wire:click="import">
                             <i class="ph-cloud-arrow-up me-1"></i> Tải lên
                         </button>
 
@@ -47,7 +54,7 @@
 
 
     @if ($previewData)
-        <div class="mt-4 border-0 shadow-lg card">
+        <div class="mt-4 border-0 shadow-lg card" wire:transition>
             <div class="card-header">
                 <div class="fw-bold"><i class="mr-1 ph-file-text"></i>Xem trước dữ liệu ({{ count($previewData) }} bản ghi)</div>
             </div>
@@ -103,6 +110,39 @@
 
         </div>
     @endif
+
+    <div id="model-process" wire:ignore.self class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Import Sinh viên</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="name" class="col-form-label">
+                                File import <span class="required"></span>
+                            </label>
+                            {{ $fileName }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ $importProgress }}%" aria-valuenow="{{ $importProgress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @script
@@ -144,5 +184,13 @@
             });
 
         });
+
+        window.addEventListener('onOpenProcessModal', () => {
+            $('#model-process').modal('show')
+        })
+
+        window.addEventListener('onCloseProcessModal', () => {
+            $('#model-process').modal('hide')
+        })
     </script>
 @endscript
