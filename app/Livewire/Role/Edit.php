@@ -30,9 +30,9 @@ class Edit extends Component
 
     public bool $selectAll = false;
 
-    private bool $isLoading = false;
+    public array $groupIndeterminateStates = [];
 
-    private array $groupIndeterminateStates = [];
+    private bool $isLoading = false;
 
     public function render()
     {
@@ -58,11 +58,14 @@ class Edit extends Component
         $this->permissionIds = $role->permissions->pluck('id')->toArray();
         $this->syncGroupIds();
         $this->updateGroupIndeterminateStates();
+
     }
+
 
     public function updatedGroupIds(): void
     {
         $this->syncPermissions();
+        $this->updateGroupIndeterminateStates();
     }
 
     public function updatedPermissionIds(): void
@@ -133,34 +136,48 @@ class Edit extends Component
 
     private function syncPermissions(): void
     {
-        $selectedGroups = GroupPermission::with('permissions')->whereIn('id', $this->groupIds)->get();
+        // Get all permissions from selected groups
+        $selectedAndIndeterminateGroups = GroupPermission::with('permissions')
+            ->whereIn('id', [...$this->groupIds, ...$this->groupIndeterminateStates])
+            ->get();
 
-        $this->permissionIds = $selectedGroups->pluck('permissions.*.id')->flatten()->unique()->toArray();
+        $selectGroupPermissionIds = $selectedAndIndeterminateGroups->pluck('permissions.*.id')->flatten()->toArray();
+
+
+        $oldPermissions = array_intersect($this->permissionIds, $selectGroupPermissionIds);
+
+        $selectGroup = GroupPermission::with('permissions')
+            ->whereIn('id', $this->groupIds)
+            ->get()
+            ->pluck('permissions.*.id')
+            ->flatten()
+            ->toArray();
+
+        $this->permissionIds = array_unique(array_merge($oldPermissions, $selectGroup));
     }
 
     private function syncGroupIds(): void
     {
+
         $this->groupIds = GroupPermission::whereHas('permissions', function ($query): void {
             $query->whereIn('id', $this->permissionIds);
         })->get()->filter(function ($group) {
             $groupPermissionIds = $group->permissions->pluck('id')->toArray();
             $selectedPermissionsCount = count(array_intersect($groupPermissionIds, $this->permissionIds));
-
-            if ($selectedPermissionsCount > 0 && $selectedPermissionsCount < count($groupPermissionIds)) {
-                $this->groupIndeterminateStates[$group->id] = true;
-            } else {
-                $this->groupIndeterminateStates[$group->id] = false;
-            }
-
             return count($groupPermissionIds) === $selectedPermissionsCount;
         })->pluck('id')->toArray();
     }
 
     private function updateGroupIndeterminateStates(): void
     {
+        $groupIndeterminateStates = [];
         foreach (GroupPermission::with('permissions')->get() as $group) {
             $groupPermissionIds = $group->permissions->pluck('id')->toArray();
             $selectedPermissionsCount = count(array_intersect($groupPermissionIds, $this->permissionIds));
+
+            if ($selectedPermissionsCount > 0 && $selectedPermissionsCount < count($groupPermissionIds)) {
+                $groupIndeterminateStates[] = $group->id;
+            }
 
             $this->dispatch(
                 "setGroupIndeterminate",
@@ -168,6 +185,8 @@ class Edit extends Component
                 indeterminate: $selectedPermissionsCount > 0 && $selectedPermissionsCount < count($groupPermissionIds)
             );
         }
+
+        $this->groupIndeterminateStates = $groupIndeterminateStates;
     }
 
 }

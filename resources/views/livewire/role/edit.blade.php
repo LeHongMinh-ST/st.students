@@ -57,8 +57,7 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" wire:model.live="groupIds" value="{{ $group->id }}" id="group-{{ $group->id }}"
-                                                           @if (in_array($group->id, $groupIds)) checked @endif>
+                                                    <input type="checkbox" class="form-check-input" wire:model.live="groupIds" value="{{ $group->id }}" id="group-{{ $group->id }}">
                                                     <label class="form-check-label" for="group-{{ $group->id }}">{{ $group->name }}</label>
                                                 </div>
                                             </div>
@@ -67,8 +66,7 @@
                                                     @foreach ($group->permissions as $item)
                                                         <div class="col-12 col-sm-6 col-md-3">
                                                             <div class="form-check">
-                                                                <input type="checkbox" wire:model.live="permissionIds" class="form-check-input" value="{{ $item->id }}" id="permission-{{ $item->id }}"
-                                                                       @if (in_array($item->id, $permissionIds)) checked @endif>
+                                                                <input type="checkbox" wire:model.live="permissionIds" class="form-check-input" value="{{ $item->id }}" id="permission-{{ $item->id }}">
                                                                 <label class="form-check-label" for="permission-{{ $item->id }}">{{ $item->name }}</label>
                                                             </div>
                                                         </div>
@@ -89,7 +87,7 @@
                 <div class="card-header bold">
                     Hành động
                 </div>
-                <div class="gap-2 card-body d-flex justify-content-center">
+                <div class="flex-wrap gap-2 card-body d-flex justify-content-center">
                     <button wire:loading wire:target="submit" class="shadow btn btn-primary fw-semibold flex-fill">
                         <i class="ph-circle-notch spinner fw-semibold"></i>
                         Lưu

@@ -39,11 +39,9 @@ class Import extends Component
         }
 
 
-        // Dùng Laravel Excel để import
         $import = new StudentPreviewImport();
         Excel::import($import, $this->file);
 
-        // Lưu vào biến preview
         $this->previewData = $import->data;
     }
 
