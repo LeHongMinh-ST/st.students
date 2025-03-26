@@ -11,6 +11,7 @@ use App\Events\ImportRowFailed;
 use App\Events\ImportStarted;
 use App\Helpers\Helper;
 use App\Models\ImportError;
+use App\Models\ImportHistory;
 use App\Models\Student;
 use Carbon\Carbon;
 use Exception;
@@ -43,7 +44,8 @@ class StudentImport implements ToModel, WithChunkReading, WithStartRow, WithEven
         return [
             BeforeImport::class => function (BeforeImport $event): void {
                 $this->startTime = Carbon::now();
-                $this->totalRows = $event->getReader()->getTotalRows()['Worksheet'] ?? 0;
+                $history = ImportHistory::find($this->importHistoryId);
+                $this->totalRows = $history->total_records;
 
                 broadcast(new ImportStarted(
                     $this->userId,

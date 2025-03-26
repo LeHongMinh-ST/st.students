@@ -34,7 +34,7 @@ class ImportStarted implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'ImportStarted';
+        return 'import.started';
     }
 
     public function broadcastWith()

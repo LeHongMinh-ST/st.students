@@ -6,7 +6,6 @@ namespace App\Livewire\Student;
 
 use App\Enums\StatusImport as StudentImportEnum;
 use App\Enums\TypeImport;
-use App\Events\ImportFinished;
 use App\Imports\StudentPreviewImport;
 use App\Jobs\ImportStudentsJob;
 use App\Models\ImportHistory;
@@ -97,11 +96,6 @@ class Import extends Component
         }
     }
 
-    public function testEvent(): void
-    {
-        Log::info('test event');
-        broadcast(new ImportFinished(Auth::id(), 1, StudentImportEnum::Completed, 1, 1, [], '00:00:00'))->toOthers();
-    }
 
     public function render()
     {
@@ -109,7 +103,7 @@ class Import extends Component
     }
 
 
-    #[On('echo:import.progress.{userId},ImportStarted')]
+    #[On('echo:import.progress.{userId},.import.started')]
     public function handleImportStarted($payload): void
     {
         Log::info('started');
@@ -120,7 +114,7 @@ class Import extends Component
         $this->importSuccessCount = 0;
     }
 
-    #[On('echo:import.progress.{userId},ImportProgressUpdated')]
+    #[On('echo:import.progress.{userId},.import.progress.updated')]
     public function handleProgressUpdated($payload): void
     {
         Log::info('progress');
@@ -128,7 +122,7 @@ class Import extends Component
         $this->importSuccessCount = $payload['successCount'];
     }
 
-    #[On('echo:import.progress.{userId},ImportRowFailed')]
+    #[On('echo:import.progress.{userId},.import.row.failed')]
     public function handleRowFailed($payload): void
     {
         $this->importErrors[] = [
@@ -138,11 +132,11 @@ class Import extends Component
         ];
 
     }
-    #[On('echo:test-event,ImportFinished')]
+    #[On('echo:import.progress.{userId},.import.finished')]
     public function handleImportFinished($payload): void
     {
-        Log::info('finished 123123123');
+        Log::info('finished');
+        $this->importProgress = 100;
         $this->importCompleted = true;
-
     }
 }

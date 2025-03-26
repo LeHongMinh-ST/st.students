@@ -38,7 +38,7 @@ class ImportRowFailed implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'ImportRowFailed';
+        return 'import.row.failed';
     }
 
     public function broadcastWith()

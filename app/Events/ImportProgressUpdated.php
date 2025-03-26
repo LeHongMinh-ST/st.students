@@ -49,7 +49,7 @@ class ImportProgressUpdated implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'ImportProgressUpdated';
+        return 'import.progress.updated';
     }
 
     public function broadcastWith()

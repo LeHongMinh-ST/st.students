@@ -30,10 +30,19 @@ window.Echo = new Echo({
 });
 
 window.Echo.connector.pusher.connection.bind("connected", () => {
-    console.log("connected");
+    console.log("✅ Connected to Reverb");
+    console.log("Socket ID:", window.Echo.socketId());
 });
 
-window.Echo.channel("test-event").listenToAll((event, data) => {
+window.Echo.connector.pusher.connection.bind("disconnected", () => {
+    console.log("❌ Disconnected from Reverb");
+});
+
+window.Echo.connector.pusher.connection.bind("error", (err) => {
+    console.error("WebSocket Error:", err);
+});
+
+window.Echo.channel("test-event").listen(".test.event", (data) => {
     // do what you need to do based on the event name and data
-    console.log(event, data);
+    console.log(data);
 });

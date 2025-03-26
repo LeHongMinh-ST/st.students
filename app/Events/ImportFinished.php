@@ -44,13 +44,13 @@ class ImportFinished implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        // return new Channel("import.progress.{$this->userId}");
-        return new Channel("test-event");
+        return new Channel("import.progress.{$this->userId}");
+        // return new Channel("test-event");
     }
 
     public function broadcastAs()
     {
-        return 'ImportFinished';
+        return 'import.finished';
     }
 
     public function broadcastWith()

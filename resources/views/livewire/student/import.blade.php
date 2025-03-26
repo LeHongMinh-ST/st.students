@@ -27,9 +27,6 @@
 
                 @if ($file)
                     <div class="text-center" wire:transition>
-                        <button type="button" class="btn btn-danger" wire:click="testEvent">
-                            <i class="ph-x me-1"></i> test
-                        </button>
 
                         <button type="button" class="mt-3 btn btn-primary" wire:loading wire:target="import">
                             <span class="spinner-border spinner-border-sm"></span> Tải lên
@@ -112,11 +109,10 @@
     @endif
 
     <div id="model-process" wire:ignore.self class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Import Sinh viên</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body">
@@ -192,5 +188,9 @@
         window.addEventListener('onCloseProcessModal', () => {
             $('#model-process').modal('hide')
         })
+
+        window.Echo.channel(`import.progress.{{ auth()->id() }}`).listen("ImportFinished", (data) => {
+            console.log("Received import finished event:", data);
+        });
     </script>
 @endscript
