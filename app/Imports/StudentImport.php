@@ -45,7 +45,7 @@ class StudentImport implements ToModel, WithChunkReading, WithStartRow, WithEven
                 $this->startTime = Carbon::now();
                 $this->totalRows = $event->getReader()->getTotalRows()['Worksheet'] ?? 0;
 
-                event(new ImportStarted(
+                broadcast(new ImportStarted(
                     $this->userId,
                     $this->totalRows,
                     $this->importHistoryId
@@ -55,7 +55,7 @@ class StudentImport implements ToModel, WithChunkReading, WithStartRow, WithEven
             AfterImport::class => function (AfterImport $event): void {
                 $timeElapsed = Carbon::now()->diffInSeconds($this->startTime);
 
-                event(new ImportFinished(
+                broadcast(new ImportFinished(
                     $this->userId,
                     $this->importHistoryId,
                     $this->errorCount > 0 ? StudentImportEnum::PartialyFaild : StudentImportEnum::Completed,
@@ -67,7 +67,7 @@ class StudentImport implements ToModel, WithChunkReading, WithStartRow, WithEven
             },
 
             ImportFailed::class => function (ImportFailed $event): void {
-                event(new ImportFinished(
+                broadcast(new ImportFinished(
                     $this->userId,
                     $this->importHistoryId,
                     StudentImportEnum::Failed,

@@ -100,7 +100,7 @@ class Import extends Component
     public function testEvent(): void
     {
         Log::info('test event');
-        event(new ImportFinished(Auth::id(), 1, StudentImportEnum::Completed, 1, 1, [], '00:00:00'));
+        broadcast(new ImportFinished(Auth::id(), 1, StudentImportEnum::Completed, 1, 1, [], '00:00:00'))->toOthers();
     }
 
     public function render()
@@ -138,10 +138,10 @@ class Import extends Component
         ];
 
     }
-    #[On('echo:test,ImportFinished')]
+    #[On('echo:test-event,ImportFinished')]
     public function handleImportFinished($payload): void
     {
-        Log::info('finished');
+        Log::info('finished 123123123');
         $this->importCompleted = true;
 
     }
