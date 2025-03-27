@@ -58,4 +58,21 @@ class SchoolHelper
         // Return the start and end year as an array
         return [(int) $startYear, (int) $endYear];
     }
+    /**
+     * Extracts the start and end years from an academic term string.
+     *
+     * @param string $term Academic term in the format "YYYY - YYYY"
+     * @return array An array containing the start and end years as integers
+     */
+    public static function extractYears(string $term): array
+    {
+        // Use a regular expression to match two sets of four-digit years
+        if (preg_match('/(\d{4})\s*-\s*(\d{4})/', $term, $matches)) {
+            return [(int)$matches[1], (int)$matches[2]];
+        }
+
+        // Return an empty array if the format is invalid
+        return [];
+    }
+
 }

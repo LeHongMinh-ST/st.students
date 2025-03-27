@@ -21,7 +21,7 @@ Route::middleware('auth.sso')->group(function (): void {
         Route::resource('users', UserController::class)->only(['index', 'show']);
         Route::resource('students', StudentController::class)->only(['index', 'show', 'edit', 'destroy']);
         Route::prefix('students')->group(function (): void {
-            Route::get('/import/{admission_year}', [StudentController::class, 'import'])->name('students.import');
+            Route::get('/import/{admission_year}/admission-year', [StudentController::class, 'import'])->name('students.import');
         });
         Route::resource('roles', RoleController::class)->only(['index','create','edit']);
     });

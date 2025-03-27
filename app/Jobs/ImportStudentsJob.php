@@ -24,11 +24,13 @@ class ImportStudentsJob implements ShouldQueue
 
     protected $userId;
     protected $importHistoryId;
+    protected $admissionYearId;
 
-    public function __construct($userId, $importHistoryId)
+    public function __construct($userId, $importHistoryId, $admissionYearId)
     {
         $this->userId = $userId;
         $this->importHistoryId = $importHistoryId;
+        $this->admissionYearId = $admissionYearId;
     }
 
     public function handle(): void
@@ -37,9 +39,9 @@ class ImportStudentsJob implements ShouldQueue
         $importHistory->status = StatusImportEnum::Processing;
         $importHistory->save();
 
-        $import = new StudentImport($this->userId, $this->importHistoryId);
+        $import = new StudentImport($this->userId, $this->importHistoryId, $this->admissionYearId);
 
-        Excel::import($import, Storage::path($importHistory->path));
+        Excel::import($import, Storage::path($importHistory->path), );
 
         Storage::delete(Storage::path($importHistory->path));
 
