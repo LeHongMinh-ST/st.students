@@ -10,7 +10,6 @@ use App\Enums\Status;
 use App\Enums\StatusImport as StudentImportEnum;
 use App\Events\ImportFinished;
 use App\Events\ImportProgressUpdated;
-use App\Events\ImportRowFailed;
 use App\Events\ImportStarted;
 use App\Helpers\Helper;
 use App\Helpers\SchoolHelper;
@@ -75,7 +74,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
                     $this->errorCount > 0 ? StudentImportEnum::PartialyFaild : StudentImportEnum::Completed,
                     $this->successCount,
                     $this->errorCount,
-                    $this->getErrors(),
                     gmdate('H:i:s', (int)$timeElapsed)
                 ));
 
@@ -91,7 +89,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
                     StudentImportEnum::Failed,
                     $this->successCount,
                     $this->errorCount,
-                    $this->getErrors(),
                     'N/A'
                 ));
             },
@@ -111,22 +108,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
                 $this->handleImport($row);
                 $this->successCount++;
 
-                // Update progress every 50 rows
-                if (0 === $this->processed % 50) {
-                    $progress = ($this->totalRows > 0) ? ($this->processed / $this->totalRows) * 100 : 0;
-
-                    // Dispatch an event to notify about import progress
-                    event(new ImportProgressUpdated(
-                        $this->userId,
-                        $this->importHistoryId,
-                        round($progress, 2),
-                        $this->processed,
-                        $this->successCount,
-                        $this->errorCount,
-                        $row
-                    ));
-                }
-
                 // Commit the transaction if no errors occurred
                 DB::commit();
             } catch (Exception $e) {
@@ -142,12 +123,28 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
                     'record_data' => json_encode($row),
                 ]);
 
-                // Dispatch an event to notify about the failed row import
-                event(new ImportRowFailed(
+                // // Dispatch an event to notify about the failed row import
+                // event(new ImportRowFailed(
+                //     $this->userId,
+                //     $this->importHistoryId,
+                //     $this->processed + 1,
+                //     $e->getMessage(),
+                //     $row
+                // ));
+            }
+
+            // Update progress every 50 rows
+            if (0 === $this->processed % 50) {
+                $progress = ($this->totalRows > 0) ? ($this->processed / $this->totalRows) * 100 : 0;
+
+                // Dispatch an event to notify about import progress
+                event(new ImportProgressUpdated(
                     $this->userId,
                     $this->importHistoryId,
-                    $this->processed + 1,
-                    $e->getMessage(),
+                    round($progress, 2),
+                    $this->processed,
+                    $this->successCount,
+                    $this->errorCount,
                     $row
                 ));
             }
@@ -174,17 +171,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
         return $this->errorCount;
     }
 
-    /**
-     * Retrieve all error records related to the current import history.
-     *
-     * @return array List of import errors.
-     */
-    public function getErrors(): array
-    {
-        return ImportError::where('import_history_id', $this->importHistoryId)
-            ->get()
-            ->toArray();
-    }
 
     /**
      * Define the chunk size for batch processing.
@@ -212,7 +198,7 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
      * @param array $row The row data from the import file.
      * @throws Exception If any processing error occurs.
      */
-    protected function handleImport(array $row): void
+    protected function handleImport($row): void
     {
         $class = $this->getClass($row[6] ?? '');
 

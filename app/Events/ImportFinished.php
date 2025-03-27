@@ -30,7 +30,6 @@ class ImportFinished implements ShouldBroadcast
         $status,
         $successCount,
         $errorCount,
-        $errors = [],
         $timeElapsed = null
     ) {
         $this->userId = $userId;
@@ -38,14 +37,12 @@ class ImportFinished implements ShouldBroadcast
         $this->status = $status;
         $this->successCount = $successCount;
         $this->errorCount = $errorCount;
-        $this->errors = $errors;
         $this->timeElapsed = $timeElapsed ?? 'N/A';
     }
 
     public function broadcastOn()
     {
         return new Channel("import.progress.{$this->userId}");
-        // return new Channel("test-event");
     }
 
     public function broadcastAs()
@@ -60,7 +57,6 @@ class ImportFinished implements ShouldBroadcast
             'status' => $this->status,
             'successCount' => $this->successCount,
             'errorCount' => $this->errorCount,
-            'errors' => $this->errors,
             'timeElapsed' => $this->timeElapsed,
             'finishedAt' => now()->toDateTimeString(),
         ];

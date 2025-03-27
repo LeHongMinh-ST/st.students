@@ -46,15 +46,12 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Import Sinh viên</h5>
+                    <h5 class="modal-title">Import dữ liệu</h5>
                 </div>
 
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
-                            <label for="name" class="col-form-label">
-                                File import <span class="required"></span>
-                            </label>
                             {{ $fileName }}
                         </div>
                     </div>
@@ -62,14 +59,78 @@
                     <div class="row">
                         <div class="col">
                             <div class="progress">
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ $importProgress }}%" aria-valuenow="{{ $importProgress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar progress-bar-striped @if (!$importCompleted) progress-bar-animated @endif" style="width: {{ $importProgress }}%" aria-valuenow="{{ $importProgress }}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="mt-2 row">
+                        <div class="col">
+                            <div>Tổng số bản ghi: {{ count($previewData) }}</div>
+                            <div>Bản ghi thành công: {{ $importSuccessCount }}</div>
+                            <div>Bản ghi bị lỗi: {{ $importErrorCount }}</div>
+                        </div>
+                    </div>
+
+                    @if ($importCompleted)
+                        <div class="mt-2 row">
+                            <div class="col">
+                                <button type="button" class="btn btn-primary" wire:click="closeProcessModal">Đóng</button>
+                            </div>
+                        </div>
+                    @endif
                 </div>
-
-
             </div>
         </div>
     </div>
 </div>
+
+@script
+    <script>
+        $(document).ready(function() {
+            let dropzone = $("#dropzoneFile");
+            let fileInput = $("#fileInput");
+
+            dropzone.on("click", function(e) {
+                if (!$(e.target).is("#fileInput")) {
+                    fileInput.trigger("click");
+                }
+            });
+
+            $(document).on("dragover drop", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            dropzone.on("dragover", function(e) {
+                e.preventDefault();
+                dropzone.addClass("border-primary");
+            });
+
+            dropzone.on("dragleave", function() {
+                dropzone.removeClass("border-primary");
+            });
+
+
+            dropzone.on("drop", function(e) {
+                e.preventDefault();
+                dropzone.removeClass("border-primary");
+
+                let files = e.originalEvent.dataTransfer.files;
+                if (files.length) {
+                    let file = files[0];
+                    @this.upload('file', file);
+                }
+            });
+
+        });
+
+        window.addEventListener('onOpenProcessModal', () => {
+            $('#model-process').modal('show')
+        })
+
+        window.addEventListener('onCloseProcessModal', () => {
+            $('#model-process').modal('hide')
+        })
+    </script>
+@endscript
