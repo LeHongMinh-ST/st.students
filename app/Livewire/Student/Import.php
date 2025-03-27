@@ -32,22 +32,24 @@ class Import extends Component
     public $importErrors = [];
     public $importSuccessCount = 0;
     public $userId;
-    public function mount(): void
+    public $admissionYear;
+    private $textFileDefault = "Kéo & thả tệp vào đây hoặc click để chọn";
+
+    public function mount($admissionYear): void
     {
+        $this->admissionYear = $admissionYear;
         $this->userId = Auth::id();
     }
     public function updatedFile(): void
     {
-        $this->fileName = $this->file ? $this->file->getClientOriginalName() : "Kéo & thả file vào đây hoặc click để chọn";
-
-        // Gọi preview ngay khi chọn file
+        $this->fileName = $this->file ? $this->file->getClientOriginalName() : $this->textFileDefault;
         $this->previewFile();
     }
 
     public function resetFile(): void
     {
         $this->file = null;
-        $this->fileName = "Kéo & thả file vào đây hoặc click để chọn";
+        $this->fileName = $this->textFileDefault;
         $this->previewData = [];
     }
 
@@ -87,7 +89,7 @@ class Import extends Component
                 'created_by' => Auth::id(),
             ]);
 
-            dispatch(new ImportStudentsJob(Auth::id(), $importHistory->id));
+            dispatch(new ImportStudentsJob(Auth::id(), $importHistory->id, $this->admissionYear->id));
             DB::commit();
             $this->dispatch('onOpenProcessModal');
         } catch (Exception $e) {

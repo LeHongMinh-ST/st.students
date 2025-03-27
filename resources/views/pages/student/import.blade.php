@@ -18,7 +18,8 @@
                 <div class="d-flex">
                     <div class="py-2 breadcrumb">
                         <a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
-                        <span class="breadcrumb-item active">Sinh viên</span>
+                        <a href="{{ route('students.index') }}" class="breadcrumb-item">Sinh viên</a>
+                        <span class="breadcrumb-item active">Import danh sách sinh viên</span>
                     </div>
 
                     <a href="#breadcrumb_elements" class="p-0 border-transparent btn btn-light align-self-center collapsed d-lg-none rounded-pill ms-auto" data-bs-toggle="collapse">

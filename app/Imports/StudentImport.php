@@ -21,8 +21,10 @@ use App\Models\ImportHistory;
 use App\Models\Student;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -30,7 +32,7 @@ use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Events\BeforeImport;
 use Maatwebsite\Excel\Events\ImportFailed;
 
-class StudentImport implements ToModel, WithChunkReading, WithStartRow, WithEvents
+class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCollection
 {
     protected $userId;
     protected $importHistoryId;
@@ -76,6 +78,10 @@ class StudentImport implements ToModel, WithChunkReading, WithStartRow, WithEven
                     $this->getErrors(),
                     gmdate('H:i:s', (int)$timeElapsed)
                 ));
+
+                if (0 === $this->errorCount) {
+                    Storage::delete(Storage::path($this->history->path));
+                }
             },
 
             ImportFailed::class => function (): void {
@@ -92,57 +98,59 @@ class StudentImport implements ToModel, WithChunkReading, WithStartRow, WithEven
         ];
     }
 
-    public function model(array $row): void
+    public function collection(Collection $collection): void
     {
-        // Increment the processed row count
-        $this->processed++;
+        foreach ($collection as $row) {
+            // Increment the processed row count
+            $this->processed++;
 
-        // Begin a database transaction to ensure data consistency
-        DB::beginTransaction();
-        try {
-            // Process the current row and import data
-            $this->handleImport($row);
-            $this->successCount++;
+            // Begin a database transaction to ensure data consistency
+            DB::beginTransaction();
+            try {
+                // Process the current row and import data
+                $this->handleImport($row);
+                $this->successCount++;
 
-            // Update progress every 50 rows
-            if (0 === $this->processed % 50) {
-                $progress = ($this->totalRows > 0) ? ($this->processed / $this->totalRows) * 100 : 0;
+                // Update progress every 50 rows
+                if (0 === $this->processed % 50) {
+                    $progress = ($this->totalRows > 0) ? ($this->processed / $this->totalRows) * 100 : 0;
 
-                // Dispatch an event to notify about import progress
-                event(new ImportProgressUpdated(
+                    // Dispatch an event to notify about import progress
+                    event(new ImportProgressUpdated(
+                        $this->userId,
+                        $this->importHistoryId,
+                        round($progress, 2),
+                        $this->processed,
+                        $this->successCount,
+                        $this->errorCount,
+                        $row
+                    ));
+                }
+
+                // Commit the transaction if no errors occurred
+                DB::commit();
+            } catch (Exception $e) {
+                // Rollback the transaction in case of an error
+                DB::rollBack();
+                $this->errorCount++;
+
+                // Save error details to the ImportError table
+                ImportError::create([
+                    'import_history_id' => $this->importHistoryId,
+                    'row_number' => $this->processed + 1,
+                    'error_message' => $e->getMessage(),
+                    'record_data' => json_encode($row),
+                ]);
+
+                // Dispatch an event to notify about the failed row import
+                event(new ImportRowFailed(
                     $this->userId,
                     $this->importHistoryId,
-                    round($progress, 2),
-                    $this->processed,
-                    $this->successCount,
-                    $this->errorCount,
+                    $this->processed + 1,
+                    $e->getMessage(),
                     $row
                 ));
             }
-
-            // Commit the transaction if no errors occurred
-            DB::commit();
-        } catch (Exception $e) {
-            // Rollback the transaction in case of an error
-            DB::rollBack();
-            $this->errorCount++;
-
-            // Save error details to the ImportError table
-            ImportError::create([
-                'import_history_id' => $this->importHistoryId,
-                'row_number' => $this->processed + 1,
-                'error_message' => $e->getMessage(),
-                'record_data' => json_encode($row),
-            ]);
-
-            // Dispatch an event to notify about the failed row import
-            event(new ImportRowFailed(
-                $this->userId,
-                $this->importHistoryId,
-                $this->processed + 1,
-                $e->getMessage(),
-                $row
-            ));
         }
     }
 

@@ -1,4 +1,11 @@
 <div>
+
+    <div class="py-1 mb-3">
+        <h5 class="mb-0">
+            Khóa {{ $admissionYear->admission_year }}
+        </h5>
+        <span class="text-muted">Năm học {{ $admissionYear->school_year }}</span>
+    </div>
     <div class="border-0 shadow-lg card">
         <div class="card-body">
             <form id="uploadForm" enctype="multipart/form-data">
@@ -27,8 +34,7 @@
 
                 @if ($file)
                     <div class="text-center" wire:transition>
-
-                        <button type="button" class="mt-3 btn btn-primary" wire:loading wire:target="import">
+                        <button type="button" class="mt-3 btn btn-primary disabled" wire:loading wire:target="import">
                             <span class="spinner-border spinner-border-sm"></span> Tải lên
                         </button>
                         <button type="button" class="mt-3 btn btn-primary" wire:loading.remove wire:target="import" wire:click="import">

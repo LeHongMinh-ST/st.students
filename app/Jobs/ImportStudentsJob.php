@@ -41,9 +41,8 @@ class ImportStudentsJob implements ShouldQueue
 
         $import = new StudentImport($this->userId, $this->importHistoryId, $this->admissionYearId);
 
-        Excel::import($import, Storage::path($importHistory->path), );
+        Excel::queueImport($import, Storage::path($importHistory->path), );
 
-        Storage::delete(Storage::path($importHistory->path));
 
     }
 

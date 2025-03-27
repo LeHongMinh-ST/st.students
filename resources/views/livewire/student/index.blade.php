@@ -1,6 +1,6 @@
 <div>
     @if ($admissionYear)
-        <div class="py-2 mb-3">
+        <div class="py-1 mb-3">
             <h5 class="mb-0">
                 Khóa {{ $admissionYear->admission_year }}
             </h5>
@@ -9,7 +9,7 @@
 
         <livewire:student.student-list :admissionYear="$admissionYear" />
     @else
-        <div class="py-2 mb-3">
+        <div class="py-1 mb-3">
             <h5 class="mb-0">
                 Khóa học
             </h5>
