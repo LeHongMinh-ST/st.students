@@ -66,7 +66,7 @@
 
                     <div class="mt-2 row">
                         <div class="col">
-                            <div>Tổng số bản ghi: {{ count($previewData) }}</div>
+                            <div>Tổng số bản ghi: {{ $importTotal }}</div>
                             <div>Bản ghi thành công: {{ $importSuccessCount }}</div>
                             <div>Bản ghi bị lỗi: {{ $importErrorCount }}</div>
                         </div>

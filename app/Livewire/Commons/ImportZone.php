@@ -102,6 +102,12 @@ class ImportZone extends Component
 
             DB::commit();
             $this->importCompleted = false;
+            $this->importTotal = 0;
+            $this->importProgress = 0;
+            $this->importCompleted = false;
+            $this->importErrors = [];
+            $this->importSuccessCount = 0;
+            $this->importErrorCount = 0;
             $this->dispatch('onImportFile', importHistoryId: $importHistory->id);
             $this->dispatch('onOpenProcessModal');
         } catch (Exception $e) {
@@ -119,6 +125,7 @@ class ImportZone extends Component
         $this->importCompleted = false;
         $this->importErrors = [];
         $this->importSuccessCount = 0;
+        $this->importErrorCount = 0;
     }
 
     #[On('echo:import.progress.{userId},.import.progress.updated')]

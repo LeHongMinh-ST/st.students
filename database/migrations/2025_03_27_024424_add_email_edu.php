@@ -13,6 +13,9 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('students', function (Blueprint $table): void {
+            if (!Schema::hasColumn('students', 'admission_year_id')) {
+                $table->unsignedBigInteger('admission_year_id')->nullable();
+            }
             if (!Schema::hasColumn('students', 'email_edu')) {
                 $table->string('email_edu')->nullable();
             }
@@ -35,6 +38,9 @@ return new class () extends Migration {
         });
 
         Schema::table('class_students', function (Blueprint $table): void {
+            if (Schema::hasColumn('class_students', 'admission_year_id')) {
+                $table->dropColumn('admission_year_id');
+            }
             if (Schema::hasColumn('class_students', 'start_date')) {
                 $table->dropColumn('start_date');
             }
