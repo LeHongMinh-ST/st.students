@@ -32,10 +32,10 @@ use Maatwebsite\Excel\Events\ImportFailed;
 
 class StudentImport implements ToModel, WithChunkReading, WithStartRow, WithEvents
 {
-    private $userId;
-    private $importHistoryId;
-    private $admissionYearId;
-    private $history;
+    protected $userId;
+    protected $importHistoryId;
+    protected $admissionYearId;
+    protected $history;
     private $startTime;
     private $successCount = 0;
     private $errorCount = 0;
