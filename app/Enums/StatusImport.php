@@ -11,4 +11,22 @@ enum StatusImport: string
     case Completed = 'completed';
     case Failed = 'failed';
     case PartialyFaild = 'partially_failed';
+
+
+
+    public static function getDescription()
+    {
+        return [
+            self::Pending->value => 'Đang chờ',
+            self::Processing->value => 'Đang xử lý',
+            self::Completed->value => 'Hoành thành',
+            self::Failed->value => 'Thất bại',
+            self::PartialyFaild->value => 'Có bản ghi lỗi',
+        ];
+    }
+
+    public function getLabel(): string
+    {
+        return self::getDescription()[$this->value];
+    }
 }

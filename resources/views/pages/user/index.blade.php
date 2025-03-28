@@ -32,6 +32,6 @@
 
 
     <div class="content">
-        <livewire:user.index />
+        <livewire:user.index lazy />
     </div>
 </x-admin-layout>

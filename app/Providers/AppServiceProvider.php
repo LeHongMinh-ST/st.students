@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Enums\Role;
 use App\Services\SsoService;
+use App\View\Components\Import\StatusBadge as ImportStatusBadge;
 use App\View\Components\Layouts\AdminLayout;
 use App\View\Components\Layouts\AuthLayout;
 use App\View\Components\Layouts\ClientLayout;
@@ -48,5 +49,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('client-layout', ClientLayout::class);
         Blade::component('table-empty', TableEmpty::class);
         Blade::component('role-badge', RoleBadge::class);
+        Blade::component('import-status-badge', ImportStatusBadge::class);
     }
 }

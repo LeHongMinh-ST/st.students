@@ -35,12 +35,14 @@ class ImportZone extends Component
     public $userId;
     public $previewData = [];
     public TypeImport $type;
+    public $tempFile = null;
 
-    public function mount(TypeImport $type): void
+    public function mount(TypeImport $type, string $tempFile): void
     {
         $this->type = $type;
         $this->userId = Auth::id();
         $this->fileName = static::TextFileDefault;
+        $this->tempFile = $tempFile;
     }
 
     public function render()

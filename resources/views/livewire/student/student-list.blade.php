@@ -36,7 +36,7 @@
                 <tbody>
                     @forelse($students as $item)
                         <tr>
-                            <td class="text-center" width="5%">{{ $loop->index + 1 + $students->perPage() * ($roles->currentPage() - 1) }}</td>
+                            <td class="text-center" width="5%">{{ $loop->index + 1 + $students->perPage() * ($students->currentPage() - 1) }}</td>
                             <td width="35%">
                                 <a class="fw-semibold" href="{{ route('students.show', $item->id) }}">
                                     <img src="{{ Avatar::create($item->full_name)->toBase64() }}" class="w-32px h-32px" alt="">

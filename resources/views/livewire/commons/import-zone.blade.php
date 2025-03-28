@@ -18,7 +18,7 @@
 
         <!-- Nút tải file mẫu -->
         <div class="mb-2">
-            <a href="{{ route('file.download-template', ['name' => 'template_course.xlsx']) }}">
+            <a href="{{ route('file.download-template', ['name' => $tempFile]) }}">
                 <i class="ph-download-simple me-1"></i> Tải tệp mẫu
             </a>
         </div>

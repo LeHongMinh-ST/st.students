@@ -22,6 +22,7 @@ return new class () extends Migration {
             $table->unsignedBigInteger('faculty_id');
             $table->string('type');
             $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('admission_year_id');
             $table->timestamps();
         });
     }

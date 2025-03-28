@@ -57,6 +57,8 @@
                     @endforelse
                 </tbody>
             </table>
+
         </div>
     </div>
+            <livewire:commons.pagination :currentPage="$page" :totalPages="$totalPages" />
 </div>

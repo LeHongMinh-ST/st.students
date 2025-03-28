@@ -44,8 +44,8 @@ class Index extends Component
 
         $responses = app(SsoService::class)->get("/api/faculties/{$facultyId}/users", $params);
 
-        $this->page = @$responses['current_page'] ?? 1;
-        $this->totalPages = @$responses['last_page'] ?? 1;
+        $this->page = @$responses['meta']['current_page'] ?? 1;
+        $this->totalPages = @$responses['meta']['last_page'] ?? 1;
         $usersFromApi = @$responses['data'] ?? [];
 
         $ssoIds = collect($usersFromApi)->pluck('id')->toArray();

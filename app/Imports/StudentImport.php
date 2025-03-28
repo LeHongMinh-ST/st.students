@@ -77,6 +77,12 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
                     gmdate('H:i:s', (int)$timeElapsed)
                 ));
 
+                ImportHistory::where('id', $this->importHistoryId)
+                    ->update([
+                        'successful_records' => $this->successCount,
+                        'status' => $this->errorCount > 0 ? StudentImportEnum::PartialyFaild : StudentImportEnum::Completed
+                    ]);
+
                 if (0 === $this->errorCount) {
                     Storage::delete(Storage::path($this->history->path));
                 }
@@ -91,6 +97,12 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
                     $this->errorCount,
                     'N/A'
                 ));
+
+                ImportHistory::where('id', $this->importHistoryId)
+                    ->update([
+                        'successful_records' => $this->successCount,
+                        'status' => StudentImportEnum::Failed
+                    ]);
             },
         ];
     }
