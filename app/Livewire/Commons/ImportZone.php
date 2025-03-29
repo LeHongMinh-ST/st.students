@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Commons;
 
 use App\Enums\StatusImport as StudentImportEnum;
-use App\Enums\TypeImport;
 use App\Imports\StudentPreviewImport;
-use App\Models\ImportHistory;
-use App\Services\SsoService;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -34,12 +31,10 @@ class ImportZone extends Component
     public $importErrorCount = 0;
     public $userId;
     public $previewData = [];
-    public TypeImport $type;
     public $tempFile = null;
 
-    public function mount(TypeImport $type, string $tempFile): void
+    public function mount(string $tempFile): void
     {
-        $this->type = $type;
         $this->userId = Auth::id();
         $this->fileName = static::TextFileDefault;
         $this->tempFile = $tempFile;
@@ -68,7 +63,9 @@ class ImportZone extends Component
     public function updatedFile(): void
     {
         $this->fileName = $this->file ? $this->file->getClientOriginalName() : static::TextFileDefault;
-        $this->previewFile();
+        if ($this->file) {
+            $this->previewFile();
+        }
     }
 
     public function resetFile(): void
@@ -76,7 +73,7 @@ class ImportZone extends Component
         $this->file = null;
         $this->fileName = static::TextFileDefault;
         $this->previewData = [];
-        $this->dispatch('onSetFileImport', previewData: $this->previewData);
+        $this->dispatch('onClearPreviewData');
     }
 
     public function import(): void
@@ -86,32 +83,11 @@ class ImportZone extends Component
         }
         DB::beginTransaction();
         try {
-
-            $facultyId = app(SsoService::class)->getFacultyId();
-
             $path = $this->file->store(path: 'imports');
-
-            $importHistory = ImportHistory::create([
-                'file_name' => $this->file->getClientOriginalName(),
-                'path' => $path,
-                'status' => StudentImportEnum::Pending,
-                'total_records' => count($this->previewData),
-                'successful_records' => 0,
-                'faculty_id' => $facultyId,
-                'type' => $this->type->value,
-                'created_by' => Auth::id(),
-            ]);
-
             DB::commit();
             $this->importCompleted = false;
-            $this->importTotal = 0;
-            $this->importProgress = 0;
-            $this->importCompleted = false;
-            $this->importErrors = [];
-            $this->importSuccessCount = 0;
-            $this->importErrorCount = 0;
-            $this->dispatch('onImportFile', importHistoryId: $importHistory->id);
-            $this->dispatch('onOpenProcessModal');
+            $this->importTotal = count($this->previewData);
+            $this->dispatch('onImportFile', fileName: $this->file->getClientOriginalName(), filePath: $path);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

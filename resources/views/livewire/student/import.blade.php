@@ -31,12 +31,12 @@
                 <div class="tab-pane fade @if ($tab == 'import') show active @endif" id="import" role="tabpanel">
                     <div class="mt-3 border-0 shadow-lg card" wire:transition>
                         <div class="card-body">
-                            <livewire:commons.import-zone :type="\App\Enums\TypeImport::Student" :tempFile="'template_course.xlsx'" />
+                            <livewire:commons.import-zone :tempFile="'template_course.xlsx'" />
 
                         </div>
                     </div>
 
-                    @if ($previewData)
+                    @if (count($previewData) > 0)
                         <div class="mt-3 border-0 shadow-lg card" wire:transition>
                             <div class="card-header">
                                 <div class="fw-bold"><i class="mr-1 ph-file-text"></i>Xem trước dữ liệu ({{ count($previewData) }} bản ghi)</div>

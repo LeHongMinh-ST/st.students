@@ -20,6 +20,7 @@ class ImportHistory extends Model
         'faculty_id',
         'type',
         'created_by',
+        'admission_year_id',
     ];
 
 

@@ -20,10 +20,8 @@ use App\Models\ImportHistory;
 use App\Models\Student;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\ToArray;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -31,7 +29,7 @@ use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Events\BeforeImport;
 use Maatwebsite\Excel\Events\ImportFailed;
 
-class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCollection
+class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArray
 {
     protected $userId;
     protected $importHistoryId;
@@ -83,9 +81,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
                         'status' => $this->errorCount > 0 ? StudentImportEnum::PartialyFaild : StudentImportEnum::Completed
                     ]);
 
-                if (0 === $this->errorCount) {
-                    Storage::delete(Storage::path($this->history->path));
-                }
             },
 
             ImportFailed::class => function (): void {
@@ -103,13 +98,14 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
                         'successful_records' => $this->successCount,
                         'status' => StudentImportEnum::Failed
                     ]);
+
             },
         ];
     }
 
-    public function collection(Collection $collection): void
+    public function array(array $array): void
     {
-        foreach ($collection as $row) {
+        foreach ($array as $row) {
             // Increment the processed row count
             $this->processed++;
 
@@ -235,6 +231,7 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
         $class = new ClassGenerate();
         $class->code = $classCode;
         $class->name = $classCode;
+        $class->description = $classCode;
         $class->admission_year_id = $this->admissionYearId;
         $class->faculty_id = $this->history->faculty_id;
         $class->save();
@@ -263,7 +260,7 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToCol
      * @param array $row
      * @return Student
      */
-    private function createOrUpdateStudent(array $row): Student
+    private function createOrUpdateStudent($row): Student
     {
         [$lastName, $firstName] = Helper::splitFullName($row[3]);
         [$schoolYearStart, $schoolYearEnd] = SchoolHelper::extractYears($row[8]);

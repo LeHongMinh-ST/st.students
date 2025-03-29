@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Student;
 
+use App\Enums\StatusImport as StudentImportEnum;
 use App\Enums\TypeImport;
 use App\Helpers\Constants;
 use App\Jobs\ImportStudentsJob;
@@ -22,7 +23,6 @@ class Import extends Component
     use WithoutUrlPagination;
     use WithPagination;
 
-    public $file;
     public $previewData = [];
     public $admissionYear;
 
@@ -30,7 +30,7 @@ class Import extends Component
 
     public function setTab(string $tab): void
     {
-        $this->tab = $tab;
+        $this->tab = $tab ?? 'import';
     }
 
     public function mount($admissionYear): void
@@ -44,10 +44,29 @@ class Import extends Component
         $this->previewData = $previewData;
     }
 
-    #[On('onImportFile')]
-    public function import($importHistoryId): void
+    #[On('onClearPreviewData')]
+    public function clearPreviewData(): void
     {
-        dispatch(new ImportStudentsJob(Auth::id(), $importHistoryId, $this->admissionYear->id));
+        $this->previewData = [];
+    }
+
+    #[On('onImportFile')]
+    public function import($fileName, $filePath): void
+    {
+        $facultyId = app(SsoService::class)->getFacultyId();
+        $importHistory = ImportHistory::create([
+            'file_name' => $fileName,
+            'path' => $filePath,
+            'status' => StudentImportEnum::Pending,
+            'total_records' => count($this->previewData),
+            'successful_records' => 0,
+            'faculty_id' => $facultyId,
+            'type' => TypeImport::Student,
+            'created_by' => Auth::id(),
+            'admission_year_id' => $this->admissionYear->id
+        ]);
+        dispatch(new ImportStudentsJob(Auth::id(), $importHistory->id, $this->admissionYear->id));
+        $this->dispatch('onOpenProcessModal');
     }
 
 
@@ -60,6 +79,7 @@ class Import extends Component
             ->where('admission_year_id', $this->admissionYear->id)
             ->with('user')
             ->paginate(Constants::PER_PAGE);
+
         return view('livewire.student.import', [
             'histories' => $histories
         ]);

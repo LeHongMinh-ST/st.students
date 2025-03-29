@@ -23,7 +23,7 @@
             </a>
         </div>
 
-        @if ($file)
+        @if (count($previewData) > 0)
             <div class="text-center" wire:transition>
                 <button type="button" class="mt-3 btn btn-primary disabled" wire:loading wire:target="import">
                     <span class="spinner-border spinner-border-sm"></span> Tải lên
