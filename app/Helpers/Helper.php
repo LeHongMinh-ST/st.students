@@ -15,11 +15,11 @@ class Helper
         Log::info(json_encode($parts));
 
         if (1 === count($parts)) {
-            return ['last_name' => @$parts[0], 'first_name' => ''];
+            return ['last_name' => '', 'first_name' => @$parts[0]];
         }
 
-        $lastName = array_shift($parts);
-        $firstName = implode(' ', $parts);
+        $firstName = array_shift($parts);
+        $lastName = implode(' ', $parts);
 
         return ['last_name' => $lastName, 'first_name' => $firstName];
     }

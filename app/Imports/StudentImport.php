@@ -11,6 +11,7 @@ use App\Enums\StatusImport as StudentImportEnum;
 use App\Events\ImportFinished;
 use App\Events\ImportProgressUpdated;
 use App\Events\ImportStarted;
+use App\Helpers\DateTimeHelper;
 use App\Helpers\Helper;
 use App\Helpers\SchoolHelper;
 use App\Models\ClassGenerate;
@@ -262,14 +263,14 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
      */
     private function createOrUpdateStudent($row): Student
     {
-        [$lastName, $firstName] = Helper::splitFullName($row[3]);
+        $name = Helper::splitFullName($row[3]);
         [$schoolYearStart, $schoolYearEnd] = SchoolHelper::extractYears($row[8]);
 
         $data = [
             'code_import' => $row[1] ?? '',
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'dob' => $row[4] ?? '',
+            'first_name' => $name['first_name'] ?? '',
+            'last_name' => $name['last_name'] ?? '',
+            'dob' => $row[4] ? DateTimeHelper::createDateTime($row[4]) : null,
             'gender' => $row[5] ? Gender::mapValue($row[5]) : '',
             'faculty_id' => $this->history->faculty_id,
             'school_year_start' => $schoolYearStart ?? '',

@@ -24,7 +24,7 @@ return new class () extends Migration {
             $table->string('person_email')->nullable();
             $table->string('gender')->default(Gender::Male->value);
             $table->string('permanent_residence')->nullable();
-            $table->date('dob')->nullable();
+            $table->string('dob')->nullable();
             $table->string('pob')->nullable();
             $table->string('address')->nullable();
             $table->string('countryside')->nullable();
@@ -37,7 +37,7 @@ return new class () extends Migration {
             $table->string('thumbnail')->nullable();
             $table->string('social_policy_object')->default(SocialPolicyObject::None->value);
             $table->text('note')->nullable();
-            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }
