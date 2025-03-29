@@ -73,6 +73,12 @@ class ImportZone extends Component
         $this->file = null;
         $this->fileName = static::TextFileDefault;
         $this->previewData = [];
+        $this->importTotal = 0;
+        $this->importProgress = 0;
+        $this->importCompleted = false;
+        $this->importErrors = [];
+        $this->importSuccessCount = 0;
+        $this->importErrorCount = 0;
         $this->dispatch('onClearPreviewData');
     }
 
