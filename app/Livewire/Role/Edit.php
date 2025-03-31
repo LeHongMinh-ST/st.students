@@ -87,6 +87,8 @@ class Edit extends Component
             $this->groupIds = [];
             $this->permissionIds = [];
         }
+
+        $this->updateGroupIndeterminateStates();
     }
 
     public function submit(): void

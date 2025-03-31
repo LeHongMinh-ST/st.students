@@ -30,6 +30,11 @@ class Index extends Component
         ]);
     }
 
+    public function placeholder()
+    {
+        return view('components.placeholders.table-placeholder');
+    }
+
     public function fetchData()
     {
         $facultyId = app(SsoService::class)->getFacultyId();

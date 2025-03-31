@@ -27,7 +27,6 @@
                     <tr class="table-light">
                         <th width="5%">STT</th>
                         <th width="30%">Họ và tên</th>
-                        <th>Email</th>
                         <th>Điện thoại</th>
                         <th>Loại tài khoản</th>
                         <th>Vai trò</th>
@@ -39,11 +38,21 @@
                             <td class="text-center" width="5%">{{ $key + 1 + 10 * ($page - 1) }}</td>
                             <td width="30%">
                                 <a class="fw-semibold" href="{{ route('users.show', @$item['local_user']['id']) }}">
-                                    <img src="{{ Avatar::create($item['full_name'])->toBase64() }}" class="w-32px h-32px" alt="">
-                                    {{ $item['full_name'] }}
+                                    <div class="gap-2 d-flex align-items-center">
+
+                                        <img src="{{ Avatar::create($item['full_name'])->toBase64() }}" class="w-32px h-32px" alt="">
+                                        <div class="flex-grow-1">
+                                            <div>
+                                                {{ $item['full_name'] }}
+                                            </div>
+
+                                            <div class="text-muted">
+                                                {{ $item['email'] }}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </a>
                             </td>
-                            <td>{{ $item['email'] }}</td>
                             <td>{{ empty($item['phone']) ? '-' : $item['phone'] }}</td>
                             <td>
                                 <x-role-badge :role="$item['role']" />
@@ -53,12 +62,12 @@
                             </td>
                         </tr>
                     @empty
-                        <x-table-empty :colspan="6" />
+                        <x-table-empty :colspan="5" />
                     @endforelse
                 </tbody>
             </table>
 
         </div>
     </div>
-            <livewire:commons.pagination :currentPage="$page" :totalPages="$totalPages" />
+    <livewire:commons.pagination :currentPage="$page" :totalPages="$totalPages" />
 </div>

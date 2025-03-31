@@ -32,4 +32,9 @@ class Index extends Component
             'roles' => $roles
         ]);
     }
+
+    public function placeholder()
+    {
+        return view('components.placeholders.table-placeholder');
+    }
 }
