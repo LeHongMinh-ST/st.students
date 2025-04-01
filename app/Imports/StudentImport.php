@@ -289,6 +289,7 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
             'email_edu' => "{$row[2]}@sv.vnua.edu.vn",
             'address' => $row[12] ?? '',
             'admission_year_id' => $this->admissionYearId,
+            'faculty_id' => $this->history->faculty_id,
         ];
 
         $student = Student::updateOrCreate(['code' => $row[2]], $data);

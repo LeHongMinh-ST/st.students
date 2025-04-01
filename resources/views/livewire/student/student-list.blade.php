@@ -25,10 +25,13 @@
             <table class="table fs-table" wire:loading.remove>
                 <thead>
                     <tr class="table-light">
-                        <th width="5%">STT</th>
-                        <th width="35%">Sinh viên</th>
+                        <th width="5%" class="text-center">STT</th>
+                        <th width="25%">Sinh viên</th>
                         <th>Mã sinh viên</th>
-                        <th>Lớp</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Ngày sinh</th>
+                        <th>Lớp hiện tại</th>
                         <th>Trạng thái</th>
                         <th>Ngày tạo</th>
                     </tr>
@@ -37,15 +40,30 @@
                     @forelse($students as $item)
                         <tr>
                             <td class="text-center" width="5%">{{ $loop->index + 1 + $students->perPage() * ($students->currentPage() - 1) }}</td>
-                            <td width="35%">
+                            <td width="25%">
                                 <a class="fw-semibold" href="{{ route('students.show', $item->id) }}">
-                                    <img src="{{ Avatar::create($item->full_name)->toBase64() }}" class="w-32px h-32px" alt="">
-                                    {{ $item->full_name }}
+                                    <div class="gap-2 d-flex align-items-center">
+
+                                        <img src="{{ Avatar::create($item->fullName)->toBase64() }}" class="w-32px h-32px" alt="">
+                                        <div class="flex-grow-1">
+                                            <div>
+                                                {{ $item->fullName }}
+                                            </div>
+                                            <div class="text-muted">
+                                                {{ $item->email_edu }}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </a>
                             </td>
-                            <td>{{ $item->code }}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ $item->code ?? '-' }}</td>
+                            <td>{{ $item->email ? $item->email : '-' }}</td>
+                            <td>{{ $item->phone ? $item->phone : '-' }}</td>
+                            <td>{{ $item->dobString }}</td>
+                            <td>{{ $item->currentClass->name }}</td>
+                            <td>
+                                <x-student-status-badge :status="$item->status" />
+                            </td>
                             <td width="10%">{{ $item->created_at->format('d/m/Y') }}</td>
                         </tr>
                     @empty
