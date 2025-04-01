@@ -110,6 +110,22 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
             // Increment the processed row count
             $this->processed++;
 
+            $studentExists = Student::where('code', $row[2])->exists();
+
+            if ($studentExists) {
+
+                ImportError::create([
+                    'import_history_id' => $this->importHistoryId,
+                    'row_number' => $this->processed + 1,
+                    'error_message' => "Đã tồn bản ghi có mã sinh viên {$row[2]}",
+                    'record_data' => json_encode($row),
+                ]);
+
+                $this->errorCount++;
+
+                continue;
+            }
+
             // Begin a database transaction to ensure data consistency
             DB::beginTransaction();
             try {
@@ -132,14 +148,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
                     'record_data' => json_encode($row),
                 ]);
 
-                // // Dispatch an event to notify about the failed row import
-                // event(new ImportRowFailed(
-                //     $this->userId,
-                //     $this->importHistoryId,
-                //     $this->processed + 1,
-                //     $e->getMessage(),
-                //     $row
-                // ));
             }
 
             // Update progress every 50 rows
@@ -280,6 +288,7 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
             'email' => $row[11] ?? '',
             'email_edu' => "{$row[2]}@sv.vnua.edu.vn",
             'address' => $row[12] ?? '',
+            'admission_year_id' => $this->admissionYearId,
         ];
 
         $student = Student::updateOrCreate(['code' => $row[2]], $data);

@@ -78,6 +78,7 @@ class Import extends Component
             ->where('type', TypeImport::Student)
             ->where('admission_year_id', $this->admissionYear->id)
             ->with('user')
+            ->orderBy('created_at', 'desc')
             ->paginate(Constants::PER_PAGE);
 
         return view('livewire.student.import', [

@@ -85,12 +85,15 @@ class AuthenticateController extends Controller
 
     private function findOrCreateUser(array $userData): User
     {
-        $user =  User::firstOrCreate(
+        $user = User::updateOrCreate(
             ['sso_id' => $userData['id']],
-            ['status' => Status::Active]
+            [
+                'status' => Status::Active,
+                'full_name' => $userData['full_name']
+            ]
         );
 
-        if ($user['role'] === Role::Student->value) {
+        if ($userData['role'] === Role::Student->value) {
             Student::updateOrCreate([
                 'code' => $userData['code'],
                 'email' => $userData['email']

@@ -16,12 +16,12 @@
 
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a href="javascript:void(0)" class="nav-link @if ($tab == 'import') active @endif" wire:click="setTab('import')">
+                    <a href="javascript:void(0)" class="nav-link  @if ($tab == 'import') fw-bold active @endif" wire:click="setTab('import')">
                         Import danh sách sinh viên
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0)" class="nav-link @if ($tab == 'history') active @endif" wire:click="setTab('history')">
+                    <a href="javascript:void(0)" class="nav-link @if ($tab == 'history') fw-bold active @endif" wire:click="setTab('history')">
                         Lịch sử
                     </a>
                 </li>
@@ -29,7 +29,7 @@
 
             <div class="tab-content">
                 <div class="tab-pane fade @if ($tab == 'import') show active @endif" id="import" role="tabpanel">
-                    <div class="mt-3 border-0 shadow-lg card" wire:transition>
+                    <div class="mt-3 border-0 shadow-lg card">
                         <div class="card-body">
                             <livewire:commons.import-zone :tempFile="'template_course.xlsx'" />
 
@@ -99,7 +99,7 @@
                 </div>
 
                 <div class="tab-pane fade @if ($tab == 'history') show active @endif" id="history" role="tabpanel">
-                    <div class="mt-3 border-0 shadow-lg card" wire:transition>
+                    <div class="mt-3 border-0 shadow-lg card">
                         <div class="card-header">
                             <div class="fw-bold"><i class="mr-1 ph-file-text"></i>Lịch sử import</div>
                         </div>
@@ -116,7 +116,7 @@
                                         <th>Số bản ghi thất bại</th>
                                         <th>Người thực hiện</th>
                                         <th>Thời gian</th>
-                                        <th class="text-center">Hành động</th>
+                                        {{-- <th class="text-center">Hành động</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -130,11 +130,11 @@
                                             <td>{{ $item->total_records - $item->successful_records }}</td>
                                             <td>{{ $item->user?->full_name }}</td>
                                             <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
-                                            <td class="text-center">
-                                                <a href="text-muted" data-bs-popup="tooltip" title="Tải xuống bản ghi lỗi">
-                                                    <i class="ph-download-simple"></i>
-                                                </a>
-                                            </td>
+                                            {{-- <td class="text-center"> --}}
+                                            {{--    <a href="text-muted" data-bs-popup="tooltip" title="Tải xuống bản ghi lỗi"> --}}
+                                            {{--        <i class="ph-download-simple"></i> --}}
+                                            {{--    </a> --}}
+                                            {{-- </td> --}}
                                         </tr>
 
                                     @empty
