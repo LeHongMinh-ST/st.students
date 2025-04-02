@@ -12,6 +12,7 @@ use App\Enums\StudentRole;
 use App\Enums\StudentStatus;
 use App\Enums\TrainingType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
@@ -93,6 +94,11 @@ class Student extends Model
     {
         return $this->belongsToMany(GraduationCeremony::class, 'graduation_ceremony_students')
             ->withTimestamps();
+    }
+
+    public function admissionYear(): BelongsTo
+    {
+        return $this->belongsTo(AdmissionYear::class);
     }
 
     public function scopeSearch($query, $search)

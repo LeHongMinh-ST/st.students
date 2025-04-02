@@ -26,4 +26,9 @@ class StudentController extends Controller
 
         return view('pages.student.import', compact('admissionYear'));
     }
+
+    public function show(Student $student): View|Application|Factory|RedirectResponse
+    {
+        return view('pages.student.show', compact('student'));
+    }
 }
