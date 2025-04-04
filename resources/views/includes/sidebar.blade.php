@@ -105,6 +105,19 @@
                     </a>
                 </li>
 
+                <li class="nav-item-header">
+                    <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Thông báo</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+
+                <li class="nav-item">
+                    <a href=""
+                       class="nav-link {{ request()->routeIs('posts') ? 'active' : '' }}">
+                        <i class="ph-note"></i>
+                        <span>Bài viết</span>
+                    </a>
+                </li>
+
                 @if (Auth::user()->can('viewAny', \App\Models\User::class) || Auth::user()->can('viewAny', \App\Models\Role::class))
                     <li class="nav-item-header">
                         <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Hệ thống</div>
