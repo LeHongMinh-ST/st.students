@@ -9,6 +9,39 @@ use App\Enums\TypeImport;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ *
+ *
+ * @property int $id
+ * @property string $file_name
+ * @property StatusImport $status
+ * @property int $total_records
+ * @property int $successful_records
+ * @property int $faculty_id
+ * @property TypeImport $type
+ * @property int $created_by
+ * @property int $admission_year_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $path
+ * @property-read User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereAdmissionYearId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereFacultyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereFileName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereSuccessfulRecords($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereTotalRecords($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ImportHistory whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class ImportHistory extends Model
 {
     protected $fillable = [

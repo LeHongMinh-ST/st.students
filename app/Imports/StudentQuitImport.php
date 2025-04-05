@@ -6,8 +6,8 @@ namespace App\Imports;
 
 class StudentQuitImport extends StudentImport
 {
-    protected function handleImport(array $row): void
-    {
-
-    }
+    // protected function handleImport(array $row): void
+    // {
+    //
+    // }
 }

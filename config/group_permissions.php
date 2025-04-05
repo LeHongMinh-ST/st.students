@@ -8,6 +8,10 @@ return  [
         'code' => 'student'
     ],
     [
+        'name' => 'Lớp học',
+        'code' => 'class'
+    ],
+    [
         'name' => 'Người dùng',
         'code' => 'user'
     ],

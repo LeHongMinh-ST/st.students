@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Enums\Role;
+use App\Helpers\StudentHelper;
 use App\Models\Student;
 use App\Models\User;
+use App\Services\SsoService;
 
 class StudentPolicy
 {
@@ -14,7 +17,7 @@ class StudentPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->hasPermission('student.index');
     }
 
     /**
@@ -22,7 +25,7 @@ class StudentPolicy
      */
     public function view(User $user, Student $student): bool
     {
-        return false;
+        return StudentHelper::checkUserStudent($user, $student) || $user->hasPermission('student.show');
     }
 
     /**
@@ -38,7 +41,12 @@ class StudentPolicy
      */
     public function update(User $user, Student $student): bool
     {
-        return false;
+        $userData = app(SsoService::class)->getDataUser();
+        if ($userData['role'] === Role::SuperAdmin->value) {
+            return true;
+        }
+
+        return $user->hasPermission('student.edit') && $student->faculty_id === $user['faculty_id'];
     }
 
     /**
@@ -46,22 +54,11 @@ class StudentPolicy
      */
     public function delete(User $user, Student $student): bool
     {
-        return false;
-    }
+        $userData = app(SsoService::class)->getDataUser();
+        if ($userData['role'] === Role::SuperAdmin->value) {
+            return true;
+        }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Student $student): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Student $student): bool
-    {
-        return false;
+        return $user->hasPermission('student.delete') && $student->faculty_id === $user['faculty_id'];
     }
 }

@@ -17,6 +17,8 @@ class StudentController extends Controller
 {
     public function index(): View|Application|Factory|RedirectResponse
     {
+        Gate::authorize('viewAny', Student::class);
+
         return view('pages.student.index');
     }
 
@@ -29,6 +31,8 @@ class StudentController extends Controller
 
     public function show(Student $student): View|Application|Factory|RedirectResponse
     {
+        Gate::authorize('view', $student);
+
         return view('pages.student.show', compact('student'));
     }
 }

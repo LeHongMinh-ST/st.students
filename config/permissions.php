@@ -66,5 +66,38 @@ return [
         'name' => 'Xóa sinh viên',
         'code' => 'student.delete',
         'group' => 'student'
+    ],
+    [
+        'name' => 'Xem danh lớp',
+        'code' => 'class.index',
+        'group' => 'class'
+    ],
+    [
+        'name' => 'Tạo lớp',
+        'code' => 'class.create',
+        'group' => 'class',
+    ],
+    [
+        'name' => 'Sửa lớp',
+        'code' => 'class.edit',
+        'group' => 'class',
+    ],
+    [
+        'name' => 'Xóa lớp',
+        'code' => 'class.delete',
+        'group' => 'class',
+    ],
+    [
+        'name' => 'Giáo viên chủ nhiệm lớp',
+        'code' => 'class.teacher',
+        'group' => 'class'
+    ],
+    [
+
+        'name' => 'Cố vấn học tập',
+        'code' => 'class.sub_teacher',
+        'group' => 'class'
     ]
+
+
 ];
