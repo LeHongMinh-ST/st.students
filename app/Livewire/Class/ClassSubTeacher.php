@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire\Class;
 
 use App\Helpers\Constants;
-use App\Models\ClassAssign;
 use App\Models\ClassGenerate;
 use App\Services\SsoService;
 use Livewire\Attributes\Url;
@@ -25,11 +24,11 @@ class ClassSubTeacher extends Component
 
         $classes = ClassGenerate::query()
             ->where('faculty_id', $facultyId)
-            ->when($this->search, function ($query) {
+            ->when($this->search, function ($query): void {
                 $searchTerm = '%' . $this->search . '%';
-                $query->where(function ($q) use ($searchTerm) {
+                $query->where(function ($q) use ($searchTerm): void {
                     $q->where('name', 'like', $searchTerm)
-                      ->orWhere('code', 'like', $searchTerm);
+                        ->orWhere('code', 'like', $searchTerm);
                 });
             })
             ->orderBy('created_at', 'desc')

@@ -122,11 +122,15 @@
                 </li>
                 @endcan
 
+                {{-- Uncomment and add proper permission check when notification feature is implemented
+                @if(Auth::user()->can('viewAny', \App\Models\Post::class))
                 <li class="nav-item-header">
                     <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Thông báo</div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
+                @endif
 
+                @can('viewAny', \App\Models\Post::class)
                 <li class="nav-item">
                     <a href=""
                        class="nav-link {{ request()->routeIs('posts') ? 'active' : '' }}">
@@ -134,6 +138,8 @@
                         <span>Bài viết</span>
                     </a>
                 </li>
+                @endcan
+                --}}
 
                 @if (Auth::user()->can('viewAny', \App\Models\User::class) || Auth::user()->can('viewAny', \App\Models\Role::class))
                     <li class="nav-item-header">

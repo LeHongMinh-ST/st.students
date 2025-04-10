@@ -42,7 +42,7 @@ class Create extends Component
         $this->admissionYears = AdmissionYear::all()->toArray();
         $this->classTypes = array_column(ClassType::cases(), 'value');
         $this->statuses = array_column(Status::cases(), 'value');
-        
+
         // Set default values
         $this->type = ClassType::Basic->value;
         $this->status = Status::Active->value;

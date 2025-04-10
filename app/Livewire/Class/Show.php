@@ -29,7 +29,7 @@ class Show extends Component
     public function render()
     {
         $students = $this->class->students()
-            ->when($this->search, function ($query) {
+            ->when($this->search, function ($query): void {
                 $query->search($this->search);
             })
             ->paginate(Constants::PER_PAGE);

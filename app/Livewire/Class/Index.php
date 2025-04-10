@@ -24,11 +24,11 @@ class Index extends Component
 
         $classes = ClassGenerate::query()
             ->where('faculty_id', $facultyId)
-            ->when($this->search, function ($query) {
+            ->when($this->search, function ($query): void {
                 $searchTerm = '%' . $this->search . '%';
-                $query->where(function ($q) use ($searchTerm) {
+                $query->where(function ($q) use ($searchTerm): void {
                     $q->where('name', 'like', $searchTerm)
-                      ->orWhere('code', 'like', $searchTerm);
+                        ->orWhere('code', 'like', $searchTerm);
                 });
             })
             ->orderBy('created_at', 'desc')
