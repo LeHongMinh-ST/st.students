@@ -1,0 +1,12 @@
+Mã sinh viên,Họ và tên,Loại thôi học,Lý do thôi học
+SV001,Nguyễn Văn A,Tự thôi học,Chuyển trường
+SV002,Trần Thị B,Tạm dừng học tập,Lý do sức khỏe
+SV003,Lê Văn C,Buộc thôi học,Điểm trung bình dưới ngưỡng cho phép
+
+Hướng dẫn:
+1. Cột A: Mã sinh viên (bắt buộc)
+2. Cột B: Họ và tên (bắt buộc)
+3. Cột C: Loại thôi học (Tự thôi học, Tạm dừng học tập, Buộc thôi học)
+4. Cột D: Lý do thôi học
+
+Lưu ý: Đây là file hướng dẫn. Vui lòng tạo file Excel (.xlsx, .xls) với cấu trúc tương tự.

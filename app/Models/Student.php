@@ -213,4 +213,12 @@ class Student extends Model
     {
         return Carbon::make($this->dob)->format('d/m/Y');
     }
+
+    /**
+     * Get the warning level for this student.
+     */
+    public function getWarningLevelAttribute(): ?\App\Enums\WarningLevel
+    {
+        return Warning::getWarningLevel($this->id);
+    }
 }

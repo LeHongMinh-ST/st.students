@@ -147,6 +147,56 @@ return [
         'name' => 'Import sinh viên tốt nghiệp',
         'code' => 'graduation.import',
         'group' => 'graduation'
+    ],
+    [
+        'name' => 'Xem danh sách',
+        'code' => 'warning.index',
+        'group' => 'warning'
+    ],
+    [
+        'name' => 'Tạo đợt cảnh báo',
+        'code' => 'warning.create',
+        'group' => 'warning'
+    ],
+    [
+        'name' => 'Sửa đợt cảnh báo',
+        'code' => 'warning.edit',
+        'group' => 'warning'
+    ],
+    [
+        'name' => 'Xóa đợt cảnh báo',
+        'code' => 'warning.delete',
+        'group' => 'warning'
+    ],
+    [
+        'name' => 'Import sinh viên cảnh báo',
+        'code' => 'warning.import',
+        'group' => 'warning'
+    ],
+    [
+        'name' => 'Xem danh sách',
+        'code' => 'quit.index',
+        'group' => 'quit'
+    ],
+    [
+        'name' => 'Tạo đợt buộc thôi học',
+        'code' => 'quit.create',
+        'group' => 'quit'
+    ],
+    [
+        'name' => 'Sửa đợt buộc thôi học',
+        'code' => 'quit.edit',
+        'group' => 'quit'
+    ],
+    [
+        'name' => 'Xóa đợt buộc thôi học',
+        'code' => 'quit.delete',
+        'group' => 'quit'
+    ],
+    [
+        'name' => 'Import sinh viên buộc thôi học',
+        'code' => 'quit.import',
+        'group' => 'quit'
     ]
 
 ];

@@ -1,0 +1,12 @@
+Mã sinh viên,Họ và tên,Điểm trung bình,Lý do cảnh báo
+SV001,Nguyễn Văn A,5.5,Điểm trung bình học kỳ dưới 5.0
+SV002,Trần Thị B,4.8,Điểm trung bình học kỳ dưới 5.0
+SV003,Lê Văn C,4.2,Điểm trung bình học kỳ dưới 5.0
+
+Hướng dẫn:
+1. Cột A: Mã sinh viên (bắt buộc)
+2. Cột B: Họ và tên (bắt buộc)
+3. Cột C: Điểm trung bình (GPA)
+4. Cột D: Lý do cảnh báo
+
+Lưu ý: Đây là file hướng dẫn. Vui lòng tạo file Excel (.xlsx, .xls) với cấu trúc tương tự.

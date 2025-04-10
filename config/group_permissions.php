@@ -30,5 +30,13 @@ return  [
     [
         'name' => 'Quản lý tốt nghiệp',
         'code' => 'graduation'
+    ],
+    [
+        'name' => 'Quản lý cảnh báo',
+        'code' => 'warning'
+    ],
+    [
+        'name' => 'Quản lý thôi học',
+        'code' => 'quit'
     ]
 ];

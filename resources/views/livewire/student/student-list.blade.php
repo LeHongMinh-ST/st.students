@@ -26,13 +26,14 @@
                 <thead>
                     <tr class="table-light">
                         <th width="5%" class="text-center">STT</th>
-                        <th width="25%">Sinh viên</th>
+                        <th width="20%">Sinh viên</th>
                         <th>Mã sinh viên</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Ngày sinh</th>
                         <th>Lớp hiện tại</th>
                         <th>Trạng thái</th>
+                        <th>Cảnh báo</th>
                         <th>Ngày tạo</th>
                     </tr>
                 </thead>
@@ -63,6 +64,11 @@
                             <td>{{ $item->currentClass->name }}</td>
                             <td>
                                 <x-student-status-badge :status="$item->status" />
+                            </td>
+                            <td>
+                                @if($item->warningLevel)
+                                    <span class="badge {{ $item->warningLevel->badgeColor() }}">{{ $item->warningLevel->label() }}</span>
+                                @endif
                             </td>
                             <td width="10%">{{ $item->created_at->format('d/m/Y') }}</td>
                         </tr>

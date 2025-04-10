@@ -102,25 +102,27 @@
                 </li>
                 @endcan
 
-                @can('viewAny', \App\Models\Student::class)
+                @can('viewAny', \App\Models\Warning::class)
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
-                        <i class="ph-warning-circle"></i>
-                        <span>Cảnh báo sinh viên</span>
+                    <a href="{{ route('warnings.index') }}"
+                       class="nav-link {{ request()->routeIs('warnings.*') ? 'active' : '' }}">
+                        <i class="ph-warning"></i>
+                        <span>Quản lý cảnh báo</span>
                     </a>
                 </li>
                 @endcan
 
-                @can('viewAny', \App\Models\Student::class)
+                @can('viewAny', \App\Models\Quit::class)
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
-                        <i class="ph-x-circle"></i>
-                        <span>Buộc thôi học</span>
+                    <a href="{{ route('quits.index') }}"
+                       class="nav-link {{ request()->routeIs('quits.*') ? 'active' : '' }}">
+                        <i class="ph-prohibit"></i>
+                        <span>Quản lý thôi học</span>
                     </a>
                 </li>
                 @endcan
+
+
 
                 @if(Auth::user()->can('viewAny', \App\Models\Post::class))
                 <li class="nav-item-header">
