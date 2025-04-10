@@ -122,6 +122,31 @@ return [
         'name' => 'Xuất bản bài viết',
         'code' => 'post.publish',
         'group' => 'post'
+    ],
+    [
+        'name' => 'Xem danh sách',
+        'code' => 'graduation.index',
+        'group' => 'graduation'
+    ],
+    [
+        'name' => 'Tạo đợt tốt nghiệp',
+        'code' => 'graduation.create',
+        'group' => 'graduation'
+    ],
+    [
+        'name' => 'Sửa đợt tốt nghiệp',
+        'code' => 'graduation.edit',
+        'group' => 'graduation'
+    ],
+    [
+        'name' => 'Xóa đợt tốt nghiệp',
+        'code' => 'graduation.delete',
+        'group' => 'graduation'
+    ],
+    [
+        'name' => 'Import sinh viên tốt nghiệp',
+        'code' => 'graduation.import',
+        'group' => 'graduation'
     ]
 
 ];

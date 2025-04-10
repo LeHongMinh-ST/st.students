@@ -78,10 +78,6 @@ class User extends Authenticatable
     {
         $userData = app(SsoService::class)->getDataUser();
 
-        if (!$userData) {
-            return false;
-        }
-
         if ($userData['role'] === RoleEnum::SuperAdmin->value) {
             return true;
         }

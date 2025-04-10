@@ -92,12 +92,12 @@
                 </li>
                 @endcan
 
-                @can('viewAny', \App\Models\Student::class)
+                @can('viewAny', \App\Models\GraduationCeremony::class)
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
-                        <i class="ph-student"></i>
-                        <span>Sinh viên tốt nghiệp</span>
+                    <a href="{{ route('graduation.index') }}"
+                       class="nav-link {{ request()->routeIs('graduation.*') ? 'active' : '' }}">
+                        <i class="ph-graduation-cap"></i>
+                        <span>Quản lý tốt nghiệp</span>
                     </a>
                 </li>
                 @endcan

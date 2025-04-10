@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\ClassGenerateController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FileContrller;
+use App\Http\Controllers\Admin\GraduationCeremonyController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StudentController;
@@ -23,13 +24,20 @@ Route::middleware('auth.sso')->group(function (): void {
         Route::resource('users', UserController::class)->only(['index', 'show']);
         Route::resource('students', StudentController::class)->only(['index', 'show', 'edit', 'destroy']);
         Route::resource('classes', ClassGenerateController::class);
-        Route::get('classes-teacher', [ClassGenerateController::class, 'getClassTeacher']);
-        Route::get('classes-sub-teacher', [ClassGenerateController::class, 'getClassSubTeacher']);
+        Route::get('classes-teacher', [ClassGenerateController::class, 'getClassTeacher'])->name('classes-teacher');
+        Route::get('classes-sub-teacher', [ClassGenerateController::class, 'getClassSubTeacher'])->name('classes-sub-teacher');
         Route::prefix('students')->group(function (): void {
             Route::get('/import/{admission_year}/admission-year', [StudentController::class, 'import'])->name('students.import');
         });
         Route::resource('roles', RoleController::class)->only(['index','create','edit']);
         Route::resource('posts', PostController::class);
+
+        // Graduation Ceremony Management
+        Route::get('graduation', [GraduationCeremonyController::class, 'index'])->name('graduation.index');
+        Route::get('graduation/create', [GraduationCeremonyController::class, 'create'])->name('graduation.create');
+        Route::get('graduation/{ceremony}/edit', [GraduationCeremonyController::class, 'edit'])->name('graduation.edit');
+        Route::get('graduation/{ceremony}', [GraduationCeremonyController::class, 'show'])->name('graduation.show');
+        Route::get('graduation/{ceremony}/import', [GraduationCeremonyController::class, 'import'])->name('graduation.import');
     });
 
     Route::get('/download-template/{name}', [FileContrller::class, 'downloadFileTemplateImport'])->name('file.download-template');

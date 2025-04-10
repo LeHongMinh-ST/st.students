@@ -26,5 +26,9 @@ return  [
     [
         'name' => 'Bài viết',
         'code' => 'post'
+    ],
+    [
+        'name' => 'Quản lý tốt nghiệp',
+        'code' => 'graduation'
     ]
 ];
