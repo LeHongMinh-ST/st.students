@@ -66,7 +66,7 @@ class ClassGenerate extends Model
     public function students(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'class_students', 'class_id', 'student_id')
-            ->withPivot(['start_date', 'end_date', 'status'])
+            ->withPivot(['start_year', 'end_year', 'status', 'role'])
             ->withTimestamps();
     }
 }

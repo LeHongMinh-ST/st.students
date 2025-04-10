@@ -104,7 +104,7 @@
                                             </tr>
                                             <tr>
                                                 <th>Ngày sinh</th>
-                                                <td>{{ $student->dob ? $student->dob->format('d/m/Y') : 'N/A' }}</td>
+                                                <td>{{ $student->dob ? \Illuminate\Support\Carbon::make($student->dob)->format('d/m/Y') : 'N/A' }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Giới tính</th>
@@ -248,7 +248,7 @@
                                         <td>{{ $class->code }}</td>
                                         <td>{{ $class->type->label() }}</td>
                                         <td>
-                                            <x-student-role-badge :role="$class->pivot->role" />
+                                            <x-student-role-badge :role="\App\Enums\StudentRole::from($class->pivot->role)" />
                                         </td>
                                         <td>
                                             <x-class-status-badge :status="$class->status" />

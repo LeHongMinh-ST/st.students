@@ -12,6 +12,7 @@ use App\View\Components\Layouts\AuthLayout;
 use App\View\Components\Layouts\ClientLayout;
 use App\View\Components\Placeholders\TablePlaceholder;
 use App\View\Components\Student\StatusBadge as StudentStatusBadge;
+use App\View\Components\StudentRoleBadge;
 use App\View\Components\Table\TableEmpty;
 use App\View\Components\User\RoleBadge;
 use Illuminate\Support\Facades\App;
@@ -54,5 +55,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('import-status-badge', ImportStatusBadge::class);
         Blade::component('table-placeholder', TablePlaceholder::class);
         Blade::component('student-status-badge', StudentStatusBadge::class);
+        Blade::component('student-role-badge', StudentRoleBadge::class);
     }
 }

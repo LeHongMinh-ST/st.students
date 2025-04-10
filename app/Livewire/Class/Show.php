@@ -59,16 +59,16 @@ class Show extends Component
         // Filter by tab
         switch ($this->tab) {
             case 'studying':
-                $studentsQuery->where('status', StudentStatus::CurrentlyStudying);
+                $studentsQuery->where('students.status', StudentStatus::CurrentlyStudying);
                 break;
             case 'graduated':
-                $studentsQuery->where('status', StudentStatus::Graduated);
+                $studentsQuery->where('students.status', StudentStatus::Graduated);
                 break;
             case 'deferred':
-                $studentsQuery->where('status', StudentStatus::Deferred);
+                $studentsQuery->where('students.status', StudentStatus::Deferred);
                 break;
             case 'dropped':
-                $studentsQuery->whereIn('status', [
+                $studentsQuery->whereIn('students.status', [
                     StudentStatus::ToDropOut,
                     StudentStatus::TemporarilySuspended,
                     StudentStatus::Expelled
@@ -92,7 +92,6 @@ class Show extends Component
         }
 
         $students = $studentsQuery->paginate(Constants::PER_PAGE);
-
         return view('livewire.class.show', [
             'students' => $students
         ]);
@@ -139,22 +138,22 @@ class Show extends Component
 
         // Get currently studying students
         $this->currentlyStudying = $this->class->students()
-            ->where('status', StudentStatus::CurrentlyStudying)
+            ->where('students.status', StudentStatus::CurrentlyStudying)
             ->count();
 
         // Get graduated students
         $this->graduated = $this->class->students()
-            ->where('status', StudentStatus::Graduated)
+            ->where('students.status', StudentStatus::Graduated)
             ->count();
 
         // Get deferred students
         $this->deferred = $this->class->students()
-            ->where('status', StudentStatus::Deferred)
+            ->where('students.status', StudentStatus::Deferred)
             ->count();
 
         // Get dropped students (combined all drop statuses)
         $this->dropped = $this->class->students()
-            ->whereIn('status', [
+            ->whereIn('students.status', [
                 StudentStatus::ToDropOut,
                 StudentStatus::TemporarilySuspended,
                 StudentStatus::Expelled

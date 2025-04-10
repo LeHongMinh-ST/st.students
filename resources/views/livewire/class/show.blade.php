@@ -191,7 +191,7 @@
                                 <td width="15%">{{ $item->email }}</td>
                                 <td width="10%">{{ $item->phone }}</td>
                                 <td width="10%">
-                                    <x-student-role-badge :role="$item->pivot->role" />
+                                    <x-student-role-badge :role="\App\Enums\StudentRole::from($item->pivot->role)" />
                                 </td>
                                 <td width="10%">{{ $item->admissionYear ? $item->admissionYear->admission_year : 'N/A' }}</td>
                                 <td width="10%">

@@ -139,7 +139,6 @@ class Student extends Model
 
     protected $casts = [
         'status' => StudentStatus::class,
-        'role' => StudentRole::class,
         'social_policy_object' => SocialPolicyObject::class,
         'gender' => Gender::class,
         'training_type' => TrainingType::class,
@@ -152,8 +151,8 @@ class Student extends Model
 
     public function classes(): BelongsToMany
     {
-        return $this->belongsToMany(ClassGenerate::class, 'class_students')
-            ->withPivot(['role', 'start_date', 'end_date', 'status'])
+        return $this->belongsToMany(ClassGenerate::class, 'class_students', 'student_id', 'class_id')
+            ->withPivot(['role', 'start_year', 'end_year', 'status'])
             ->withTimestamps();
     }
 

@@ -40,7 +40,7 @@ class ClassStudent extends Pivot
 
     protected $table = 'class_students';
 
-    protected $fillable = ['class_id', 'student_id', 'end_date', 'start_date', 'status', 'role'];
+    protected $fillable = ['class_id', 'student_id', 'end_year', 'start_year', 'status', 'role'];
 
     protected $casts = [
         'role' => StudentRole::class,
