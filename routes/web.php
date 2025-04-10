@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\ClassGenerateController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FileContrller;
 use App\Http\Controllers\Admin\RoleController;
@@ -20,6 +21,9 @@ Route::middleware('auth.sso')->group(function (): void {
     Route::middleware('check.faculty')->group(function (): void {
         Route::resource('users', UserController::class)->only(['index', 'show']);
         Route::resource('students', StudentController::class)->only(['index', 'show', 'edit', 'destroy']);
+        Route::resource('classes', ClassGenerateController::class);
+        Route::get('classes-teacher', [ClassGenerateController::class, 'getClassTeacher']);
+        Route::get('classes-sub-teacher', [ClassGenerateController::class, 'getClassSubTeacher']);
         Route::prefix('students')->group(function (): void {
             Route::get('/import/{admission_year}/admission-year', [StudentController::class, 'import'])->name('students.import');
         });

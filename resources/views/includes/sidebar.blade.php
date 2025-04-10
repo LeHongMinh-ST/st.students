@@ -38,40 +38,51 @@
                     </a>
                 </li>
 
+                @if(Auth::user()->can('viewAny', \App\Models\ClassGenerate::class) || Auth::user()->can('manageTeacher', \App\Models\ClassGenerate::class) || Auth::user()->can('manageSubTeacher', \App\Models\ClassGenerate::class))
                 <li class="nav-item-header">
                     <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Lớp học</div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
+                @endif
 
+                @can('viewAny', \App\Models\ClassGenerate::class)
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                    <a href="{{ route('classes.index') }}"
+                       class="nav-link {{ request()->routeIs('classes.index') || request()->routeIs('classes.create') || request()->routeIs('classes.edit') || request()->routeIs('classes.show') ? 'active' : '' }}">
                         <i class="ph-books"></i>
                         <span>Danh sách lớp học</span>
                     </a>
                 </li>
+                @endcan
 
+                @can('manageTeacher', \App\Models\ClassGenerate::class)
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                    <a href="{{ route('classes-teacher') }}"
+                       class="nav-link {{ request()->routeIs('classes-teacher') ? 'active' : '' }}">
                         <i class="ph-address-book"></i>
-                        <span>Lớp học chủ nhiệm</span>
+                        <span>Giáo viên chủ nhiệm</span>
                     </a>
                 </li>
+                @endcan
 
+                @can('manageSubTeacher', \App\Models\ClassGenerate::class)
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
+                    <a href="{{ route('classes-sub-teacher') }}"
+                       class="nav-link {{ request()->routeIs('classes-sub-teacher') ? 'active' : '' }}">
                         <i class="ph-book-bookmark"></i>
                         <span>Cố vấn học tập</span>
                     </a>
                 </li>
+                @endcan
 
+                @if(Auth::user()->can('viewAny', \App\Models\Student::class))
                 <li class="nav-item-header">
                     <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Sinh viên</div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
+                @endif
 
+                @can('viewAny', \App\Models\Student::class)
                 <li class="nav-item">
                     <a href="{{ route('students.index') }}"
                        class="nav-link {{ request()->routeIs('students.*') ? 'active' : '' }}">
@@ -79,7 +90,9 @@
                         <span>Khóa sinh viên</span>
                     </a>
                 </li>
+                @endcan
 
+                @can('viewAny', \App\Models\Student::class)
                 <li class="nav-item">
                     <a href=""
                        class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
@@ -87,8 +100,9 @@
                         <span>Sinh viên tốt nghiệp</span>
                     </a>
                 </li>
+                @endcan
 
-
+                @can('viewAny', \App\Models\Student::class)
                 <li class="nav-item">
                     <a href=""
                        class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
@@ -96,7 +110,9 @@
                         <span>Cảnh báo sinh viên</span>
                     </a>
                 </li>
+                @endcan
 
+                @can('viewAny', \App\Models\Student::class)
                 <li class="nav-item">
                     <a href=""
                        class="nav-link {{ request()->routeIs('') ? 'active' : '' }}">
@@ -104,6 +120,7 @@
                         <span>Buộc thôi học</span>
                     </a>
                 </li>
+                @endcan
 
                 <li class="nav-item-header">
                     <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Thông báo</div>
