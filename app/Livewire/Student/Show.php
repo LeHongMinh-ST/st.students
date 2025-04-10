@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Livewire\Student;
 
 use App\Enums\StudentStatus;
+use App\Helpers\Constants;
 use App\Models\Student;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Show extends Component
 {
+    use WithPagination;
+
     public Student $student;
 
     public string $tab = 'profile';
@@ -33,7 +37,15 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.student.show');
+        $classes = $this->student->classes()
+            ->paginate(Constants::PER_PAGE);
+
+        $families = $this->student->families;
+
+        return view('livewire.student.show', [
+            'classes' => $classes,
+            'families' => $families
+        ]);
     }
 
     public function setTab(string $tab): void
