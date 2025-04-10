@@ -36,11 +36,7 @@
             <h6 class="mb-0">Xin chào {{ auth()->user()->full_name }} </h6>
             <span class="text-muted">Chúc một ngày làm việc tốt lành!</span>
         </div>
-        <div class="row">
 
-
-
-
-        </div>
+        <livewire:dashboard />
     </div>
 </x-admin-layout>
