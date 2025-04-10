@@ -9,9 +9,7 @@
                         <div class="d-flex align-items-center">
                             <h3 class="mb-0 text-white">{{ number_format($totalStudents) }}</h3>
                             <div class="ms-auto">
-
                                 <i class="ph-users-three me-1"></i>
-
                             </div>
                         </div>
 
