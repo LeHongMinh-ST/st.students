@@ -97,7 +97,31 @@ return [
         'name' => 'Cố vấn học tập',
         'code' => 'class.sub_teacher',
         'group' => 'class'
+    ],
+    [
+        'name' => 'Xem danh sách',
+        'code' => 'post.index',
+        'group' => 'post'
+    ],
+    [
+        'name' => 'Tạo bài viết',
+        'code' => 'post.create',
+        'group' => 'post'
+    ],
+    [
+        'name' => 'Sửa bài viết',
+        'code' => 'post.edit',
+        'group' => 'post'
+    ],
+    [
+        'name' => 'Xóa bài viết',
+        'code' => 'post.delete',
+        'group' => 'post'
+    ],
+    [
+        'name' => 'Xuất bản bài viết',
+        'code' => 'post.publish',
+        'group' => 'post'
     ]
-
 
 ];

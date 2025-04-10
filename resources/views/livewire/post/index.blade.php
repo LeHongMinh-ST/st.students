@@ -7,9 +7,9 @@
                 </div>
             </div>
             <div class="gap-2 d-flex">
-                @can('create', \App\Models\ClassGenerate::class)
+                @can('create', \App\Models\Post::class)
                     <div>
-                        <a href="{{ route('classes.create') }}" type="button" class="px-2 shadow btn btn-primary btn-icon fw-semibold">
+                        <a href="{{ route('posts.create') }}" type="button" class="px-2 shadow btn btn-primary btn-icon fw-semibold">
                             <i class="px-1 ph-plus-circle fw-semibold"></i><span>Thêm mới</span>
                         </a>
                     </div>
@@ -25,37 +25,35 @@
                 <thead>
                     <tr class="table-light">
                         <th width="5%">STT</th>
-                        <th width="20%">Tên lớp</th>
-                        <th width="15%">Mã lớp</th>
-                        <th width="30%">Mô tả</th>
-                        <th width="10%">Loại lớp</th>
+                        <th width="25%">Tiêu đề</th>
+                        <th width="30%">Nội dung</th>
+                        <th width="15%">Người tạo</th>
                         <th width="10%">Trạng thái</th>
-                        <th width="10%">Ngày tạo</th>
+                        <th width="15%">Ngày tạo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($classes as $item)
+                    @forelse($posts as $item)
                         <tr>
-                            <td class="text-center" width="5%">{{ $loop->index + 1 + $classes->perPage() * ($classes->currentPage() - 1) }}</td>
-                            <td width="20%">
-                                <a href="{{ route('classes.show', $item->id) }}" class="fw-semibold">
-                                    {{ $item->name }}
+                            <td class="text-center" width="5%">{{ $loop->index + 1 + $posts->perPage() * ($posts->currentPage() - 1) }}</td>
+                            <td width="25%">
+                                <a href="{{ route('posts.show', $item->id) }}" class="fw-semibold">
+                                    {{ $item->title }}
                                 </a>
                             </td>
-                            <td width="15%">{{ $item->code }}</td>
-                            <td width="30%">{{ $item->description }}</td>
-                            <td width="10%">{{ $item->type->label() }}</td>
+                            <td width="30%">{{ \Illuminate\Support\Str::limit(strip_tags($item->content), 100) }}</td>
+                            <td width="15%">{{ $item->user->full_name ?? 'N/A' }}</td>
                             <td width="10%">
-                                <x-class-status-badge :status="$item->status" />
+                                <x-post-status-badge :status="$item->status" />
                             </td>
-                            <td width="10%">{{ $item->created_at->format('d/m/Y') }}</td>
+                            <td width="15%">{{ $item->created_at->format('d/m/Y H:i') }}</td>
                         </tr>
                     @empty
-                        <x-table-empty :colspan="7" />
+                        <x-table-empty :colspan="6" />
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-    {{ $classes->links('vendor.pagination.theme') }}
+    {{ $posts->links('vendor.pagination.theme') }}
 </div>

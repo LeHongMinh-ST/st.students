@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\ClassGenerateController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FileContrller;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UserController;
@@ -28,6 +29,7 @@ Route::middleware('auth.sso')->group(function (): void {
             Route::get('/import/{admission_year}/admission-year', [StudentController::class, 'import'])->name('students.import');
         });
         Route::resource('roles', RoleController::class)->only(['index','create','edit']);
+        Route::resource('posts', PostController::class);
     });
 
     Route::get('/download-template/{name}', [FileContrller::class, 'downloadFileTemplateImport'])->name('file.download-template');

@@ -23,18 +23,14 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Loại lớp:</label>
-                        <div>{{ $class->type->value }}</div>
+                        <div>{{ $class->type->label() }}</div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Trạng thái:</label>
                         <div>
-                            @if($class->status->value === 'active')
-                                <span class="badge bg-success">Hoạt động</span>
-                            @else
-                                <span class="badge bg-danger">Không hoạt động</span>
-                            @endif
+                            <x-class-status-badge :status="$class->status" />
                         </div>
                     </div>
                 </div>

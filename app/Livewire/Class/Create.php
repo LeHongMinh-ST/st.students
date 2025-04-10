@@ -34,14 +34,10 @@ class Create extends Component
     public ?int $admission_year_id = null;
 
     public array $admissionYears = [];
-    public array $classTypes = [];
-    public array $statuses = [];
 
     public function mount(): void
     {
         $this->admissionYears = AdmissionYear::all()->toArray();
-        $this->classTypes = array_column(ClassType::cases(), 'value');
-        $this->statuses = array_column(Status::cases(), 'value');
 
         // Set default values
         $this->type = ClassType::Basic->value;

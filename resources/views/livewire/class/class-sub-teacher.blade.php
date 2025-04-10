@@ -43,11 +43,7 @@
                                 <span class="text-muted">-</span>
                             </td>
                             <td width="10%">
-                                @if($item->status->value === 'active')
-                                    <span class="badge bg-success">Hoạt động</span>
-                                @else
-                                    <span class="badge bg-danger">Không hoạt động</span>
-                                @endif
+                                <x-class-status-badge :status="$item->status" />
                             </td>
                             <td width="10%">
                                 @can('manageSubTeacher', \App\Models\ClassGenerate::class)

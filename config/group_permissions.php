@@ -22,5 +22,9 @@ return  [
     [
         'name' => 'Nhật ký hoạt động',
         'code' => 'log'
+    ],
+    [
+        'name' => 'Bài viết',
+        'code' => 'post'
     ]
 ];

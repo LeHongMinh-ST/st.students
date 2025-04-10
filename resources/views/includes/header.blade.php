@@ -22,6 +22,12 @@
                         <livewire:commons.faculty-selected />
                     </li>
                 @endif
+
+                @can('viewAny', \App\Models\Post::class)
+                    <li class="ms-lg-2">
+                        <livewire:post.notifications />
+                    </li>
+                @endcan
                 <li class="nav-item nav-item-dropdown-lg dropdown ms-lg-2">
                     <a href="#" class="p-1 navbar-nav-link align-items-center rounded-pill" data-bs-toggle="dropdown">
                         <div class="status-indicator-container">

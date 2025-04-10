@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/login.svg') }}">
     @include('includes.style')
     {{ $custom_css ?? '' }}
+    {{ $styles ?? '' }}
     @include('includes.script')
     {{ $custom_js ?? '' }}
 </head>

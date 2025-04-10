@@ -83,6 +83,7 @@
             }
         });
     </script>
+    {{ $scripts ?? '' }}
 </body>
 
 </html>
