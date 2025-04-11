@@ -16,10 +16,10 @@
                 <thead>
                     <tr class="table-light">
                         <th width="5%">STT</th>
-                        <th width="20%">Tên lớp</th>
-                        <th width="15%">Mã lớp</th>
+                        <th width="25%">Tên lớp</th>
                         <th width="20%">Giáo viên chủ nhiệm</th>
-                        <th width="10%">Năm học</th>
+                        <th width="15%">Sĩ số</th>
+                        <th width="15%">Loại lớp</th>
                         <th width="10%">Trạng thái</th>
                         <th width="10%">Thao tác</th>
                     </tr>
@@ -28,19 +28,16 @@
                     @forelse($classes as $item)
                         <tr>
                             <td class="text-center" width="5%">{{ $loop->index + 1 + $classes->perPage() * ($classes->currentPage() - 1) }}</td>
-                            <td width="20%">
+                            <td width="25%">
                                 <a href="{{ route('classes.show', $item->id) }}" class="fw-semibold">
                                     {{ $item->name }}
                                 </a>
                             </td>
-                            <td width="15%">{{ $item->code }}</td>
                             <td width="20%">
                                 {{ auth()->user()->full_name ?? auth()->user()->name }}
                             </td>
-                            <td width="10%">
-                                <!-- Placeholder for school year -->
-                                <span class="text-muted">-</span>
-                            </td>
+                            <td width="15%">{{ $item->students_count }} sinh viên</td>
+                            <td width="15%">{{ $item->type->label() }}</td>
                             <td width="10%">
                                 <x-class-status-badge :status="$item->status" />
                             </td>

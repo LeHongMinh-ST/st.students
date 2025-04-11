@@ -162,7 +162,7 @@
                     <li class="nav-item">
                         <a href="{{ route('roles.index') }}"
                            class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
-                            <i class="ph-lock"></i>
+                            <i class="ph-shield"></i>
                             <span>Vai trò</span>
                         </a>
                     </li>

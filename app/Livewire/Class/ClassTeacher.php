@@ -35,6 +35,7 @@ class ClassTeacher extends Component
                 });
             })
             ->select('classes.*')
+            ->withCount('students')
             ->orderBy('classes.created_at', 'desc')
             ->paginate(Constants::PER_PAGE);
 
