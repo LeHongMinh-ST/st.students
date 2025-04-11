@@ -142,20 +142,21 @@
     <div class="card mt-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0"><i class="ph-student me-1"></i> Danh sách sinh viên</h5>
-            <div class="d-flex gap-2">
-                <button type="button" class="btn btn-light {{ $tab === 'students' ? 'active' : '' }}" wire:click="setTab('students')">Tất cả</button>
-                <button type="button" class="btn btn-light {{ $tab === 'studying' ? 'active' : '' }}" wire:click="setTab('studying')">Sinh viên đang học</button>
-                <button type="button" class="btn btn-light {{ $tab === 'graduated' ? 'active' : '' }}" wire:click="setTab('graduated')">Sinh viên đã tốt nghiệp</button>
-                <button type="button" class="btn btn-light {{ $tab === 'deferred' ? 'active' : '' }}" wire:click="setTab('deferred')">Sinh viên bảo lưu</button>
-                <button type="button" class="btn btn-light {{ $tab === 'dropped' ? 'active' : '' }}" wire:click="setTab('dropped')">Sinh viên đã nghỉ học</button>
-                <button type="button" class="btn btn-light {{ $tab === 'warned' ? 'active' : '' }}" wire:click="setTab('warned')">Sinh viên cảnh báo</button>
-            </div>
+
         </div>
         <div class="card-body">
             <div class="py-3 d-flex justify-content-between">
                 <div class="gap-2 d-flex">
                     <div>
                         <input wire:model.live.debounce.500ms="search" type="text" class="form-control" placeholder="Tìm kiếm...">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-light {{ $tab === 'students' ? 'active' : '' }}" wire:click="setTab('students')">Tất cả</button>
+                        <button type="button" class="btn btn-light {{ $tab === 'studying' ? 'active' : '' }}" wire:click="setTab('studying')">Sinh viên đang học</button>
+                        <button type="button" class="btn btn-light {{ $tab === 'graduated' ? 'active' : '' }}" wire:click="setTab('graduated')">Sinh viên đã tốt nghiệp</button>
+                        <button type="button" class="btn btn-light {{ $tab === 'deferred' ? 'active' : '' }}" wire:click="setTab('deferred')">Sinh viên bảo lưu</button>
+                        <button type="button" class="btn btn-light {{ $tab === 'dropped' ? 'active' : '' }}" wire:click="setTab('dropped')">Sinh viên đã nghỉ học</button>
+                        <button type="button" class="btn btn-light {{ $tab === 'warned' ? 'active' : '' }}" wire:click="setTab('warned')">Sinh viên cảnh báo</button>
                     </div>
                 </div>
             </div>

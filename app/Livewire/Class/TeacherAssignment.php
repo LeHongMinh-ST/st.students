@@ -120,12 +120,12 @@ class TeacherAssignment extends Component
         $this->validate();
 
         // Kiểm tra xem có ít nhất một giáo viên được chọn
-        if ($this->teacher_id === null && $this->sub_teacher_id === null) {
+        if (null === $this->teacher_id && null === $this->sub_teacher_id) {
             $this->addError('teacher_id', 'Phải chọn ít nhất một giáo viên chủ nhiệm hoặc cố vấn học tập');
             return;
         }
 
-        if ($this->modalMode === 'create') {
+        if ('create' === $this->modalMode) {
             // Check if there's already an assignment for this year
             $existingAssignment = ClassAssign::where('class_id', $this->class->id)
                 ->where('year', $this->year)
@@ -214,19 +214,17 @@ class TeacherAssignment extends Component
         $facultyId = app(SsoService::class)->getFacultyId();
 
         // Get users with teacher/officer role from the faculty
-        $this->teachers = User::whereHas('userRoles', function ($query) {
-                $query->where('name', 'like', '%giảng viên%')
-                    ->orWhere('name', 'like', '%giáo viên%')
-                    ->orWhere('name', 'like', '%cán bộ%');
-            })
+        $this->teachers = User::whereHas('userRoles', function ($query): void {
+            $query->where('name', 'like', '%giảng viên%')
+                ->orWhere('name', 'like', '%giáo viên%')
+                ->orWhere('name', 'like', '%cán bộ%');
+        })
             ->where('status', Status::Active)
             ->get()
-            ->map(function ($user) {
-                return [
-                    'id' => $user->id,
-                    'name' => $user->full_name ?? $user->name
-                ];
-            })
+            ->map(fn ($user) => [
+            'id' => $user->id,
+            'name' => $user->full_name ?? $user->name
+        ])
             ->toArray();
     }
 

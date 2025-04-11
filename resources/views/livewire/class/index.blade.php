@@ -26,11 +26,11 @@
                     <tr class="table-light">
                         <th width="5%">STT</th>
                         <th width="20%">Tên lớp</th>
-                        <th width="15%">Mã lớp</th>
-                        <th width="30%">Mô tả</th>
+                        <th width="20%">Giáo viên chủ nhiệm</th>
+                        <th width="20%">Cố vấn học tập</th>
+                        <th width="10%">Sĩ số</th>
                         <th width="10%">Loại lớp</th>
                         <th width="10%">Trạng thái</th>
-                        <th width="10%">Ngày tạo</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,13 +42,25 @@
                                     {{ $item->name }}
                                 </a>
                             </td>
-                            <td width="15%">{{ $item->code }}</td>
-                            <td width="30%">{{ $item->description }}</td>
+                            <td width="20%">
+                                @if(isset($classAssigns[$item->id]['teacher']))
+                                    {{ $classAssigns[$item->id]['teacher'] ?? 'Chưa phân công' }}
+                                @else
+                                    <span class="text-muted">Chưa phân công</span>
+                                @endif
+                            </td>
+                            <td width="20%">
+                                @if(isset($classAssigns[$item->id]['sub_teacher']))
+                                    {{ $classAssigns[$item->id]['sub_teacher'] ?? 'Chưa phân công' }}
+                                @else
+                                    <span class="text-muted">Chưa phân công</span>
+                                @endif
+                            </td>
+                            <td width="10%">{{ $item->students_count }} sinh viên</td>
                             <td width="10%">{{ $item->type->label() }}</td>
                             <td width="10%">
                                 <x-class-status-badge :status="$item->status" />
                             </td>
-                            <td width="10%">{{ $item->created_at->format('d/m/Y') }}</td>
                         </tr>
                     @empty
                         <x-table-empty :colspan="7" />
