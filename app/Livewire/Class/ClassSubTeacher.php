@@ -6,7 +6,6 @@ namespace App\Livewire\Class;
 
 use App\Helpers\Constants;
 use App\Models\ClassGenerate;
-use App\Models\ClassAssign;
 use App\Services\SsoService;
 use Livewire\Attributes\Url;
 use Livewire\Component;

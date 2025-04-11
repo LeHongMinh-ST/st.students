@@ -64,4 +64,12 @@ class ClassGeneratePolicy
     {
         return $user->hasPermission('class.sub_teacher');
     }
+
+    /**
+     * Determine whether the user can manage teacher assignments.
+     */
+    public function manageTeacherAssignment(User $user): bool
+    {
+        return $user->hasPermission('class.teacher_assignment');
+    }
 }

@@ -214,4 +214,7 @@
             {{ $students->links('vendor.pagination.theme') }}
         </div>
     </div>
+
+    <!-- Lịch sử phân công giáo viên -->
+    <livewire:class.teacher-assignment :class="$class" />
 </div>
