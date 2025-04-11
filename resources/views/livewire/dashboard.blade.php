@@ -53,7 +53,6 @@
                         <div class="d-flex align-items-center">
                             <h3 class="mb-0 text-white">{{ number_format($warnedStudents) }}</h3>
                             <div class="ms-auto">
-
                                 <i class="ph-warning me-1"></i>
                             </div>
                         </div>

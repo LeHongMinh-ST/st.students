@@ -1,34 +1,34 @@
 <div>
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">Thông tin lớp học</h5>
+            <h5 class="mb-0"><i class="ph-info me-1"></i> Thông tin lớp học</h5>
         </div>
-        <div class="card-body">
-            <div class="row mb-3">
+        <div class="card-body py-2">
+            <div class="row g-2">
                 <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Tên lớp:</label>
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold mb-0">Tên lớp:</label>
                         <div>{{ $class->name }}</div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Mã lớp:</label>
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold mb-0">Mã lớp:</label>
                         <div>{{ $class->code }}</div>
                     </div>
                 </div>
             </div>
 
-            <div class="row mb-3">
+            <div class="row g-2">
                 <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Loại lớp:</label>
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold mb-0">Loại lớp:</label>
                         <div>{{ $class->type->label() }}</div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Trạng thái:</label>
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold mb-0">Trạng thái:</label>
                         <div>
                             <x-class-status-badge :status="$class->status" />
                         </div>
@@ -36,8 +36,8 @@
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Mô tả:</label>
+            <div class="mb-2">
+                <label class="form-label fw-semibold mb-0">Mô tả:</label>
                 <div>{{ $class->description }}</div>
             </div>
 
@@ -52,39 +52,39 @@
     <!-- Thông tin quản lý lớp học -->
     <div class="card mt-3">
         <div class="card-header">
-            <h5 class="mb-0">Quản lý lớp học</h5>
+            <h5 class="mb-0"><i class="ph-users me-1"></i> Quản lý lớp học</h5>
         </div>
-        <div class="card-body">
-            <div class="row">
+        <div class="card-body py-2">
+            <div class="row g-2">
                 <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Giáo viên chủ nhiệm:</label>
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold mb-0">Giáo viên chủ nhiệm:</label>
                         <div>{{ $classTeacher['name'] }}</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Cố vấn học tập:</label>
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold mb-0">Cố vấn học tập:</label>
                         <div>{{ $classSubTeacher['name'] }}</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Chuyên ngành:</label>
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold mb-0">Chuyên ngành:</label>
                         <div>{{ $majorName ?? 'Chưa có thông tin' }}</div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row g-2">
                 <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Lớp trưởng:</label>
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold mb-0">Lớp trưởng:</label>
                         <div>{{ $classPresident ? $classPresident->full_name : 'Chưa phân công' }}</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Bí thư:</label>
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold mb-0">Bí thư:</label>
                         <div>{{ $classSecretary ? $classSecretary->full_name : 'Chưa phân công' }}</div>
                     </div>
                 </div>
@@ -95,44 +95,44 @@
     <!-- Thống kê lớp học -->
     <div class="card mt-3">
         <div class="card-header">
-            <h5 class="mb-0">Thống kê lớp học</h5>
+            <h5 class="mb-0"><i class="ph-chart-bar me-1"></i> Thống kê lớp học</h5>
         </div>
-        <div class="card-body">
-            <div class="row">
+        <div class="card-body py-2">
+            <div class="row g-2">
                 <div class="col-md-2">
-                    <div class="card bg-primary text-white text-center p-3">
-                        <h3>{{ $totalStudents }}</h3>
-                        <div>Sĩ số ban đầu</div>
+                    <div class="card bg-primary text-white text-center p-2">
+                        <h4 class="mb-0">{{ $totalStudents }}</h4>
+                        <div class="small">Sĩ số ban đầu</div>
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="card bg-success text-white text-center p-3">
-                        <h3>{{ $currentlyStudying }}</h3>
-                        <div>Đang học</div>
+                    <div class="card bg-success text-white text-center p-2">
+                        <h4 class="mb-0">{{ $currentlyStudying }}</h4>
+                        <div class="small">Đang học</div>
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="card bg-info text-white text-center p-3">
-                        <h3>{{ $graduated }}</h3>
-                        <div>Đã tốt nghiệp</div>
+                    <div class="card bg-info text-white text-center p-2">
+                        <h4 class="mb-0">{{ $graduated }}</h4>
+                        <div class="small">Đã tốt nghiệp</div>
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="card bg-warning text-white text-center p-3">
-                        <h3>{{ $deferred }}</h3>
-                        <div>Bảo lưu</div>
+                    <div class="card bg-warning text-white text-center p-2">
+                        <h4 class="mb-0">{{ $deferred }}</h4>
+                        <div class="small">Bảo lưu</div>
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="card bg-danger text-white text-center p-3">
-                        <h3>{{ $dropped }}</h3>
-                        <div>Đã nghỉ học</div>
+                    <div class="card bg-danger text-white text-center p-2">
+                        <h4 class="mb-0">{{ $dropped }}</h4>
+                        <div class="small">Đã nghỉ học</div>
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="card bg-secondary text-white text-center p-3">
-                        <h3>{{ $warned }}</h3>
-                        <div>Cảnh báo</div>
+                    <div class="card bg-secondary text-white text-center p-2">
+                        <h4 class="mb-0">{{ $warned }}</h4>
+                        <div class="small">Cảnh báo</div>
                     </div>
                 </div>
             </div>
@@ -141,7 +141,7 @@
 
     <div class="card mt-3">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Danh sách sinh viên</h5>
+            <h5 class="mb-0"><i class="ph-student me-1"></i> Danh sách sinh viên</h5>
             <div class="d-flex gap-2">
                 <button type="button" class="btn btn-light {{ $tab === 'students' ? 'active' : '' }}" wire:click="setTab('students')">Tất cả</button>
                 <button type="button" class="btn btn-light {{ $tab === 'studying' ? 'active' : '' }}" wire:click="setTab('studying')">Sinh viên đang học</button>
@@ -206,9 +206,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="9" class="text-center">Không có dữ liệu</td>
-                            </tr>
+                            <x-table-empty :colspan="9" />
                         @endforelse
                     </tbody>
                 </table>

@@ -65,9 +65,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="7" class="text-center">Không có dữ liệu</td>
-                        </tr>
+                        <x-table-empty :colspan="7" />
                     @endforelse
                 </tbody>
             </table>

@@ -35,8 +35,7 @@
                             </td>
                             <td width="15%">{{ $item->code }}</td>
                             <td width="20%">
-                                <!-- Placeholder for sub-teacher name -->
-                                <span class="text-muted">Chưa phân công</span>
+                                {{ auth()->user()->full_name ?? auth()->user()->name }}
                             </td>
                             <td width="10%">
                                 <!-- Placeholder for school year -->
@@ -46,15 +45,11 @@
                                 <x-class-status-badge :status="$item->status" />
                             </td>
                             <td width="10%">
-                                @can('manageSubTeacher', \App\Models\ClassGenerate::class)
-                                    <button type="button" class="btn btn-sm btn-primary">Phân công</button>
-                                @endcan
+                                <a href="{{ route('classes.show', $item->id) }}" class="btn btn-sm btn-info">Chi tiết</a>
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="7" class="text-center">Không có dữ liệu</td>
-                        </tr>
+                        <x-table-empty :colspan="7" />
                     @endforelse
                 </tbody>
             </table>

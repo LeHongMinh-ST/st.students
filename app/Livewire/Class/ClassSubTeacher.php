@@ -6,6 +6,7 @@ namespace App\Livewire\Class;
 
 use App\Helpers\Constants;
 use App\Models\ClassGenerate;
+use App\Models\ClassAssign;
 use App\Services\SsoService;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -21,17 +22,21 @@ class ClassSubTeacher extends Component
     public function render()
     {
         $facultyId = app(SsoService::class)->getFacultyId();
+        $userId = auth()->id();
 
         $classes = ClassGenerate::query()
-            ->where('faculty_id', $facultyId)
+            ->join('class_assigns', 'classes.id', '=', 'class_assigns.class_id')
+            ->where('classes.faculty_id', $facultyId)
+            ->where('class_assigns.sub_teacher_id', $userId)
             ->when($this->search, function ($query): void {
                 $searchTerm = '%' . $this->search . '%';
                 $query->where(function ($q) use ($searchTerm): void {
-                    $q->where('name', 'like', $searchTerm)
-                        ->orWhere('code', 'like', $searchTerm);
+                    $q->where('classes.name', 'like', $searchTerm)
+                        ->orWhere('classes.code', 'like', $searchTerm);
                 });
             })
-            ->orderBy('created_at', 'desc')
+            ->select('classes.*')
+            ->orderBy('classes.created_at', 'desc')
             ->paginate(Constants::PER_PAGE);
 
         return view('livewire.class.class-sub-teacher', [
