@@ -280,7 +280,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
             'last_name' => $name['last_name'] ?? '',
             'dob' => $row[4] ? DateTimeHelper::createDateTime($row[4]) : null,
             'gender' => $row[5] ? Gender::mapValue($row[5]) : '',
-            'faculty_id' => $this->history->faculty_id,
             'school_year_start' => $schoolYearStart ?? '',
             'school_year_end' => $schoolYearEnd ?? '',
             'ethnic' => $row[9] ?? '',
