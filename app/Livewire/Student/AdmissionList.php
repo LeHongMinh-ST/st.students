@@ -19,6 +19,9 @@ class AdmissionList extends Component
     public function render()
     {
         $faculty = app(SsoService::class)->getFacultyId();
+        if (!$faculty) {
+            return view('livewire.student.admission-list', ['admissionYears' => collect()]);
+        }
         $admissionYears = AdmissionYear::query()
             ->withCount([
                 'students' => function ($query) use ($faculty): void {

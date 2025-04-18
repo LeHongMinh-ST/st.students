@@ -222,9 +222,9 @@ class TeacherAssignment extends Component
             ->where('status', Status::Active)
             ->get()
             ->map(fn ($user) => [
-            'id' => $user->id,
-            'name' => $user->full_name ?? $user->name
-        ])
+                'id' => $user->id,
+                'name' => $user->full_name ?? $user->name
+            ])
             ->toArray();
     }
 

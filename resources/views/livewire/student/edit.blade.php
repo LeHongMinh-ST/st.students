@@ -144,7 +144,7 @@
                                     @error('thumbnail')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    
+
                                     @if ($thumbnail)
                                         <div class="mt-2">
                                             <img src="{{ $thumbnail->temporaryUrl() }}" class="img-fluid img-thumbnail" style="max-height: 100px;">
@@ -187,27 +187,27 @@
                             <img src="{{ Avatar::create($student->fullName)->toBase64() }}" class="img-fluid rounded-circle" style="max-width: 150px;">
                         @endif
                     </div>
-                    
+
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Họ và tên:</label>
                         <div>{{ $student->fullName }}</div>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Mã sinh viên:</label>
                         <div>{{ $student->code }}</div>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Ngày sinh:</label>
-                        <div>{{ $student->dob ? $student->dob->format('d/m/Y') : 'N/A' }}</div>
+                        <div>{{ $student->dob ? \Illuminate\Support\Carbon::make($student->dob)->format('d/m/Y') : 'N/A' }}</div>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Giới tính:</label>
                         <div>{{ $student->gender === 'male' ? 'Nam' : 'Nữ' }}</div>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Trạng thái:</label>
                         <div>
@@ -216,7 +216,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card mt-3">
                 <div class="card-header bold">
                     Hành động

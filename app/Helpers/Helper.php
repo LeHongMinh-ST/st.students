@@ -18,8 +18,9 @@ class Helper
             return ['last_name' => '', 'first_name' => @$parts[0]];
         }
 
-        $firstName = array_shift($parts);
-        $lastName = implode(' ', $parts);
+        $lastName = array_shift($parts);
+
+        $firstName = implode(' ', $parts);
 
         return ['last_name' => $lastName, 'first_name' => $firstName];
     }

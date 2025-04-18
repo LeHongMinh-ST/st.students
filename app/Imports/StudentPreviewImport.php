@@ -10,12 +10,11 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class StudentPreviewImport implements ToArray, WithStartRow, WithChunkReading, WithHeadingRow
+class StudentPreviewImport implements ToArray, WithChunkReading, WithHeadingRow, WithStartRow
 {
     use RemembersRowNumber;
 
     public array $data = [];
-
 
     public function array(array $array): void
     {

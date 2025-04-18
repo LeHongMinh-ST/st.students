@@ -180,95 +180,94 @@
 
         <div class="tab-pane fade @if ($tab == 'family') active show @endif" id="family" role="tabpanel">
             <div class="card">
-                <div class="card-body">
-                    <h6 class="mb-3">Thông tin gia đình</h6>
-
-                    @if($families->isEmpty())
-                        <div class="alert alert-info">
-                            <i class="ph-info me-2"></i> Chưa có thông tin gia đình.
-                        </div>
-                    @else
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="table-light">
-                                        <th width="5%">STT</th>
-                                        <th width="20%">Mối quan hệ</th>
-                                        <th width="30%">Họ và tên</th>
-                                        <th width="25%">Nghề nghiệp</th>
-                                        <th width="20%">Số điện thoại</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($families as $index => $family)
-                                        <tr>
-                                            <td class="text-center">{{ $index + 1 }}</td>
-                                            <td>
-                                                <x-family-relationship-badge :relationship="$family->relationship" />
-                                            </td>
-                                            <td>{{ $family->full_name ?: 'N/A' }}</td>
-                                            <td>{{ $family->job ?: 'N/A' }}</td>
-                                            <td>{{ $family->phone ?: 'N/A' }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @endif
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="mb-0"><i class="ph-users-three me-2"></i>Thông tin sinh viên</h5>
                 </div>
+                @if($families->isEmpty())
+                    <div class="alert alert-info">
+                        <i class="ph-info me-2"></i> Chưa có thông tin gia đình.
+                    </div>
+                @else
+                    <div class="table-responsive">
+                        <table class="table fs-table">
+                            <thead>
+                            <tr class="table-light">
+                                <th width="5%">STT</th>
+                                <th width="20%">Mối quan hệ</th>
+                                <th width="30%">Họ và tên</th>
+                                <th width="25%">Nghề nghiệp</th>
+                                <th width="20%">Số điện thoại</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($families as $index => $family)
+                                <tr>
+                                    <td class="text-center">{{ $index + 1 }}</td>
+                                    <td>
+                                        <x-family-relationship-badge :relationship="$family->relationship" />
+                                    </td>
+                                    <td>{{ $family->full_name ?: 'N/A' }}</td>
+                                    <td>{{ $family->job ?: 'N/A' }}</td>
+                                    <td>{{ $family->phone ?: 'N/A' }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
             </div>
         </div>
 
         <div class="tab-pane fade @if ($tab == 'classes') active show @endif" id="classes" role="tabpanel">
             <div class="card">
-                <div class="card-body">
-                    <h6 class="mb-3">Danh sách lớp học</h6>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="table-light">
-                                    <th width="5%">STT</th>
-                                    <th width="25%">Tên lớp</th>
-                                    <th width="15%">Mã lớp</th>
-                                    <th width="15%">Loại lớp</th>
-                                    <th width="15%">Vai trò</th>
-                                    <th width="15%">Trạng thái</th>
-                                    <th width="10%">Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($classes as $class)
-                                    <tr>
-                                        <td class="text-center">{{ $loop->index + 1 + $classes->perPage() * ($classes->currentPage() - 1) }}</td>
-                                        <td>
-                                            <a href="{{ route('classes.show', $class->id) }}" class="fw-semibold">
-                                                {{ $class->name }}
-                                            </a>
-                                        </td>
-                                        <td>{{ $class->code }}</td>
-                                        <td>{{ $class->type->label() }}</td>
-                                        <td>
-                                            <x-student-role-badge :role="\App\Enums\StudentRole::from($class->pivot->role)" />
-                                        </td>
-                                        <td>
-                                            <x-class-status-badge :status="$class->status" />
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('classes.show', $class->id) }}" class="text-body" data-bs-popup="tooltip" title="Xem chi tiết">
-                                                <i class="ph-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center">Không có dữ liệu</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                    {{ $classes->links('vendor.pagination.theme') }}
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="mb-0"><i class="ph-books me-2"></i>Danh sách lớp học</h5>
                 </div>
+                <div class="table-responsive">
+                    <table class="table fs-table">
+                        <thead>
+                        <tr class="table-light">
+                            <th width="5%">STT</th>
+                            <th width="25%">Tên lớp</th>
+                            <th width="15%">Mã lớp</th>
+                            <th width="15%">Loại lớp</th>
+                            <th width="15%">Vai trò</th>
+                            <th width="15%">Trạng thái</th>
+                            <th width="10%">Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse($classes as $class)
+                            <tr>
+                                <td class="text-center">{{ $loop->index + 1 + $classes->perPage() * ($classes->currentPage() - 1) }}</td>
+                                <td>
+                                    <a href="{{ route('classes.show', $class->id) }}" class="fw-semibold">
+                                        {{ $class->name }}
+                                    </a>
+                                </td>
+                                <td>{{ $class->code }}</td>
+                                <td>{{ $class->type->label() }}</td>
+                                <td>
+                                    <x-student-role-badge :role="\App\Enums\StudentRole::from($class->pivot->role)" />
+                                </td>
+                                <td>
+                                    <x-class-status-badge :status="$class->status" />
+                                </td>
+                                <td>
+                                    <a href="{{ route('classes.show', $class->id) }}" class="text-body" data-bs-popup="tooltip" title="Xem chi tiết">
+                                        <i class="ph-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                {{ $classes->links('vendor.pagination.theme') }}
             </div>
         </div>
 

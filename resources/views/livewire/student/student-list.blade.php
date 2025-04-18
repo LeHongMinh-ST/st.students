@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="table-responsive">
+        <div class="table-responsive table-preview">
             <div wire:loading class="my-3 text-center w-100">
                 <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
             </div>

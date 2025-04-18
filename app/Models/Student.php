@@ -186,7 +186,7 @@ class Student extends Model
 
     public function admissionYear(): BelongsTo
     {
-        return $this->belongsTo(AdmissionYear::class);
+        return $this->belongsTo(AdmissionYear::class, 'admission_year_id');
     }
 
     public function scopeSearch($query, $search)

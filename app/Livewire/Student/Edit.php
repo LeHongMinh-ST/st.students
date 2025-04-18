@@ -60,13 +60,13 @@ class Edit extends Component
         $this->pob = $student->pob;
         $this->address = $student->address;
         $this->countryside = $student->countryside;
-        $this->training_type = $student->training_type;
+        $this->training_type = $student->training_type->value;
         $this->phone = $student->phone;
         $this->nationality = $student->nationality;
         $this->citizen_identification = $student->citizen_identification;
         $this->ethnic = $student->ethnic;
         $this->religion = $student->religion;
-        $this->social_policy_object = $student->social_policy_object;
+        $this->social_policy_object = $student->social_policy_object->value;
         $this->note = $student->note;
         $this->email = $student->email;
     }

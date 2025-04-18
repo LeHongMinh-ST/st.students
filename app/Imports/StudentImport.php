@@ -30,16 +30,24 @@ use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Events\BeforeImport;
 use Maatwebsite\Excel\Events\ImportFailed;
 
-class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArray
+class StudentImport implements ToArray, WithChunkReading, WithEvents, WithStartRow
 {
     protected $userId;
+
     protected $importHistoryId;
+
     protected $admissionYearId;
+
     protected $history;
+
     private $startTime;
+
     private $successCount = 0;
+
     private $errorCount = 0;
+
     private $processed = 0;
+
     private $totalRows = 0;
 
     public function __construct($userId, $importHistoryId, $admissionYearId)
@@ -73,13 +81,13 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
                     $this->errorCount > 0 ? StudentImportEnum::PartialyFaild : StudentImportEnum::Completed,
                     $this->successCount,
                     $this->errorCount,
-                    gmdate('H:i:s', (int)$timeElapsed)
+                    gmdate('H:i:s', (int) $timeElapsed)
                 ));
 
                 ImportHistory::where('id', $this->importHistoryId)
                     ->update([
                         'successful_records' => $this->successCount,
-                        'status' => $this->errorCount > 0 ? StudentImportEnum::PartialyFaild : StudentImportEnum::Completed
+                        'status' => $this->errorCount > 0 ? StudentImportEnum::PartialyFaild : StudentImportEnum::Completed,
                     ]);
 
             },
@@ -97,7 +105,7 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
                 ImportHistory::where('id', $this->importHistoryId)
                     ->update([
                         'successful_records' => $this->successCount,
-                        'status' => StudentImportEnum::Failed
+                        'status' => StudentImportEnum::Failed,
                     ]);
 
             },
@@ -109,22 +117,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
         foreach ($array as $row) {
             // Increment the processed row count
             $this->processed++;
-
-            $studentExists = Student::where('code', $row[2])->exists();
-
-            if ($studentExists) {
-
-                ImportError::create([
-                    'import_history_id' => $this->importHistoryId,
-                    'row_number' => $this->processed + 1,
-                    'error_message' => "Đã tồn bản ghi có mã sinh viên {$row[2]}",
-                    'record_data' => json_encode($row),
-                ]);
-
-                $this->errorCount++;
-
-                continue;
-            }
 
             // Begin a database transaction to ensure data consistency
             DB::beginTransaction();
@@ -188,7 +180,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
         return $this->errorCount;
     }
 
-
     /**
      * Define the chunk size for batch processing.
      *
@@ -212,7 +203,8 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
     /**
      * Process and import a single row of student data.
      *
-     * @param array $row The row data from the import file.
+     * @param  array  $row  The row data from the import file.
+     *
      * @throws Exception If any processing error occurs.
      */
     protected function handleImport($row): void
@@ -232,7 +224,7 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
     /**
      * Create a new class record if it does not exist.
      *
-     * @param string $classCode The class code to create.
+     * @param  string  $classCode  The class code to create.
      * @return ClassGenerate The newly created class instance.
      */
     private function createClass(string $classCode): ClassGenerate
@@ -251,23 +243,23 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
     /**
      * Retrieve an existing class or create a new one if it does not exist.
      *
-     * @param string $classCode The class code to search for.
+     * @param  string  $classCode  The class code to search for.
      * @return ClassGenerate The class instance found or created.
      */
     private function getClass(string $classCode): ClassGenerate
     {
         $class = ClassGenerate::where('code', $classCode)->first();
-        if (!$class) {
+        if (! $class) {
             $class = $this->createClass($classCode);
         }
+
         return $class;
     }
 
     /**
      * Create or update student based on their unique code.
      *
-     * @param array $row
-     * @return Student
+     * @param  array  $row
      */
     private function createOrUpdateStudent($row): Student
     {
@@ -289,6 +281,7 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
             'address' => $row[12] ?? '',
             'admission_year_id' => $this->admissionYearId,
             'faculty_id' => $this->history->faculty_id,
+            'code' => $row[2],
         ];
 
         $student = Student::updateOrCreate(['code' => $row[2]], $data);
@@ -301,10 +294,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
 
     /**
      * Associate student with their class.
-     *
-     * @param Student $student
-     * @param ClassGenerate $class
-     * @param array $row
      */
     private function syncStudentWithClass(Student $student, ClassGenerate $class, array $row): void
     {
@@ -320,9 +309,6 @@ class StudentImport implements WithChunkReading, WithStartRow, WithEvents, ToArr
 
     /**
      * Sync student family information.
-     *
-     * @param Student $student
-     * @param array $row
      */
     private function syncFamily(Student $student, array $row): void
     {
