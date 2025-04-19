@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Enums\Role as RoleEnum;
 use App\Enums\Status;
-use App\Services\SsoService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;

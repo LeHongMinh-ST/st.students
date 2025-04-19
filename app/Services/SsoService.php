@@ -21,25 +21,6 @@ class SsoService
         $this->accessToken = $this->getAccessTokenFromSources();
     }
 
-    /**
-     * Lấy access token từ các nguồn khác nhau
-     */
-    private function getAccessTokenFromSources(): ?string
-    {
-        // Thử lấy từ database nếu đã đăng nhập
-        if (auth()->check()) {
-            return auth()->user()->access_token;
-        }
-
-        // Thử lấy từ request header
-        $token = request()->bearerToken();
-        if ($token) {
-            return $token;
-        }
-
-        return null;
-    }
-
 
     public function get(string $endPoint, $data = [])
     {
@@ -112,7 +93,7 @@ class SsoService
 
                     return $userData;
                 }
-            } catch (\Throwable $th) {
+            } catch (Throwable $th) {
                 Log::error('Failed to fetch user data from API: ' . $th->getMessage());
             }
         }
@@ -157,6 +138,25 @@ class SsoService
         }
 
         return $userData['faculty_id'] ?? null;
+    }
+
+    /**
+     * Lấy access token từ các nguồn khác nhau
+     */
+    private function getAccessTokenFromSources(): ?string
+    {
+        // Thử lấy từ database nếu đã đăng nhập
+        if (auth()->check()) {
+            return auth()->user()->access_token;
+        }
+
+        // Thử lấy từ request header
+        $token = request()->bearerToken();
+        if ($token) {
+            return $token;
+        }
+
+        return null;
     }
 
     private function handleError(int $codeError): void

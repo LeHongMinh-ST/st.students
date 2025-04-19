@@ -8,7 +8,6 @@ use App\Enums\Role;
 use App\Services\SsoService;
 use Closure;
 use Illuminate\Http\Request;
-
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckFaculty

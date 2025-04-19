@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire\Commons;
 
 use App\Services\SsoService;
-
 use Livewire\Component;
 
 class FacultySelected extends Component
