@@ -17,7 +17,27 @@ class SsoService
 
     public function __construct()
     {
-        $this->accessToken = Session::get('access_token');
+        // Lấy access token từ session, request header hoặc database
+        $this->accessToken = $this->getAccessTokenFromSources();
+    }
+
+    /**
+     * Lấy access token từ các nguồn khác nhau
+     */
+    private function getAccessTokenFromSources(): ?string
+    {
+        // Thử lấy từ database nếu đã đăng nhập
+        if (auth()->check()) {
+            return auth()->user()->access_token;
+        }
+
+        // Thử lấy từ request header
+        $token = request()->bearerToken();
+        if ($token) {
+            return $token;
+        }
+
+        return null;
     }
 
 
@@ -53,35 +73,90 @@ class SsoService
 
     public function clearAuth(): void
     {
+        // Xóa dữ liệu trong database nếu đã đăng nhập
+        if (auth()->check()) {
+            auth()->user()->update([
+                'access_token' => null,
+                'user_data' => null
+            ]);
+        }
+
+        // Đăng xuất người dùng
         Auth::logout();
-        Session::forget('access_token');
-        Session::forget('userData');
-        Session::forget('facultyId');
     }
 
     public function getDataUser()
     {
-
-        $userData = Session::get('userData');
-
-        if (!$userData) {
-            app(SsoService::class)->clearAuth();
-            return redirect()->route('dashboard');
+        // Thử lấy dữ liệu từ database nếu đã đăng nhập
+        if (auth()->check()) {
+            $userData = auth()->user()->user_data;
+            if ($userData) {
+                return $userData;
+            }
         }
 
-        return $userData;
+        // Nếu không có dữ liệu trong database và có access token, thử lấy dữ liệu từ API
+        if ($this->accessToken) {
+            try {
+                $response = Http::withToken($this->accessToken)->get(config('auth.sso.uri') . '/api/user');
+                if ($response->successful()) {
+                    $userData = $response->json();
+
+                    // Lưu vào database nếu đã đăng nhập
+                    if (auth()->check()) {
+                        auth()->user()->update([
+                            'user_data' => $userData,
+                            'role' => $userData['role']
+                        ]);
+                    }
+
+                    return $userData;
+                }
+            } catch (\Throwable $th) {
+                Log::error('Failed to fetch user data from API: ' . $th->getMessage());
+            }
+        }
+
+        // Nếu vẫn không có dữ liệu, xóa auth và trả về null
+        app(SsoService::class)->clearAuth();
+        return null;
     }
 
     public function getFacultyId()
     {
+        // Thử lấy faculty_id từ database nếu đã đăng nhập
+        if (auth()->check()) {
+            $user = auth()->user();
 
+            // Nếu là SuperAdmin, thử lấy từ database hoặc request
+            if ($user->role === Role::SuperAdmin->value) {
+                // Thử lấy từ database trước
+                if ($user->faculty_id) {
+                    return $user->faculty_id;
+                }
+
+                // Thử lấy từ request
+                if (request()->has('faculty_id')) {
+                    $facultyId = request()->input('faculty_id');
+                    // Lưu vào database
+                    $user->update(['faculty_id' => $facultyId]);
+                    return $facultyId;
+                }
+
+                return null;
+            }
+
+            // Nếu không phải SuperAdmin, trả về faculty_id từ database
+            return $user->faculty_id;
+        }
+
+        // Nếu chưa đăng nhập, thử lấy từ userData
         $userData = $this->getDataUser();
+        if (!$userData) {
+            return null;
+        }
 
-
-        return  $userData['role'] === Role::SuperAdmin->value
-            ? Session::get('facultyId')
-        : $userData['faculty_id'] ?? null;
-
+        return $userData['faculty_id'] ?? null;
     }
 
     private function handleError(int $codeError): void

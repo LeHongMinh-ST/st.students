@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Commons;
 
 use App\Services\SsoService;
-use Illuminate\Support\Facades\Session;
+
 use Livewire\Component;
 
 class FacultySelected extends Component
@@ -23,15 +23,18 @@ class FacultySelected extends Component
 
     public function mount(): void
     {
-        $sessionFaculty = Session::get('facultyId');
-        if ($sessionFaculty) {
-            $this->facultyId = $sessionFaculty;
+        // Chỉ lấy faculty_id từ database
+        if (auth()->check() && auth()->user()->faculty_id) {
+            $this->facultyId = auth()->user()->faculty_id;
         }
     }
 
     public function updatedFacultyId($facultyId): void
     {
-        Session::put('facultyId', $facultyId);
+        // Chỉ lưu vào database
+        if (auth()->check()) {
+            auth()->user()->update(['faculty_id' => $facultyId]);
+        }
 
         $this->dispatch('reloadPage');
     }

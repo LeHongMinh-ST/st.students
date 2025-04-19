@@ -8,7 +8,7 @@ use App\Enums\Role;
 use App\Services\SsoService;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckFaculty
@@ -20,14 +20,28 @@ class CheckFaculty
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $userData = app(SsoService::class)->getDataUser();
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        if (!auth()->check()) {
+            return redirect()->route('dashboard');
+        }
+
+        $user = auth()->user();
+        $userData = $user->user_data;
+
+        // Nếu không có dữ liệu người dùng, thử lấy từ API
+        if (!$userData) {
+            $userData = app(SsoService::class)->getDataUser();
+            if (!$userData) {
+                return redirect()->route('dashboard');
+            }
+        }
 
         if ($userData['role'] === Role::Normal->value) {
             abort(403);
         }
 
         $facultyId = $userData['role'] === Role::SuperAdmin->value
-            ? Session::get('facultyId')
+            ? $user->faculty_id
             : $userData['faculty_id'] ?? null;
 
         if (!$facultyId) {

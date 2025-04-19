@@ -53,9 +53,14 @@
     @livewireScripts
 
     @php
-        $userData = app(App\Services\SsoService::class)->getDataUser();
+        $user = auth()->user();
+        $userData = $user->user_data;
 
-        $facultyId = $userData['role'] === \App\Enums\Role::SuperAdmin->value ? Session::get('facultyId') : $userData['faculty_id'] ?? null;
+        if (!$userData) {
+            $userData = app(App\Services\SsoService::class)->getDataUser();
+        }
+
+        $facultyId = $userData['role'] === \App\Enums\Role::SuperAdmin->value ? $user->faculty_id : $userData['faculty_id'] ?? null;
     @endphp
 
     <style>

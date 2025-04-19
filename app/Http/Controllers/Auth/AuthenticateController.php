@@ -40,12 +40,10 @@ class AuthenticateController extends Controller
                 return abort(401);
             }
 
-            Session::put('access_token', $data['access_token']);
-
             $userData = $this->getUserData($data['access_token']);
-            $user = $this->findOrCreateUser($userData);
+            $this->validateUserData($userData);
+            $user = $this->findOrCreateUser($userData, $data['access_token']);
 
-            $this->storeSessionData($userData);
             Auth::login($user);
 
             return redirect()->route('dashboard');
@@ -83,19 +81,34 @@ class AuthenticateController extends Controller
         return $response->json();
     }
 
-    private function findOrCreateUser(array $userData): User
+    private function findOrCreateUser(array $userData, string $accessToken): User
     {
         $user = User::where('sso_id', $userData['id'])->first();
+
+        $facultyId = null;
+        if ($userData['role'] !== Role::SuperAdmin->value && !empty($userData['faculty_id'])) {
+            $facultyId = $userData['faculty_id'];
+        }
+
+        $userData = array_merge($userData, ['access_token' => $accessToken]);
 
         if (!$user) {
             $user = User::create([
                 'sso_id' => $userData['id'],
                 'status' => Status::Active,
-                'full_name' => $userData['full_name']
+                'full_name' => $userData['full_name'],
+                'access_token' => $accessToken,
+                'user_data' => $userData,
+                'faculty_id' => $facultyId,
+                'role' => $userData['role']
             ]);
         } else {
-            User::where('sso_id', $userData['id'])->update([
-                'full_name' => $userData['full_name']
+            $user->update([
+                'full_name' => $userData['full_name'],
+                'access_token' => $accessToken,
+                'user_data' => $userData,
+                'faculty_id' => $facultyId,
+                'role' => $userData['role']
             ]);
         }
 
@@ -115,16 +128,10 @@ class AuthenticateController extends Controller
         return $user;
     }
 
-    private function storeSessionData(array $userData): void
+    private function validateUserData(array $userData): void
     {
-        Session::put('userData', $userData);
-
         if ($userData['role'] !== Role::SuperAdmin->value && empty($userData['faculty_id'])) {
             abort(403);
-        }
-
-        if ($userData['role'] !== Role::SuperAdmin->value) {
-            Session::put('facultyId', $userData['facultyId']);
         }
     }
 }

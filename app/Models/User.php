@@ -61,10 +61,15 @@ class User extends Authenticatable
         'sso_id',
         'status',
         'full_name',
+        'access_token',
+        'user_data',
+        'faculty_id',
+        'role',
     ];
 
     protected $casts = [
         'status' => Status::class,
+        'user_data' => 'array',
     ];
 
     protected $appends = ['role_name'];
@@ -76,9 +81,7 @@ class User extends Authenticatable
 
     public function hasPermission(string $permissionCode): bool
     {
-        $userData = app(SsoService::class)->getDataUser();
-
-        if ($userData['role'] === RoleEnum::SuperAdmin->value) {
+        if ($this->role === RoleEnum::SuperAdmin->value) {
             return true;
         }
 
