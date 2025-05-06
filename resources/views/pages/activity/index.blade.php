@@ -4,7 +4,7 @@
             <div class="page-header-content d-lg-flex">
                 <div class="d-flex">
                     <h4 class="mb-0 page-title">
-                        Chỉnh sửa thông tin sinh viên - {{ $student->fullName }} - {{ $student->code }}
+                        Theo dõi hoạt động
                     </h4>
 
                     <a href="#page_header" class="p-0 border-transparent btn btn-light align-self-center collapsed d-lg-none rounded-pill ms-auto" data-bs-toggle="collapse">
@@ -18,9 +18,7 @@
                 <div class="d-flex">
                     <div class="py-2 breadcrumb">
                         <a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
-                        <a href="{{ route('students.index') }}" class="breadcrumb-item">Sinh viên</a>
-                        <a href="{{ route('students.show', $student->id) }}" class="breadcrumb-item">{{ $student->fullName }} - {{ $student->code }}</a>
-                        <span class="breadcrumb-item active">Chỉnh sửa thông tin</span>
+                        <span class="breadcrumb-item active">Theo dõi hoạt động</span>
                     </div>
 
                     <a href="#breadcrumb_elements" class="p-0 border-transparent btn btn-light align-self-center collapsed d-lg-none rounded-pill ms-auto" data-bs-toggle="collapse">
@@ -34,6 +32,6 @@
 
 
     <div class="content">
-        <livewire:student.edit-detail :student="$student" />
+        <livewire:activity.index />
     </div>
 </x-admin-layout>

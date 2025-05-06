@@ -207,6 +207,16 @@ return [
         'name' => 'Import sinh viên buộc thôi học',
         'code' => 'quit.import',
         'group' => 'quit'
+    ],
+    [
+        'name' => 'Xem danh sách hoạt động',
+        'code' => 'activity.index',
+        'group' => 'activity'
+    ],
+    [
+        'name' => 'Xem chi tiết hoạt động',
+        'code' => 'activity.view',
+        'group' => 'activity'
     ]
 
 ];

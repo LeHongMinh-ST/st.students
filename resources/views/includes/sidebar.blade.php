@@ -159,6 +159,16 @@
                     </li>
                 @endcan
 
+                @if(Auth::user()->isAdmin() || Auth::user()->hasPermission('activity.index'))
+                    <li class="nav-item">
+                        <a href="{{ route('activities.index') }}"
+                           class="nav-link {{ request()->routeIs('activities.*') ? 'active' : '' }}">
+                            <i class="ph-activity"></i>
+                            <span>Theo dõi hoạt động</span>
+                        </a>
+                    </li>
+                @endif
+
 
             </ul>
         </div>

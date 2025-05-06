@@ -38,5 +38,9 @@ return  [
     [
         'name' => 'Quản lý thôi học',
         'code' => 'quit'
+    ],
+    [
+        'name' => 'Theo dõi hoạt động',
+        'code' => 'activity'
     ]
 ];

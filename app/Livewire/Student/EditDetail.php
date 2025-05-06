@@ -79,7 +79,22 @@ class EditDetail extends Component
     {
         $this->validate();
 
-        $data = [
+        // Lưu dữ liệu cũ trước khi cập nhật
+        $oldData = [
+            'email' => $this->student->email,
+            'phone' => $this->student->phone,
+            'citizen_identification' => $this->student->citizen_identification,
+            'pob' => $this->student->pob,
+            'address' => $this->student->address,
+            'countryside' => $this->student->countryside,
+            'nationality' => $this->student->nationality,
+            'ethnic' => $this->student->ethnic,
+            'religion' => $this->student->religion,
+            'social_policy_object' => $this->student->social_policy_object->value,
+            'note' => $this->student->note,
+        ];
+
+        $newData = [
             'email' => $this->email,
             'phone' => $this->phone,
             'citizen_identification' => $this->citizen_identification,
@@ -93,15 +108,22 @@ class EditDetail extends Component
             'note' => $this->note,
         ];
 
-        $this->student->update($data);
+        $this->student->update($newData);
 
-        // Log the successful info update
-        LogActivityHelper::create(
+        // Log chi tiết thay đổi
+        LogActivityHelper::logChanges(
             'Cập nhật thông tin sinh viên',
-            'Cập nhật thông tin sinh viên ' . $this->student->full_name . ' (Mã SV: ' . $this->student->code . ')'
+            $this->student,
+            $oldData,
+            $newData
         );
 
-        session()->flash('success', 'Thông tin sinh viên đã được cập nhật thành công.');
+        // Sử dụng toast notification thay vì alert
+        $this->dispatch('alert', [
+            'type' => 'success',
+            'message' => 'Thông tin sinh viên đã được cập nhật thành công.'
+        ]);
+
         $this->redirect(route('students.show', $this->student->id));
     }
 

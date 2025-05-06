@@ -100,6 +100,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Kiểm tra xem người dùng có phải là admin hay không
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === RoleEnum::SuperAdmin->value;
+    }
+
+    /**
      * Scope a query to filter users by search term.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

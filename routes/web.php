@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\ClassGenerateController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FileContrller;
@@ -34,8 +35,9 @@ Route::middleware('auth.sso')->group(function (): void {
         Route::prefix('students')->group(function (): void {
             Route::get('/import/{admission_year}/admission-year', [StudentController::class, 'import'])->name('students.import');
         });
-        Route::resource('roles', RoleController::class)->only(['index','create','edit']);
+        Route::resource('roles', RoleController::class)->only(['index', 'create', 'edit']);
         Route::resource('posts', PostController::class);
+        Route::get('activities', [ActivityController::class, 'index'])->name('activities.index');
 
         // Graduation Ceremony Management
         Route::get('graduation', [GraduationCeremonyController::class, 'index'])->name('graduation.index');
