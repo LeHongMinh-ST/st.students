@@ -1,0 +1,11 @@
+Mã lớp,Mã giảng viên,Năm học
+CNTT01,GV001,2023-2024
+CNTT02,GV002,2023-2024
+CNTT03,GV003,2023-2024
+
+Hướng dẫn:
+1. Cột A: Mã lớp (bắt buộc) - Mã lớp học trong hệ thống
+2. Cột B: Mã giảng viên (bắt buộc) - Mã giảng viên từ hệ thống SSO
+3. Cột C: Năm học (bắt buộc) - Định dạng: YYYY-YYYY (ví dụ: 2023-2024)
+
+Lưu ý: Đây là file hướng dẫn. Vui lòng tạo file Excel (.xlsx, .xls) với cấu trúc tương tự.

@@ -28,6 +28,7 @@ Route::middleware('auth.sso')->group(function (): void {
         Route::resource('classes', ClassGenerateController::class);
         Route::get('classes-teacher', [ClassGenerateController::class, 'getClassTeacher'])->name('classes-teacher');
         Route::get('classes-sub-teacher', [ClassGenerateController::class, 'getClassSubTeacher'])->name('classes-sub-teacher');
+        Route::get('classes-import-teacher-assignment', [ClassGenerateController::class, 'importTeacherAssignment'])->name('classes.import-teacher-assignment');
         Route::prefix('students')->group(function (): void {
             Route::get('/import/{admission_year}/admission-year', [StudentController::class, 'import'])->name('students.import');
         });

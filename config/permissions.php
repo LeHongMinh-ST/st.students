@@ -93,6 +93,11 @@ return [
         'group' => 'class'
     ],
     [
+        'name' => 'Phân công giáo viên chủ nhiệm',
+        'code' => 'class.teacher_assignment',
+        'group' => 'class'
+    ],
+    [
 
         'name' => 'Cố vấn học tập',
         'code' => 'class.sub_teacher',

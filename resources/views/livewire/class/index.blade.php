@@ -14,6 +14,13 @@
                         </a>
                     </div>
                 @endcan
+                @can('manageTeacherAssignment', \App\Models\ClassGenerate::class)
+                    <div>
+                        <a href="{{ route('classes.import-teacher-assignment') }}" type="button" class="px-2 shadow btn btn-success btn-icon fw-semibold">
+                            <i class="px-1 ph-upload-simple fw-semibold"></i><span>Import phân công</span>
+                        </a>
+                    </div>
+                @endcan
             </div>
         </div>
 

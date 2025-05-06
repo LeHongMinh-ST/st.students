@@ -55,4 +55,11 @@ class ClassGenerateController extends Controller
 
         return view('pages.class.class-sub-teacher');
     }
+
+    public function importTeacherAssignment(): View|Application|Factory|RedirectResponse
+    {
+        Gate::authorize('manageTeacherAssignment', ClassGenerate::class);
+
+        return view('pages.class.import-teacher-assignment');
+    }
 }

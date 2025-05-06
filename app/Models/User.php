@@ -61,6 +61,7 @@ class User extends Authenticatable
         'sso_id',
         'status',
         'full_name',
+        'code',
         'access_token',
         'user_data',
         'faculty_id',

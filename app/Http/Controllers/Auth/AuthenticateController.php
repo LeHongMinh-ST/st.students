@@ -98,6 +98,7 @@ class AuthenticateController extends Controller
                 'sso_id' => $userData['id'],
                 'status' => Status::Active,
                 'full_name' => $userData['full_name'],
+                'code' => $userData['code'] ?? null,
                 'access_token' => $accessToken,
                 'user_data' => $userData,
                 'faculty_id' => $facultyId,
@@ -108,6 +109,7 @@ class AuthenticateController extends Controller
             $userType = $this->determineUserType($userData['role']);
             $user->update([
                 'full_name' => $userData['full_name'],
+                'code' => $userData['code'] ?? null,
                 'access_token' => $accessToken,
                 'user_data' => $userData,
                 'faculty_id' => $facultyId,
