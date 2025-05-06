@@ -1,0 +1,41 @@
+/* Responsive fixes for student detail view */
+@media (max-width: 767px) {
+    .table-responsive {
+        border: 0;
+        margin-bottom: 15px;
+    }
+    
+    .table-responsive table {
+        width: 100%;
+    }
+    
+    .table-responsive th,
+    .table-responsive td {
+        word-break: break-word;
+        white-space: normal;
+    }
+    
+    /* Ensure text wraps properly on small screens */
+    .card-body {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    /* Improve spacing on mobile */
+    .col-sm-12 {
+        margin-bottom: 15px;
+    }
+}
+
+/* Ensure long text doesn't break layout */
+.table td, .table th {
+    max-width: 300px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* Ensure badges don't overflow */
+.badge {
+    white-space: normal;
+    text-align: center;
+}

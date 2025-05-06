@@ -57,7 +57,7 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <div class="col-lg-3 col-md-4 col-sm-12 col-12 mb-3 mb-sm-4">
                             <div class="pt-0 text-center">
                                 <div class="mb-3 card-img-actions d-inline-block">
                                     <img class="img-fluid rounded-circle" src="{{ Avatar::create($student->fullName)->toBase64() }}" width="150" height="150" alt="">
@@ -66,7 +66,7 @@
                                 <h6 class="mb-0">{{ $student->fullName }}</h6>
                                 <span class="text-muted">Khoá {{ $student->admissionYear->admission_year }}</span>
                                 @if ($editStatusMode)
-                                    <div class="gap-2 d-flex align-items-center justify-content-center">
+                                    <div class="gap-2 d-flex align-items-center justify-content-center mt-2">
                                         <select class="form-select" wire:model.live="studentStatus">
                                             @foreach (\App\Enums\StudentStatus::cases() as $item)
                                                 <option value="{{ $item->value }}" @if ($item->value == $student->status) selected @endif>{{ $item->getLabel() }}</option>
@@ -77,7 +77,7 @@
                                         </span>
                                     </div>
                                 @else
-                                    <div class="gap-2 d-flex align-items-center justify-content-center">
+                                    <div class="gap-2 d-flex align-items-center justify-content-center mt-2">
                                         <x-student-status-badge :status="$student->status" />
                                         <span class="cursor-pointer" wire:click="$set('editStatusMode', true)">
                                             <i class="mr-2 ph-note-pencil"></i>
@@ -88,77 +88,81 @@
                             </div>
 
                         </div>
-                        <div class="col-lg-9 col-md-8 col-sm-6 col-12">
+                        <div class="col-lg-9 col-md-8 col-sm-12 col-12">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-12 mb-4">
                                     <h6 class="mb-3">Thông tin cơ bản</h6>
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                            <tr>
-                                                <th width="40%">Họ và tên</th>
-                                                <td>{{ $student->fullName }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Mã sinh viên</th>
-                                                <td>{{ $student->code }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Ngày sinh</th>
-                                                <td>{{ $student->dob ? \Illuminate\Support\Carbon::make($student->dob)->format('d/m/Y') : 'N/A' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Giới tính</th>
-                                                <td>{{ $student->gender === 'male' ? 'Nam' : 'Nữ' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Email</th>
-                                                <td>{{ $student->email ?: 'N/A' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Số điện thoại</th>
-                                                <td>{{ $student->phone ?: 'N/A' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>CCCD/CMND</th>
-                                                <td>{{ $student->citizen_identification ?: 'N/A' }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr>
+                                                    <th style="width: 40%">Họ và tên</th>
+                                                    <td style="word-break: break-word">{{ $student->fullName }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Mã sinh viên</th>
+                                                    <td style="word-break: break-word">{{ $student->code }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Ngày sinh</th>
+                                                    <td style="word-break: break-word">{{ $student->dob ? \Illuminate\Support\Carbon::make($student->dob)->format('d/m/Y') : 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Giới tính</th>
+                                                    <td style="word-break: break-word">{{ $student->gender === 'male' ? 'Nam' : 'Nữ' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Email</th>
+                                                    <td style="word-break: break-word">{{ $student->email ?: 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Số điện thoại</th>
+                                                    <td style="word-break: break-word">{{ $student->phone ?: 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>CCCD/CMND</th>
+                                                    <td style="word-break: break-word">{{ $student->citizen_identification ?: 'N/A' }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-12">
                                     <h6 class="mb-3">Thông tin chi tiết</h6>
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                            <tr>
-                                                <th width="40%">Nơi sinh</th>
-                                                <td>{{ $student->pob ?: 'N/A' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Địa chỉ hiện tại</th>
-                                                <td>{{ $student->address ?: 'N/A' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Quê quán</th>
-                                                <td>{{ $student->countryside ?: 'N/A' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Dân tộc</th>
-                                                <td>{{ $student->ethnic ?: 'N/A' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Tôn giáo</th>
-                                                <td>{{ $student->religion ?: 'N/A' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Quốc tịch</th>
-                                                <td>{{ $student->nationality ?: 'N/A' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Đối tượng chính sách</th>
-                                                <td>{{ $student->social_policy_object ?: 'N/A' }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr>
+                                                    <th style="width: 40%">Nơi sinh</th>
+                                                    <td style="word-break: break-word">{{ $student->pob ?: 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Địa chỉ hiện tại</th>
+                                                    <td style="word-break: break-word">{{ $student->address ?: 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Quê quán</th>
+                                                    <td style="word-break: break-word">{{ $student->countryside ?: 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Dân tộc</th>
+                                                    <td style="word-break: break-word">{{ $student->ethnic ?: 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Tôn giáo</th>
+                                                    <td style="word-break: break-word">{{ $student->religion ?: 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Quốc tịch</th>
+                                                    <td style="word-break: break-word">{{ $student->nationality ?: 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Đối tượng chính sách</th>
+                                                    <td style="word-break: break-word">{{ $student->social_policy_object ?: 'N/A' }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 
@@ -166,7 +170,7 @@
                                 <div class="mt-3">
                                     <h6 class="mb-2">Ghi chú</h6>
                                     <div class="card bg-light">
-                                        <div class="card-body">
+                                        <div class="card-body" style="word-wrap: break-word;">
                                             {{ $student->note }}
                                         </div>
                                     </div>
@@ -192,11 +196,11 @@
                         <table class="table fs-table">
                             <thead>
                             <tr class="table-light">
-                                <th width="5%">STT</th>
-                                <th width="20%">Mối quan hệ</th>
-                                <th width="30%">Họ và tên</th>
-                                <th width="25%">Nghề nghiệp</th>
-                                <th width="20%">Số điện thoại</th>
+                                <th style="width: 5%">STT</th>
+                                <th style="width: 20%">Mối quan hệ</th>
+                                <th style="width: 30%">Họ và tên</th>
+                                <th style="width: 25%">Nghề nghiệp</th>
+                                <th style="width: 20%">Số điện thoại</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -206,9 +210,9 @@
                                     <td>
                                         <x-family-relationship-badge :relationship="$family->relationship" />
                                     </td>
-                                    <td>{{ $family->full_name ?: 'N/A' }}</td>
-                                    <td>{{ $family->job ?: 'N/A' }}</td>
-                                    <td>{{ $family->phone ?: 'N/A' }}</td>
+                                    <td style="word-break: break-word">{{ $family->full_name ?: 'N/A' }}</td>
+                                    <td style="word-break: break-word">{{ $family->job ?: 'N/A' }}</td>
+                                    <td style="word-break: break-word">{{ $family->phone ?: 'N/A' }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -227,33 +231,33 @@
                     <table class="table fs-table">
                         <thead>
                         <tr class="table-light">
-                            <th width="5%">STT</th>
-                            <th width="25%">Tên lớp</th>
-                            <th width="15%">Mã lớp</th>
-                            <th width="15%">Loại lớp</th>
-                            <th width="15%">Vai trò</th>
-                            <th width="15%">Trạng thái</th>
-                            <th width="10%">Thao tác</th>
+                            <th style="width: 5%">STT</th>
+                            <th style="width: 25%">Tên lớp</th>
+                            <th style="width: 15%">Mã lớp</th>
+                            <th style="width: 15%">Loại lớp</th>
+                            <th style="width: 15%">Vai trò</th>
+                            <th style="width: 15%">Trạng thái</th>
+                            <th style="width: 10%">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
                         @forelse($classes as $class)
                             <tr>
                                 <td class="text-center">{{ $loop->index + 1 + $classes->perPage() * ($classes->currentPage() - 1) }}</td>
-                                <td>
+                                <td style="word-break: break-word">
                                     <a href="{{ route('classes.show', $class->id) }}" class="fw-semibold">
                                         {{ $class->name }}
                                     </a>
                                 </td>
-                                <td>{{ $class->code }}</td>
-                                <td>{{ $class->type->label() }}</td>
+                                <td style="word-break: break-word">{{ $class->code }}</td>
+                                <td style="word-break: break-word">{{ $class->type->label() }}</td>
                                 <td>
                                     <x-student-role-badge :role="\App\Enums\StudentRole::from($class->pivot->role)" />
                                 </td>
                                 <td>
                                     <x-class-status-badge :status="$class->status" />
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <a href="{{ route('classes.show', $class->id) }}" class="text-body" data-bs-popup="tooltip" title="Xem chi tiết">
                                         <i class="ph-eye"></i>
                                     </a>
