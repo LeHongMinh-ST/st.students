@@ -1,7 +1,7 @@
 <div>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0"><i class="ph-users-three me-1"></i> Phân công giáo viên</h5>
+            <h5 class="mb-0"><i class="ph-users me-1"></i> Phân công cán sự lớp</h5>
             <div>
                 @can('manageTeacherAssignment', \App\Models\ClassGenerate::class)
                     <button type="button" class="btn btn-primary" wire:click="openCreateModal">
@@ -19,36 +19,32 @@
                     <thead>
                         <tr class="table-light">
                             <th width="5%">STT</th>
-                            <th width="15%">Năm học</th>
-                            <th width="50%">Giáo viên chủ nhiệm</th>
-                            <th width="15%">Trạng thái</th>
+                            <th width="40%">Sinh viên</th>
+                            <th width="20%">Mã sinh viên</th>
+                            <th width="20%">Vai trò</th>
                             <th width="15%">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($assignments as $item)
+                        @forelse($classStudents as $item)
                             <tr>
-                                <td class="text-center" width="5%">{{ $loop->index + 1 + $assignments->perPage() * ($assignments->currentPage() - 1) }}</td>
-                                <td width="15%">Năm học {{ $item->year }}</td>
-                                <td width="50%">
-                                    @if($item->teacher)
-                                        {{ $item->teacher->full_name ?? $item->teacher->name }}
-                                    @else
-                                        <span class="text-muted">Chưa phân công</span>
-                                    @endif
+                                <td class="text-center" width="5%">{{ $loop->index + 1 + $classStudents->perPage() * ($classStudents->currentPage() - 1) }}</td>
+                                <td width="40%">
+                                    <a href="{{ route('students.show', $item->id) }}" class="fw-semibold">
+                                        {{ $item->full_name }}
+                                    </a>
                                 </td>
-                                <td width="15%">
-                                    <span class="badge {{ $item->status->value === 'active' ? 'bg-success' : 'bg-secondary' }}">
-                                        {{ $item->status->value === 'active' ? 'Hiện tại' : 'Trước đây' }}
-                                    </span>
+                                <td width="20%">{{ $item->code }}</td>
+                                <td width="20%">
+                                    <x-student-role-badge :role="\App\Enums\StudentRole::from($item->pivot->role)" />
                                 </td>
                                 <td width="15%">
                                     <div class="d-inline-flex">
                                         @can('manageTeacherAssignment', \App\Models\ClassGenerate::class)
-                                            <button type="button" class="btn btn-sm btn-outline-primary me-1" wire:click="openEditModal({{ $item->id }})">
+                                            <button type="button" class="btn btn-sm btn-outline-primary me-1" wire:click="openEditModal({{ $item->id }}, '{{ $item->pivot->role }}')">
                                                 <i class="ph-pencil"></i>
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" wire:click="confirmDelete({{ $item->id }})">
+                                            <button type="button" class="btn btn-sm btn-outline-danger" wire:click="confirmRemoveRole({{ $item->id }})">
                                                 <i class="ph-trash"></i>
                                             </button>
                                         @endcan
@@ -56,17 +52,17 @@
                                 </td>
                             </tr>
                         @empty
-                            <x-table-empty :colspan="6" />
+                            <x-table-empty :colspan="5" />
                         @endforelse
                     </tbody>
                 </table>
             </div>
-            {{ $assignments->links('vendor.pagination.theme') }}
+            {{ $classStudents->links('vendor.pagination.theme') }}
         </div>
     </div>
 
-    <!-- Modal for creating/editing assignments -->
-    <div id="assignment-modal" class="modal fade" tabindex="-1" wire:ignore.self>
+    <!-- Modal for creating/editing student assignments -->
+    <div id="student-assignment-modal" class="modal fade" tabindex="-1" wire:ignore.self>
         <div class="modal-dialog">
             <form wire:submit.prevent="save">
                 <div class="modal-content">
@@ -76,28 +72,26 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Năm học <span class="text-danger">*</span></label>
-                            <select wire:model.live="year" class="form-select @error('year') is-invalid @enderror">
-                                <option value="">-- Chọn năm học --</option>
-                                @foreach($years as $yearOption)
-                                    <option value="{{ $yearOption['value'] }}">{{ $yearOption['label'] }}</option>
+                            <label class="form-label">Sinh viên <span class="text-danger">*</span></label>
+                            <select wire:model.live="student_id" class="form-select @error('student_id') is-invalid @enderror">
+                                <option value="">-- Chọn sinh viên --</option>
+                                @foreach($students as $student)
+                                    <option value="{{ $student['id'] }}">{{ $student['name'] }}</option>
                                 @endforeach
                             </select>
-                            @error('year') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('student_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Giáo viên chủ nhiệm</label>
-                            <select wire:model.live="teacher_id" class="form-select @error('teacher_id') is-invalid @enderror">
-                                <option value="">-- Chọn giáo viên chủ nhiệm --</option>
-                                @foreach($teachers as $teacher)
-                                    <option value="{{ $teacher['id'] }}">{{ $teacher['name'] }}</option>
+                            <label class="form-label">Vai trò <span class="text-danger">*</span></label>
+                            <select wire:model.live="role" class="form-select @error('role') is-invalid @enderror">
+                                <option value="">-- Chọn vai trò --</option>
+                                @foreach($roles as $roleOption)
+                                    <option value="{{ $roleOption['value'] }}">{{ $roleOption['label'] }}</option>
                                 @endforeach
                             </select>
-                            @error('teacher_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('role') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
-
-
 
                         <div class="mb-3">
                             <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
@@ -122,8 +116,8 @@
     @script
     <script>
         // Delete confirmation
-        window.addEventListener('openDeleteConfirmation', (event) => {
-            const assignmentId = event.detail.assignmentId;
+        window.addEventListener('openRemoveRoleConfirmation', (event) => {
+            const studentId = event.detail.studentId;
             Swal.fire({
                 title: 'Bạn có chắc chắn?',
                 text: "Bạn không thể hoàn tác hành động này!",
@@ -135,19 +129,19 @@
                 cancelButtonText: 'Hủy'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    @this.deleteAssignment(assignmentId);
+                    @this.removeRole(studentId);
                 }
             });
         });
 
         // Xử lý mở modal
-        window.addEventListener('onOpenAssignmentModal', () => {
-            $('#assignment-modal').modal('show');
+        window.addEventListener('onOpenStudentAssignmentModal', () => {
+            $('#student-assignment-modal').modal('show');
         });
 
         // Xử lý đóng modal
-        window.addEventListener('onCloseAssignmentModal', () => {
-            $('#assignment-modal').modal('hide');
+        window.addEventListener('onCloseStudentAssignmentModal', () => {
+            $('#student-assignment-modal').modal('hide');
         });
     </script>
     @endscript

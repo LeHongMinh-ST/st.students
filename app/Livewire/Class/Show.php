@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire\Class;
 
 use App\Enums\StudentRole;
-use App\Enums\StudentStatus;
-use App\Helpers\Constants;
 use App\Models\ClassAssign;
 use App\Models\ClassGenerate;
 use App\Models\Student;
@@ -25,15 +23,10 @@ class Show extends Component
     #[Url(as: 'q')]
     public string $search = '';
 
-    public string $tab = 'students';
+    #[Url(as: 'tab')]
+    public string $tab = 'info';
 
-    // Class statistics
-    public int $totalStudents = 0;
-    public int $currentlyStudying = 0;
-    public int $graduated = 0;
-    public int $deferred = 0;
-    public int $dropped = 0;
-    public int $warned = 0;
+    // Tab management only
 
     // Class roles
     public ?Student $classPresident = null;
@@ -46,11 +39,11 @@ class Show extends Component
     {
         $this->class = $class;
         $this->loadClassRoles();
-        $this->loadClassStatistics();
         $this->loadMajorInfo();
     }
 
     #[On('teacher-assignment-updated')]
+    #[On('student-assignment-updated')]
     public function refreshClassRoles(): void
     {
         $this->loadClassRoles();
@@ -58,54 +51,12 @@ class Show extends Component
 
     public function render()
     {
-        $studentsQuery = $this->class->students()
-            ->when($this->search, function ($query): void {
-                $query->search($this->search);
-            });
-
-        // Filter by tab
-        switch ($this->tab) {
-            case 'studying':
-                $studentsQuery->where('students.status', StudentStatus::CurrentlyStudying);
-                break;
-            case 'graduated':
-                $studentsQuery->where('students.status', StudentStatus::Graduated);
-                break;
-            case 'deferred':
-                $studentsQuery->where('students.status', StudentStatus::Deferred);
-                break;
-            case 'dropped':
-                $studentsQuery->whereIn('students.status', [
-                    StudentStatus::ToDropOut,
-                    StudentStatus::TemporarilySuspended,
-                    StudentStatus::Expelled
-                ]);
-                break;
-            case 'warned':
-                $classStudentIds = $this->class->students()->pluck('students.id')->toArray();
-                if (!empty($classStudentIds)) {
-                    $warnedStudentIds = DB::table('student_warnings')
-                        ->whereIn('student_id', $classStudentIds)
-                        ->whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)')
-                        ->distinct('student_id')
-                        ->pluck('student_id')
-                        ->toArray();
-                    $studentsQuery->whereIn('students.id', $warnedStudentIds);
-                }
-                break;
-            default: // 'students' tab or any other
-                // No additional filtering
-                break;
-        }
-
-        $students = $studentsQuery->paginate(Constants::PER_PAGE);
-        return view('livewire.class.show', [
-            'students' => $students
-        ]);
+        return view('livewire.class.show');
     }
 
     public function setTab(string $tab): void
     {
+        // Only handle main tabs (info, stats, teachers)
         $this->tab = $tab;
     }
 
@@ -156,53 +107,11 @@ class Show extends Component
             'name' => $classAssign->teacher->full_name ?? $classAssign->teacher->name
         ] : ['id' => null, 'name' => 'Chưa phân công'];
 
-        // Set class sub-teacher info
-        $this->classSubTeacher = $classAssign && $classAssign->subTeacher ? [
-            'id' => $classAssign->subTeacher->id,
-            'name' => $classAssign->subTeacher->full_name ?? $classAssign->subTeacher->name
-        ] : ['id' => null, 'name' => 'Chưa phân công'];
+        // Set class sub-teacher info (không còn sử dụng nhưng giữ lại để tránh lỗi)
+        $this->classSubTeacher = ['id' => null, 'name' => 'Không áp dụng'];
     }
 
-    private function loadClassStatistics(): void
-    {
-        // Get total students
-        $this->totalStudents = $this->class->students()->count();
 
-        // Get currently studying students
-        $this->currentlyStudying = $this->class->students()
-            ->where('students.status', StudentStatus::CurrentlyStudying)
-            ->count();
-
-        // Get graduated students
-        $this->graduated = $this->class->students()
-            ->where('students.status', StudentStatus::Graduated)
-            ->count();
-
-        // Get deferred students
-        $this->deferred = $this->class->students()
-            ->where('students.status', StudentStatus::Deferred)
-            ->count();
-
-        // Get dropped students (combined all drop statuses)
-        $this->dropped = $this->class->students()
-            ->whereIn('students.status', [
-                StudentStatus::ToDropOut,
-                StudentStatus::TemporarilySuspended,
-                StudentStatus::Expelled
-            ])
-            ->count();
-
-        // Get warned students (students with warnings in the last 2 semesters)
-        $classStudentIds = $this->class->students()->pluck('students.id')->toArray();
-
-        if (!empty($classStudentIds)) {
-            $this->warned = DB::table('student_warnings')
-                ->whereIn('student_id', $classStudentIds)
-                ->whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)')
-                ->distinct('student_id')
-                ->count('student_id');
-        }
-    }
 
     private function loadMajorInfo(): void
     {

@@ -117,7 +117,7 @@
                         </button>
                     </div>
                     <div class="d-flex gap-2 mt-2">
-                        <a href="{{ route('classes.index') }}" type="button" class="btn btn-warning flex-fill fw-semibold"><i
+                        <a href="{{ route('classes.show', $class->id) }}" type="button" class="btn btn-warning flex-fill fw-semibold"><i
                                class="ph-arrow-counter-clockwise fw-semibold"></i> Trở lại</a>
                         <button type="button" class="btn btn-danger flex-fill fw-semibold" wire:click="$dispatch('onOpenDeleteModal')">
                             <i class="ph-trash fw-semibold"></i> Xóa

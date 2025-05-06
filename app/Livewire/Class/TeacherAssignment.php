@@ -24,7 +24,6 @@ class TeacherAssignment extends Component
 
     // Form fields
     public ?int $teacher_id = null;
-    public ?int $sub_teacher_id = null;
     public string $year = '';
     public string $status = '';
 
@@ -94,7 +93,6 @@ class TeacherAssignment extends Component
 
         $assignment = ClassAssign::findOrFail($assignmentId);
         $this->teacher_id = $assignment->teacher_id;
-        $this->sub_teacher_id = $assignment->sub_teacher_id;
         $this->year = $assignment->year;
         $this->status = $assignment->status->value;
 
@@ -132,6 +130,7 @@ class TeacherAssignment extends Component
             ClassAssign::create([
                 'class_id' => $this->class->id,
                 'teacher_id' => $this->teacher_id,
+                'sub_teacher_id' => null, // Không còn sử dụng cố vấn học tập
                 'year' => $this->year,
                 'status' => $this->status,
             ]);
@@ -153,6 +152,7 @@ class TeacherAssignment extends Component
 
             $assignment->update([
                 'teacher_id' => $this->teacher_id,
+                'sub_teacher_id' => null, // Không còn sử dụng cố vấn học tập
                 'year' => $this->year,
                 'status' => $this->status,
             ]);
