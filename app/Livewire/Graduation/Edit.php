@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Graduation;
 
+use App\Helpers\LogActivityHelper;
 use App\Models\GraduationCeremony;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -59,13 +60,30 @@ class Edit extends Component
             'certification_date' => $this->certification_date,
         ]);
 
+        // Log the successful update
+        LogActivityHelper::create(
+            'Cập nhật đợt tốt nghiệp',
+            'Cập nhật đợt tốt nghiệp ' . $this->ceremony->name . ' (Năm học: ' . $this->ceremony->school_year . ', Số QĐ: ' . $this->ceremony->certification . ')'
+        );
+
         session()->flash('success', 'Đợt tốt nghiệp đã được cập nhật thành công.');
         $this->redirect(route('graduation.index'));
     }
 
     public function delete(): void
     {
+        $ceremonyName = $this->ceremony->name;
+        $schoolYear = $this->ceremony->school_year;
+        $certification = $this->ceremony->certification;
+
         $this->ceremony->delete();
+
+        // Log the successful deletion
+        LogActivityHelper::create(
+            'Xóa đợt tốt nghiệp',
+            'Xóa đợt tốt nghiệp ' . $ceremonyName . ' (Năm học: ' . $schoolYear . ', Số QĐ: ' . $certification . ')'
+        );
+
         session()->flash('success', 'Đợt tốt nghiệp đã được xóa thành công.');
         $this->redirect(route('graduation.index'));
     }

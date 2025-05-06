@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Graduation;
 
+use App\Helpers\LogActivityHelper;
 use App\Models\GraduationCeremony;
 use App\Services\SsoService;
 use Livewire\Attributes\Validate;
@@ -50,13 +51,19 @@ class Create extends Component
 
         $facultyId = app(SsoService::class)->getFacultyId();
 
-        GraduationCeremony::create([
+        $ceremony = GraduationCeremony::create([
             'name' => $this->name,
             'school_year' => $this->school_year,
             'certification' => $this->certification,
             'certification_date' => $this->certification_date,
             'faculty_id' => $facultyId,
         ]);
+
+        // Log the successful creation
+        LogActivityHelper::create(
+            'Tạo đợt tốt nghiệp',
+            'Tạo đợt tốt nghiệp ' . $ceremony->name . ' (Năm học: ' . $ceremony->school_year . ', Số QĐ: ' . $ceremony->certification . ')'
+        );
 
         session()->flash('success', 'Đợt tốt nghiệp đã được tạo thành công.');
         $this->redirect(route('graduation.index'));

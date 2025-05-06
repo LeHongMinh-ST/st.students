@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Thống kê sinh viên tốt nghiệp -->
     <div class="card mt-3">
         <div class="card-header">
@@ -104,10 +104,9 @@
                             <th width="5%">STT</th>
                             <th width="20%">Họ và tên</th>
                             <th width="15%">Mã sinh viên</th>
-                            <th width="20%">Email</th>
-                            <th width="10%">Điểm TB</th>
-                            <th width="15%">Xếp loại</th>
-                            <th width="15%">Thao tác</th>
+                            <th width="25%">Email</th>
+                            <th width="15%">Điểm TB</th>
+                            <th width="20%">Xếp loại</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,22 +119,15 @@
                                     </a>
                                 </td>
                                 <td width="15%">{{ $item->code }}</td>
-                                <td width="20%">{{ $item->pivot->email ?: $item->email }}</td>
-                                <td width="10%">{{ number_format($item->pivot->gpa, 2) }}</td>
-                                <td width="15%">
+                                <td width="25%">{{ $item->pivot->email ?: $item->email }}</td>
+                                <td width="15%">{{ number_format($item->pivot->gpa, 2) }}</td>
+                                <td width="20%">
                                     <x-rank-graduate-badge :rank="\App\Enums\RankGraduate::from($item->pivot->rank)" />
-                                </td>
-                                <td width="15%">
-                                    <div class="d-inline-flex">
-                                        <a href="{{ route('students.show', $item->id) }}" class="text-body" data-bs-popup="tooltip" title="Xem chi tiết">
-                                            <i class="ph-eye"></i>
-                                        </a>
-                                    </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center">Không có dữ liệu</td>
+                                <td colspan="6" class="text-center">Không có dữ liệu</td>
                             </tr>
                         @endforelse
                     </tbody>
