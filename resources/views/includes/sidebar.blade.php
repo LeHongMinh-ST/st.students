@@ -66,7 +66,6 @@
                 @endcan
 
 
-
                 @if(Auth::user()->can('viewAny', \App\Models\Student::class))
                 <li class="nav-item-header">
                     <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Sinh viên</div>

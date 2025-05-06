@@ -11,6 +11,7 @@ enum TypeImport: string
     case StudentQuit = 'student_quit';
     case StudentGraduate = 'student_graduate';
     case TeacherAssignment = 'teacher_assignment';
+    case SpecializedClassTransfer = 'specialized_class_transfer';
 
     /**
      * Get the label of the enum value.
@@ -25,6 +26,7 @@ enum TypeImport: string
             self::StudentQuit => 'Sinh viên nghỉ học',
             self::StudentGraduate => 'Sinh viên tốt nghiệp',
             self::TeacherAssignment => 'Phân công giáo viên chủ nhiệm',
+            self::SpecializedClassTransfer => 'Phân lớp chuyên ngành',
         };
     }
 }

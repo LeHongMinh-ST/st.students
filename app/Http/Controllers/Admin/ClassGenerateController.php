@@ -62,4 +62,11 @@ class ClassGenerateController extends Controller
 
         return view('pages.class.import-teacher-assignment');
     }
+
+    public function importSpecializedTransfer(): View|Application|Factory|RedirectResponse
+    {
+        Gate::authorize('manageSpecializedTransfer', ClassGenerate::class);
+
+        return view('pages.class.import-specialized-transfer');
+    }
 }

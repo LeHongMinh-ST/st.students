@@ -104,6 +104,11 @@ return [
         'group' => 'class'
     ],
     [
+        'name' => 'Phân lớp chuyên ngành',
+        'code' => 'class.specialized_transfer',
+        'group' => 'class'
+    ],
+    [
         'name' => 'Xem danh sách',
         'code' => 'post.index',
         'group' => 'post'

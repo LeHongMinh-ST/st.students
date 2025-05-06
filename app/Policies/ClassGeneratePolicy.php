@@ -72,4 +72,12 @@ class ClassGeneratePolicy
     {
         return $user->hasPermission('class.teacher_assignment');
     }
+
+    /**
+     * Determine whether the user can manage specialized class transfers.
+     */
+    public function manageSpecializedTransfer(User $user): bool
+    {
+        return $user->hasPermission('class.specialized_transfer');
+    }
 }

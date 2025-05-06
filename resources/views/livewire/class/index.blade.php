@@ -21,6 +21,13 @@
                         </a>
                     </div>
                 @endcan
+                @can('manageSpecializedTransfer', \App\Models\ClassGenerate::class)
+                    <div>
+                        <a href="{{ route('classes.import-specialized-transfer') }}" type="button" class="px-2 shadow btn btn-info btn-icon fw-semibold">
+                            <i class="px-1 ph-arrows-left-right fw-semibold"></i><span>Phân lớp chuyên ngành</span>
+                        </a>
+                    </div>
+                @endcan
             </div>
         </div>
 

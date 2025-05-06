@@ -9,7 +9,7 @@
                         <div class="d-flex align-items-center">
                             <h3 class="mb-0 text-white">{{ number_format($totalStudents) }}</h3>
                             <div class="ms-auto">
-                                <i class="ph-users-three me-1"></i>
+                                <i class="ph-users-three ph-2x me-1"></i>
                             </div>
                         </div>
 
@@ -31,7 +31,7 @@
                             <h3 class="mb-0 text-white">{{ number_format($graduatedStudents) }}</h3>
                             <div class="ms-auto">
 
-                                <i class="ph-graduation-cap me-1"></i>
+                                <i class="ph-graduation-cap ph-2x me-1"></i>
 
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                         <div class="d-flex align-items-center">
                             <h3 class="mb-0 text-white">{{ number_format($warnedStudents) }}</h3>
                             <div class="ms-auto">
-                                <i class="ph-warning me-1"></i>
+                                <i class="ph-warning ph-2x me-1"></i>
                             </div>
                         </div>
 
@@ -76,7 +76,7 @@
                         <div class="d-flex align-items-center">
                             <h3 class="mb-0 text-white">{{ number_format($totalClasses) }}</h3>
                             <div class="ms-auto">
-                                <i class="ph-chalkboard-teacher me-1"></i>
+                                <i class="ph-chalkboard-teacher ph-2x me-1"></i>
                             </div>
                         </div>
 
