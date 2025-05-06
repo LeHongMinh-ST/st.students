@@ -46,11 +46,11 @@ class ImportTeacherAssignmentsJob implements ShouldQueue
             $importHistory->status = StatusImport::Processing;
             $importHistory->save();
 
-            // Log the start of the import process
-            LogActivityHelper::create(
-                'Bắt đầu import phân công giáo viên',
-                'Bắt đầu import phân công giáo viên từ file ' . $importHistory->file_name
-            );
+            // System log only for debugging
+            Log::info('Starting teacher assignment import', [
+                'file' => $importHistory->file_name,
+                'records' => $importHistory->total_records
+            ]);
 
             $import = new TeacherAssignmentImport($this->userId, $this->importHistoryId);
 
@@ -69,12 +69,6 @@ class ImportTeacherAssignmentsJob implements ShouldQueue
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            // Log the error
-            LogActivityHelper::create(
-                'Lỗi import phân công giáo viên',
-                'Lỗi khi import phân công giáo viên: ' . $e->getMessage()
-            );
         }
     }
 }

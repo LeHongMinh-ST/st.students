@@ -235,8 +235,8 @@ class SpecializedClassTransferImport implements ToArray, WithChunkReading, WithE
             'end_year' => $startYear,
         ]);
 
-        // Log the end of basic class
-        Log::info('Student basic class ended', [
+        // System log only for debugging
+        Log::debug('Student basic class ended', [
             'student_id' => $student->id,
             'student_code' => $student->code,
             'class_id' => $currentClass->id,
@@ -257,8 +257,8 @@ class SpecializedClassTransferImport implements ToArray, WithChunkReading, WithE
                 'end_year' => null,
             ]);
 
-            // Log the update of specialized class
-            Log::info('Student specialized class updated', [
+            // System log only for debugging
+            Log::debug('Student specialized class updated', [
                 'student_id' => $student->id,
                 'student_code' => $student->code,
                 'class_id' => $specializedClass->id,
@@ -272,8 +272,8 @@ class SpecializedClassTransferImport implements ToArray, WithChunkReading, WithE
                 'start_year' => $startYear,
             ]);
 
-            // Log the addition to specialized class
-            Log::info('Student added to specialized class', [
+            // System log only for debugging
+            Log::debug('Student added to specialized class', [
                 'student_id' => $student->id,
                 'student_code' => $student->code,
                 'class_id' => $specializedClass->id,

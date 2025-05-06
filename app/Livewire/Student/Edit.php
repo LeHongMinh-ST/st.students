@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Student;
 
+use App\Helpers\LogActivityHelper;
 use App\Models\Student;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -121,6 +122,12 @@ class Edit extends Component
         }
 
         $this->student->update($data);
+
+        // Log the successful student update
+        LogActivityHelper::create(
+            'Cập nhật sinh viên',
+            'Cập nhật thông tin sinh viên ' . $this->student->full_name . ' (Mã SV: ' . $this->student->code . ')'
+        );
 
         session()->flash('success', 'Thông tin sinh viên đã được cập nhật thành công.');
         $this->redirect(route('students.show', $this->student->id));

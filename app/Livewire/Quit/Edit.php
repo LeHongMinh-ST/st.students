@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Quit;
 
+use App\Helpers\LogActivityHelper;
 use App\Models\Quit;
 use App\Models\Semester;
 use Livewire\Attributes\Validate;
@@ -70,13 +71,29 @@ class Edit extends Component
             'decision_date' => $this->decision_date,
         ]);
 
+        // Log the successful quit update
+        LogActivityHelper::create(
+            'Cập nhật đợt buộc thôi học',
+            'Cập nhật đợt buộc thôi học: ' . $this->quit->name . ' (Số QĐ: ' . $this->quit->decision_number . ')'
+        );
+
         session()->flash('success', 'Đợt buộc thôi học đã được cập nhật thành công.');
         $this->redirect(route('quits.index'));
     }
 
     public function delete(): void
     {
+        $quitName = $this->quit->name;
+        $quitDecisionNumber = $this->quit->decision_number;
+
         $this->quit->delete();
+
+        // Log the successful quit deletion
+        LogActivityHelper::create(
+            'Xóa đợt buộc thôi học',
+            'Xóa đợt buộc thôi học: ' . $quitName . ' (Số QĐ: ' . $quitDecisionNumber . ')'
+        );
+
         session()->flash('success', 'Đợt buộc thôi học đã được xóa thành công.');
         $this->redirect(route('quits.index'));
     }

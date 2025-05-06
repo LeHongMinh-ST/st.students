@@ -48,11 +48,11 @@ class ImportStudentsJob implements ShouldQueue
             $importHistory->status = StatusImportEnum::Processing;
             $importHistory->save();
 
-            // Log the start of the import process
-            LogActivityHelper::create(
-                'Bắt đầu import sinh viên',
-                'Bắt đầu import sinh viên từ file ' . $importHistory->file_name
-            );
+            // System log only for debugging
+            Log::info('Starting student import', [
+                'file' => $importHistory->file_name,
+                'records' => $importHistory->total_records
+            ]);
 
             $import = new StudentImport($this->userId, $this->importHistoryId, $this->admissionYearId);
 
@@ -71,12 +71,6 @@ class ImportStudentsJob implements ShouldQueue
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            // Log the error
-            LogActivityHelper::create(
-                'Lỗi import sinh viên',
-                'Lỗi khi import sinh viên: ' . $e->getMessage()
-            );
         }
     }
 

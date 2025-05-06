@@ -6,7 +6,6 @@ namespace App\Livewire\Class;
 
 use App\Enums\StatusImport;
 use App\Enums\TypeImport;
-use App\Helpers\LogActivityHelper;
 use App\Imports\SpecializedClassTransferPreviewImport;
 use App\Jobs\ImportSpecializedClassTransferJob;
 use App\Models\ImportHistory;
@@ -83,11 +82,11 @@ class ImportSpecializedTransfer extends Component
                 'admission_year_id' => 0 // Not needed for specialized class transfer
             ]);
 
-            // Log the import initiation
-            LogActivityHelper::create(
-                'Tạo import phân lớp chuyên ngành',
-                'Tạo import phân lớp chuyên ngành từ file ' . $fileName . ' với ' . count($this->previewData) . ' bản ghi'
-            );
+            // System log only for debugging
+            Log::info('Created specialized class transfer import', [
+                'file' => $fileName,
+                'records' => count($this->previewData)
+            ]);
 
             dispatch(new ImportSpecializedClassTransferJob(Auth::id(), $importHistory->id));
             $this->dispatch('onOpenProcessModal');
@@ -96,12 +95,6 @@ class ImportSpecializedTransfer extends Component
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            // Log the error
-            LogActivityHelper::create(
-                'Lỗi tạo import phân lớp chuyên ngành',
-                'Lỗi khi tạo import phân lớp chuyên ngành: ' . $e->getMessage()
-            );
 
             session()->flash('error', 'Có lỗi xảy ra khi tạo import: ' . $e->getMessage());
         }
@@ -118,11 +111,10 @@ class ImportSpecializedTransfer extends Component
             $fileName = $this->file->getClientOriginalName();
             $path = $this->file->store('imports');
 
-            // Log the file upload
-            LogActivityHelper::create(
-                'Tải lên file phân lớp chuyên ngành',
-                'Tải lên file ' . $fileName . ' để phân lớp chuyên ngành'
-            );
+            // System log only for debugging
+            Log::info('Uploaded specialized class transfer file', [
+                'file' => $fileName
+            ]);
 
             $this->dispatch('onImportFile', fileName: $fileName, filePath: $path);
         } catch (Exception $e) {
@@ -130,12 +122,6 @@ class ImportSpecializedTransfer extends Component
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            // Log the error
-            LogActivityHelper::create(
-                'Lỗi tải lên file phân lớp chuyên ngành',
-                'Lỗi khi tải lên file phân lớp chuyên ngành: ' . $e->getMessage()
-            );
 
             session()->flash('error', 'Có lỗi xảy ra khi lưu file: ' . $e->getMessage());
         }

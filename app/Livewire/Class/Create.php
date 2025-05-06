@@ -6,6 +6,7 @@ namespace App\Livewire\Class;
 
 use App\Enums\ClassType;
 use App\Enums\Status;
+use App\Helpers\LogActivityHelper;
 use App\Models\AdmissionYear;
 use App\Models\ClassGenerate;
 use App\Services\SsoService;
@@ -67,7 +68,7 @@ class Create extends Component
 
         $facultyId = app(SsoService::class)->getFacultyId();
 
-        ClassGenerate::create([
+        $class = ClassGenerate::create([
             'name' => $this->name,
             'code' => $this->code,
             'description' => $this->description,
@@ -76,6 +77,12 @@ class Create extends Component
             'faculty_id' => $facultyId,
             'admission_year_id' => $this->admission_year_id,
         ]);
+
+        // Log the successful class creation
+        LogActivityHelper::create(
+            'Tạo lớp học',
+            'Tạo lớp học ' . $class->name . ' (Mã: ' . $class->code . ')'
+        );
 
         session()->flash('success', 'Lớp học đã được tạo thành công.');
         $this->redirect(route('classes.index'));

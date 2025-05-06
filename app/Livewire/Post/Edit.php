@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Post;
 
 use App\Enums\PostStatus;
+use App\Helpers\LogActivityHelper;
 use App\Models\Post;
 use App\Models\PostNotification;
 use App\Models\User;
@@ -63,6 +64,12 @@ class Edit extends Component
             'status' => $this->status,
         ]);
 
+        // Log the successful post update
+        LogActivityHelper::create(
+            'Cập nhật bài viết',
+            'Cập nhật bài viết: ' . $this->post->title
+        );
+
         // If the post is being published for the first time, create notifications
         if ($isNewlyPublished) {
             $this->createNotifications();
@@ -74,7 +81,16 @@ class Edit extends Component
 
     public function delete(): void
     {
+        $postTitle = $this->post->title;
+
         $this->post->delete();
+
+        // Log the successful post deletion
+        LogActivityHelper::create(
+            'Xóa bài viết',
+            'Xóa bài viết: ' . $postTitle
+        );
+
         session()->flash('success', 'Bài viết đã được xóa thành công.');
         $this->redirect(route('posts.index'));
     }

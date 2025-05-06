@@ -6,6 +6,7 @@ namespace App\Livewire\Class;
 
 use App\Enums\ClassType;
 use App\Enums\Status;
+use App\Helpers\LogActivityHelper;
 use App\Models\AdmissionYear;
 use App\Models\ClassGenerate;
 use Illuminate\Validation\Rules\Enum;
@@ -79,13 +80,29 @@ class Edit extends Component
             'admission_year_id' => $this->admission_year_id,
         ]);
 
+        // Log the successful class update
+        LogActivityHelper::create(
+            'Cập nhật lớp học',
+            'Cập nhật lớp học ' . $this->class->name . ' (Mã: ' . $this->class->code . ')'
+        );
+
         session()->flash('success', 'Lớp học đã được cập nhật thành công.');
         $this->redirect(route('classes.index'));
     }
 
     public function delete(): void
     {
+        $className = $this->class->name;
+        $classCode = $this->class->code;
+
         $this->class->delete();
+
+        // Log the successful class deletion
+        LogActivityHelper::create(
+            'Xóa lớp học',
+            'Xóa lớp học ' . $className . ' (Mã: ' . $classCode . ')'
+        );
+
         session()->flash('success', 'Lớp học đã được xóa thành công.');
         $this->redirect(route('classes.index'));
     }

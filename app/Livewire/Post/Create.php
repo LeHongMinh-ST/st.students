@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Post;
 
 use App\Enums\PostStatus;
+use App\Helpers\LogActivityHelper;
 use App\Models\Post;
 use App\Services\SsoService;
 use Illuminate\Support\Facades\Auth;
@@ -48,13 +49,19 @@ class Create extends Component
 
         $facultyId = app(SsoService::class)->getFacultyId();
 
-        Post::create([
+        $post = Post::create([
             'title' => $this->title,
             'content' => $this->content,
             'status' => $this->status,
             'faculty_id' => $facultyId,
             'user_id' => Auth::id(),
         ]);
+
+        // Log the successful post creation
+        LogActivityHelper::create(
+            'Tạo bài viết',
+            'Tạo bài viết mới: ' . $post->title
+        );
 
         session()->flash('success', 'Bài viết đã được tạo thành công.');
         $this->redirect(route('posts.index'));

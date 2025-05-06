@@ -52,11 +52,11 @@ class ImportSpecializedClassTransferJob implements ShouldQueue
             $importHistory->status = StatusImport::Processing;
             $importHistory->save();
 
-            // Log the start of the import process
-            LogActivityHelper::create(
-                'Bắt đầu import phân lớp chuyên ngành',
-                'Bắt đầu import phân lớp chuyên ngành từ file ' . $importHistory->file_name
-            );
+            // Only log system information, not user activity
+            Log::info('Starting specialized class transfer import', [
+                'file' => $importHistory->file_name,
+                'records' => $importHistory->total_records
+            ]);
 
             $import = new SpecializedClassTransferImport($this->userId, $this->importHistoryId);
 
@@ -64,8 +64,8 @@ class ImportSpecializedClassTransferJob implements ShouldQueue
 
             // Log the completion of the import process
             LogActivityHelper::create(
-                'Hoàn thành import phân lớp chuyên ngành',
-                'Hoàn thành import phân lớp chuyên ngành từ file ' . $importHistory->file_name .
+                'Import phân lớp chuyên ngành',
+                'Import phân lớp chuyên ngành từ file ' . $importHistory->file_name .
                 ' với ' . $importHistory->successful_records . ' bản ghi thành công'
             );
 
@@ -75,12 +75,6 @@ class ImportSpecializedClassTransferJob implements ShouldQueue
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            // Log the error
-            LogActivityHelper::create(
-                'Lỗi import phân lớp chuyên ngành',
-                'Lỗi khi import phân lớp chuyên ngành: ' . $e->getMessage()
-            );
         }
     }
 }

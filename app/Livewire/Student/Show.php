@@ -6,6 +6,7 @@ namespace App\Livewire\Student;
 
 use App\Enums\StudentStatus;
 use App\Helpers\Constants;
+use App\Helpers\LogActivityHelper;
 use App\Models\Student;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -30,8 +31,17 @@ class Show extends Component
 
     public function updatedStudentStatus(): void
     {
+        $oldStatus = $this->student->status;
         $this->student->status = $this->studentStatus;
         $this->student->save();
+
+        // Log the successful status update
+        LogActivityHelper::create(
+            'Cập nhật trạng thái sinh viên',
+            'Cập nhật trạng thái sinh viên ' . $this->student->full_name . ' (Mã SV: ' . $this->student->code . ') ' .
+            'từ ' . $oldStatus->name . ' sang ' . $this->studentStatus->name
+        );
+
         $this->editStatusMode = false;
     }
 
