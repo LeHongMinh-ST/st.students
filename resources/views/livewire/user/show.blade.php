@@ -65,6 +65,14 @@
                             <p>
                                 <b>Loại người dùng:</b> <x-role-badge :role="$userData['role']" />
                             </p>
+                            <p>
+                                <b>Vai trò:</b>
+                                @if($user->type)
+                                    <x-user-type-badge :type="$user->type" />
+                                @else
+                                    -
+                                @endif
+                            </p>
                         </div>
                     </div>
                 </div>

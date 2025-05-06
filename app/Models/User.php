@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\Role as RoleEnum;
 use App\Enums\Status;
+use App\Enums\UserType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -64,11 +65,13 @@ class User extends Authenticatable
         'user_data',
         'faculty_id',
         'role',
+        'type',
     ];
 
     protected $casts = [
         'status' => Status::class,
         'user_data' => 'array',
+        'type' => UserType::class,
     ];
 
     protected $appends = ['role_name'];
@@ -93,5 +96,45 @@ class User extends Authenticatable
     public function getRoleNameAttribute(): string
     {
         return $this->userRoles()->pluck('name')->implode(', ');
+    }
+
+    /**
+     * Scope a query to filter users by search term.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $search
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $search): \Illuminate\Database\Eloquent\Builder
+    {
+        if ($search) {
+            $query->where('full_name', 'like', '%' . $search . '%');
+        }
+
+        return $query;
+    }
+
+    /**
+     * Scope a query to only include users with a specific type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfType($query, $type): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->where('type', $type);
+    }
+
+    /**
+     * Scope a query to exclude users with a specific type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeExcludeType($query, $type): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->where('type', '!=', $type);
     }
 }

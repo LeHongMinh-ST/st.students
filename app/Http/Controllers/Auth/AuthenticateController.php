@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Enums\Role;
 use App\Enums\Status;
+use App\Enums\UserType;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\User;
@@ -92,6 +93,7 @@ class AuthenticateController extends Controller
         $userData = array_merge($userData, ['access_token' => $accessToken]);
 
         if (!$user) {
+            $userType = $this->determineUserType($userData['role']);
             $user = User::create([
                 'sso_id' => $userData['id'],
                 'status' => Status::Active,
@@ -99,15 +101,18 @@ class AuthenticateController extends Controller
                 'access_token' => $accessToken,
                 'user_data' => $userData,
                 'faculty_id' => $facultyId,
-                'role' => $userData['role']
+                'role' => $userData['role'],
+                'type' => $userType
             ]);
         } else {
+            $userType = $this->determineUserType($userData['role']);
             $user->update([
                 'full_name' => $userData['full_name'],
                 'access_token' => $accessToken,
                 'user_data' => $userData,
                 'faculty_id' => $facultyId,
-                'role' => $userData['role']
+                'role' => $userData['role'],
+                'type' => $userType
             ]);
         }
 
@@ -132,5 +137,15 @@ class AuthenticateController extends Controller
         if ($userData['role'] !== Role::SuperAdmin->value && empty($userData['faculty_id'])) {
             abort(403);
         }
+    }
+
+    private function determineUserType(string $role): string
+    {
+        return match ($role) {
+            Role::SuperAdmin->value => UserType::Admin->value,
+            Role::Officer->value => UserType::Officer->value,
+            Role::Student->value => UserType::Student->value,
+            default => UserType::Teacher->value,
+        };
     }
 }

@@ -33,32 +33,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($users as $key =>  $item)
+                    @forelse($users as $item)
                         <tr>
-                            <td class="text-center" width="5%">{{ $key + 1 + 10 * ($page - 1) }}</td>
+                            <td class="text-center" width="5%">{{ $loop->index + 1 + $users->perPage() * ($users->currentPage() - 1) }}</td>
                             <td width="30%">
-                                <a class="fw-semibold" href="{{ route('users.show', @$item['local_user']['id']) }}">
+                                <a class="fw-semibold" href="{{ route('users.show', $item->id) }}">
                                     <div class="gap-2 d-flex align-items-center">
 
-                                        <img src="{{ Avatar::create($item['full_name'])->toBase64() }}" class="w-32px h-32px" alt="">
+                                        <img src="{{ Avatar::create($item->full_name)->toBase64() }}" class="w-32px h-32px" alt="">
                                         <div class="flex-grow-1">
                                             <div>
-                                                {{ $item['full_name'] }}
+                                                {{ $item->full_name }}
                                             </div>
 
                                             <div class="text-muted">
-                                                {{ $item['email'] }}
+                                                {{ $item->user_data['email'] ?? '-' }}
                                             </div>
                                         </div>
                                     </div>
                                 </a>
                             </td>
-                            <td>{{ empty($item['phone']) ? '-' : $item['phone'] }}</td>
+                            <td>{{ $item->user_data['phone'] ?? '-' }}</td>
                             <td>
-                                <x-role-badge :role="$item['role']" />
+                                @if($item->type)
+                                    <x-user-type-badge :type="$item->type" />
+                                @else
+                                    -
+                                @endif
                             </td>
                             <td>
-                                <span data-bs-popup="tooltip" title="{{ @$item['local_user']['role_name'] }}" class="text-role-name">{{ @$item['local_user']['role_name'] ?? '-' }}</span>
+                                <span data-bs-popup="tooltip" title="{{ $item->role_name }}" class="text-role-name">{{ $item->role_name ?: '-' }}</span>
                             </td>
                         </tr>
                     @empty
@@ -69,5 +73,5 @@
 
         </div>
     </div>
-    <livewire:commons.pagination :currentPage="$page" :totalPages="$totalPages" />
+    {{ $users->links() }}
 </div>
