@@ -65,15 +65,7 @@
                 </li>
                 @endcan
 
-                @can('manageSubTeacher', \App\Models\ClassGenerate::class)
-                <li class="nav-item">
-                    <a href="{{ route('classes-sub-teacher') }}"
-                       class="nav-link {{ request()->routeIs('classes-sub-teacher') ? 'active' : '' }}">
-                        <i class="ph-book-bookmark"></i>
-                        <span>Cố vấn học tập</span>
-                    </a>
-                </li>
-                @endcan
+
 
                 @if(Auth::user()->can('viewAny', \App\Models\Student::class))
                 <li class="nav-item-header">

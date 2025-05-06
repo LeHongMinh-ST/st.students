@@ -43,7 +43,7 @@ class Index extends Component
             // Lấy phân công giáo viên mới nhất cho mỗi lớp
             $assigns = \App\Models\ClassAssign::whereIn('class_id', $classIds)
                 ->where('status', 'active')
-                ->with(['teacher', 'subTeacher'])
+                ->with(['teacher'])
                 ->get()
                 ->groupBy('class_id');
 
@@ -52,7 +52,6 @@ class Index extends Component
                 $latestAssignment = $classAssignments->sortByDesc('year')->first();
                 $classAssigns[$classId] = [
                     'teacher' => $latestAssignment->teacher ? $latestAssignment->teacher->full_name : null,
-                    'sub_teacher' => $latestAssignment->subTeacher ? $latestAssignment->subTeacher->full_name : null,
                 ];
             }
         }

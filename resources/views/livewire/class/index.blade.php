@@ -26,8 +26,7 @@
                     <tr class="table-light">
                         <th width="5%">STT</th>
                         <th width="20%">Tên lớp</th>
-                        <th width="20%">Giáo viên chủ nhiệm</th>
-                        <th width="20%">Cố vấn học tập</th>
+                        <th width="40%">Giáo viên chủ nhiệm</th>
                         <th width="10%">Sĩ số</th>
                         <th width="10%">Loại lớp</th>
                         <th width="10%">Trạng thái</th>
@@ -42,16 +41,9 @@
                                     {{ $item->name }}
                                 </a>
                             </td>
-                            <td width="20%">
+                            <td width="40%">
                                 @if(isset($classAssigns[$item->id]['teacher']))
                                     {{ $classAssigns[$item->id]['teacher'] ?? 'Chưa phân công' }}
-                                @else
-                                    <span class="text-muted">Chưa phân công</span>
-                                @endif
-                            </td>
-                            <td width="20%">
-                                @if(isset($classAssigns[$item->id]['sub_teacher']))
-                                    {{ $classAssigns[$item->id]['sub_teacher'] ?? 'Chưa phân công' }}
                                 @else
                                     <span class="text-muted">Chưa phân công</span>
                                 @endif

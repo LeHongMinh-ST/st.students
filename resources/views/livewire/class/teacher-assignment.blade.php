@@ -20,8 +20,7 @@
                         <tr class="table-light">
                             <th width="5%">STT</th>
                             <th width="15%">Năm học</th>
-                            <th width="25%">Giáo viên chủ nhiệm</th>
-                            <th width="25%">Cố vấn học tập</th>
+                            <th width="50%">Giáo viên chủ nhiệm</th>
                             <th width="15%">Trạng thái</th>
                             <th width="15%">Thao tác</th>
                         </tr>
@@ -31,16 +30,9 @@
                             <tr>
                                 <td class="text-center" width="5%">{{ $loop->index + 1 + $assignments->perPage() * ($assignments->currentPage() - 1) }}</td>
                                 <td width="15%">Năm học {{ $item->year }}</td>
-                                <td width="25%">
+                                <td width="50%">
                                     @if($item->teacher)
                                         {{ $item->teacher->full_name ?? $item->teacher->name }}
-                                    @else
-                                        <span class="text-muted">Chưa phân công</span>
-                                    @endif
-                                </td>
-                                <td width="25%">
-                                    @if($item->subTeacher)
-                                        {{ $item->subTeacher->full_name ?? $item->subTeacher->name }}
                                     @else
                                         <span class="text-muted">Chưa phân công</span>
                                     @endif
@@ -105,16 +97,7 @@
                             @error('teacher_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Cố vấn học tập</label>
-                            <select wire:model.live="sub_teacher_id" class="form-select @error('sub_teacher_id') is-invalid @enderror">
-                                <option value="">-- Chọn cố vấn học tập --</option>
-                                @foreach($teachers as $teacher)
-                                    <option value="{{ $teacher['id'] }}">{{ $teacher['name'] }}</option>
-                                @endforeach
-                            </select>
-                            @error('sub_teacher_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
+
 
                         <div class="mb-3">
                             <label class="form-label">Trạng thái <span class="text-danger">*</span></label>

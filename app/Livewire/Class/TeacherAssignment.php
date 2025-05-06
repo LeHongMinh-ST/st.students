@@ -34,15 +34,13 @@ class TeacherAssignment extends Component
     public array $statuses = [];
 
     protected $rules = [
-        'teacher_id' => 'nullable|exists:users,id',
-        'sub_teacher_id' => 'nullable|exists:users,id',
+        'teacher_id' => 'required|exists:users,id',
         'year' => 'required|string',
         'status' => 'required|string',
     ];
 
     protected $validationAttributes = [
         'teacher_id' => 'giáo viên chủ nhiệm',
-        'sub_teacher_id' => 'cố vấn học tập',
         'year' => 'năm học',
         'status' => 'trạng thái',
     ];
@@ -119,11 +117,6 @@ class TeacherAssignment extends Component
     {
         $this->validate();
 
-        // Kiểm tra xem có ít nhất một giáo viên được chọn
-        if (null === $this->teacher_id && null === $this->sub_teacher_id) {
-            $this->addError('teacher_id', 'Phải chọn ít nhất một giáo viên chủ nhiệm hoặc cố vấn học tập');
-            return;
-        }
 
         if ('create' === $this->modalMode) {
             // Check if there's already an assignment for this year
@@ -139,7 +132,6 @@ class TeacherAssignment extends Component
             ClassAssign::create([
                 'class_id' => $this->class->id,
                 'teacher_id' => $this->teacher_id,
-                'sub_teacher_id' => $this->sub_teacher_id,
                 'year' => $this->year,
                 'status' => $this->status,
             ]);
@@ -161,7 +153,6 @@ class TeacherAssignment extends Component
 
             $assignment->update([
                 'teacher_id' => $this->teacher_id,
-                'sub_teacher_id' => $this->sub_teacher_id,
                 'year' => $this->year,
                 'status' => $this->status,
             ]);
@@ -198,7 +189,6 @@ class TeacherAssignment extends Component
     {
         $this->editingId = null;
         $this->teacher_id = null;
-        $this->sub_teacher_id = null;
 
         // Set default year to current academic year
         $currentYear = date('Y');
@@ -213,13 +203,14 @@ class TeacherAssignment extends Component
     {
         $facultyId = app(SsoService::class)->getFacultyId();
 
-        // Get users with teacher/officer role from the faculty
-        $this->teachers = User::whereHas('userRoles', function ($query): void {
-            $query->where('name', 'like', '%giảng viên%')
-                ->orWhere('name', 'like', '%giáo viên%')
-                ->orWhere('name', 'like', '%cán bộ%');
-        })
+        // Get users with homeroom teacher permissions from the faculty
+        $this->teachers = User::where('faculty_id', $facultyId)
             ->where('status', Status::Active)
+            ->whereHas('userRoles', function ($query): void {
+                $query->whereHas('permissions', function ($q): void {
+                    $q->where('code', 'class.teacher');
+                });
+            })
             ->get()
             ->map(fn ($user) => [
                 'id' => $user->id,
