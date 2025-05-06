@@ -40,12 +40,12 @@
                         <td width="15%">
                             <div class="d-inline-flex">
                                 @can('manageTeacherAssignment', \App\Models\ClassGenerate::class)
-                                    <button type="button" class="btn btn-sm btn-outline-primary me-1" wire:click="openEditModal({{ $item->id }}, '{{ $item->pivot->role }}')">
+                                    <a href="#" class="text-body" wire:click.prevent="openEditModal({{ $item->id }}, '{{ $item->pivot->role }}')" data-bs-popup="tooltip" title="Chỉnh sửa">
                                         <i class="ph-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger" wire:click="confirmRemoveRole({{ $item->id }})">
+                                    </a>
+                                    <a href="#" class="text-body mx-2" wire:click.prevent="confirmRemoveRole({{ $item->id }})" data-bs-popup="tooltip" title="Xóa">
                                         <i class="ph-trash"></i>
-                                    </button>
+                                    </a>
                                 @endcan
                             </div>
                         </td>
