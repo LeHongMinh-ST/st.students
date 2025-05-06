@@ -96,13 +96,13 @@
                         <div class="col-md-4">
                             <div class="mb-2">
                                 <label class="form-label fw-semibold mb-0">Lớp trưởng:</label>
-                                <div>{{ $classPresident ? $classPresident->full_name : 'Chưa phân công' }}</div>
+                                <div>{{ $classPresident ? $classPresident->full_name . ' (' . $classPresident->code . ')' : 'Chưa phân công' }}</div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-2">
                                 <label class="form-label fw-semibold mb-0">Bí thư:</label>
-                                <div>{{ $classSecretary ? $classSecretary->full_name : 'Chưa phân công' }}</div>
+                                <div>{{ $classSecretary ? $classSecretary->full_name . ' (' . $classSecretary->code . ')' : 'Chưa phân công' }}</div>
                             </div>
                         </div>
                     </div>

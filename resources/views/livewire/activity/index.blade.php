@@ -30,50 +30,52 @@
                     <input type="date" class="form-control" wire:model.live="toDate">
                 </div>
             </div>
-
-            <div class="table-responsive">
-                <table class="table fs-table">
-                    <thead>
-                        <tr class="table-light">
-                            <th width="5%">STT</th>
-                            <th width="15%">Thời gian</th>
-                            <th width="15%">Người dùng</th>
-                            <th width="20%">Hành động</th>
-                            <th width="35%">Chi tiết</th>
-                            <th width="10%">Địa chỉ IP</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($activities as $index => $activity)
-                            <tr>
-                                <td class="text-center">{{ $loop->index + 1 + $activities->perPage() * ($activities->currentPage() - 1) }}</td>
-                                <td>{{ $activity->created_at->format('d/m/Y H:i:s') }}</td>
-                                <td>{{ $activity->user_name }}</td>
-                                <td>{{ $activity->action }}</td>
-                                <td>
-                                    @if(strlen($activity->details) > 50)
-                                        {{ Str::limit($activity->details, 50) }}
-                                        <a href="javascript:void(0);" wire:click="viewDetail({{ $activity->id }})" class="text-primary ms-1">
-                                            Xem chi tiết
-                                        </a>
-                                    @else
-                                        {{ $activity->details }}
-                                    @endif
-                                </td>
-                                <td>{{ $activity->ip_address }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center">Không có dữ liệu</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
-            {{ $activities->links('vendor.pagination.theme') }}
         </div>
     </div>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table fs-table">
+                <thead>
+                <tr class="table-light">
+                    <th width="5%">STT</th>
+                    <th width="15%">Thời gian</th>
+                    <th width="15%">Người dùng</th>
+                    <th width="20%">Hành động</th>
+                    <th width="35%">Chi tiết</th>
+                    <th width="10%">Địa chỉ IP</th>
+                </tr>
+                </thead>
+                <tbody>
+                @forelse($activities as $index => $activity)
+                    <tr>
+                        <td class="text-center">{{ $loop->index + 1 + $activities->perPage() * ($activities->currentPage() - 1) }}</td>
+                        <td>{{ $activity->created_at->format('d/m/Y H:i:s') }}</td>
+                        <td>{{ $activity->user_name }}</td>
+                        <td>{{ $activity->action }}</td>
+                        <td>
+                            @if(strlen($activity->details) > 50)
+                                {{ Str::limit($activity->details, 50) }}
+                                <a href="javascript:void(0);" wire:click="viewDetail({{ $activity->id }})" class="text-primary ms-1">
+                                    Xem chi tiết
+                                </a>
+                            @else
+                                {{ $activity->details }}
+                            @endif
+                        </td>
+                        <td>{{ $activity->ip_address }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Không có dữ liệu</td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    {{ $activities->links('vendor.pagination.theme') }}
 
     <!-- Modal xem chi tiết hoạt động -->
     @if($showDetailModal)

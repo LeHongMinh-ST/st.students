@@ -10,55 +10,53 @@
                 @endcan
             </div>
         </div>
-        <div class="card-body py-2">
-            <div class="table-responsive">
-                <div wire:loading class="my-3 text-center w-100">
-                    <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
-                </div>
-                <table class="table fs-table" wire:loading.remove>
-                    <thead>
-                        <tr class="table-light">
-                            <th width="5%">STT</th>
-                            <th width="40%">Sinh viên</th>
-                            <th width="20%">Mã sinh viên</th>
-                            <th width="20%">Vai trò</th>
-                            <th width="15%">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($classStudents as $item)
-                            <tr>
-                                <td class="text-center" width="5%">{{ $loop->index + 1 + $classStudents->perPage() * ($classStudents->currentPage() - 1) }}</td>
-                                <td width="40%">
-                                    <a href="{{ route('students.show', $item->id) }}" class="fw-semibold">
-                                        {{ $item->full_name }}
-                                    </a>
-                                </td>
-                                <td width="20%">{{ $item->code }}</td>
-                                <td width="20%">
-                                    <x-student-role-badge :role="\App\Enums\StudentRole::from($item->pivot->role)" />
-                                </td>
-                                <td width="15%">
-                                    <div class="d-inline-flex">
-                                        @can('manageTeacherAssignment', \App\Models\ClassGenerate::class)
-                                            <button type="button" class="btn btn-sm btn-outline-primary me-1" wire:click="openEditModal({{ $item->id }}, '{{ $item->pivot->role }}')">
-                                                <i class="ph-pencil"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" wire:click="confirmRemoveRole({{ $item->id }})">
-                                                <i class="ph-trash"></i>
-                                            </button>
-                                        @endcan
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <x-table-empty :colspan="5" />
-                        @endforelse
-                    </tbody>
-                </table>
+        <div class="table-responsive">
+            <div wire:loading class="my-3 text-center w-100">
+                <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
             </div>
-            {{ $classStudents->links('vendor.pagination.theme') }}
+            <table class="table fs-table" wire:loading.remove>
+                <thead>
+                <tr class="table-light">
+                    <th width="5%">STT</th>
+                    <th width="40%">Sinh viên</th>
+                    <th width="20%">Mã sinh viên</th>
+                    <th width="20%">Vai trò</th>
+                    <th width="15%">Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                @forelse($classStudents as $item)
+                    <tr>
+                        <td class="text-center" width="5%">{{ $loop->index + 1 + $classStudents->perPage() * ($classStudents->currentPage() - 1) }}</td>
+                        <td width="40%">
+                            <a href="{{ route('students.show', $item->id) }}" class="fw-semibold">
+                                {{ $item->full_name }}
+                            </a>
+                        </td>
+                        <td width="20%">{{ $item->code }}</td>
+                        <td width="20%">
+                            <x-student-role-badge :role="\App\Enums\StudentRole::from($item->pivot->role)" />
+                        </td>
+                        <td width="15%">
+                            <div class="d-inline-flex">
+                                @can('manageTeacherAssignment', \App\Models\ClassGenerate::class)
+                                    <button type="button" class="btn btn-sm btn-outline-primary me-1" wire:click="openEditModal({{ $item->id }}, '{{ $item->pivot->role }}')">
+                                        <i class="ph-pencil"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" wire:click="confirmRemoveRole({{ $item->id }})">
+                                        <i class="ph-trash"></i>
+                                    </button>
+                                @endcan
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <x-table-empty :colspan="5" />
+                @endforelse
+                </tbody>
+            </table>
         </div>
+        {{ $classStudents->links('vendor.pagination.theme') }}
     </div>
 
     <!-- Modal for creating/editing student assignments -->
