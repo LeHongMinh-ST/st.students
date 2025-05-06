@@ -42,4 +42,11 @@ class StudentController extends Controller
 
         return view('pages.student.edit', compact('student'));
     }
+
+    public function editDetail(Student $student): View|Application|Factory|RedirectResponse
+    {
+        Gate::authorize('update', $student);
+
+        return view('pages.student.edit-detail', compact('student'));
+    }
 }

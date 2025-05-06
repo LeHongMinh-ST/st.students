@@ -25,6 +25,7 @@ Route::middleware('auth.sso')->group(function (): void {
     Route::middleware('check.faculty')->group(function (): void {
         Route::resource('users', UserController::class)->only(['index', 'show']);
         Route::resource('students', StudentController::class)->only(['index', 'show', 'edit', 'destroy']);
+        Route::get('students/{student}/edit-detail', [StudentController::class, 'editDetail'])->name('students.edit-detail');
         Route::resource('classes', ClassGenerateController::class);
         Route::get('classes-teacher', [ClassGenerateController::class, 'getClassTeacher'])->name('classes-teacher');
         Route::get('classes-sub-teacher', [ClassGenerateController::class, 'getClassSubTeacher'])->name('classes-sub-teacher');

@@ -4,28 +4,15 @@ declare(strict_types=1);
 
 namespace App\Livewire\Student;
 
-use App\Enums\StudentStatus;
-use App\Helpers\Constants;
 use App\Helpers\LogActivityHelper;
 use App\Models\Student;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-use Livewire\WithPagination;
 
-class Show extends Component
+class EditDetail extends Component
 {
-    use WithPagination;
-
     public Student $student;
 
-    public string $tab = 'profile';
-
-    public bool $editStatusMode = false;
-    public bool $editInfoMode = false;
-
-    public StudentStatus $studentStatus = StudentStatus::CurrentlyStudying;
-
-    // Các trường thông tin có thể chỉnh sửa
     #[Validate('nullable|email|max:255')]
     public ?string $email = null;
 
@@ -63,66 +50,32 @@ class Show extends Component
     public function mount(Student $student): void
     {
         $this->student = $student;
-        $this->studentStatus = $student->status;
         $this->loadStudentData();
-    }
-
-    public function updatedStudentStatus(): void
-    {
-        $oldStatus = $this->student->status;
-        $this->student->status = $this->studentStatus;
-        $this->student->save();
-
-        // Log the successful status update
-        LogActivityHelper::create(
-            'Cập nhật trạng thái sinh viên',
-            'Cập nhật trạng thái sinh viên ' . $this->student->full_name . ' (Mã SV: ' . $this->student->code . ') ' .
-            'từ ' . $oldStatus->name . ' sang ' . $this->studentStatus->name
-        );
-
-        $this->editStatusMode = false;
     }
 
     public function render()
     {
-        $classes = $this->student->classes()
-            ->paginate(Constants::PER_PAGE);
-
-        $families = $this->student->families;
-
-        return view('livewire.student.show', [
-            'classes' => $classes,
-            'families' => $families
-        ]);
+        return view('livewire.student.edit-detail');
     }
 
-    public function setTab(string $tab): void
+    public function rules(): array
     {
-        $this->tab = $tab;
+        return [
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'citizen_identification' => 'nullable|string|max:20',
+            'pob' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'countryside' => 'nullable|string|max:255',
+            'nationality' => 'nullable|string|max:100',
+            'ethnic' => 'nullable|string|max:100',
+            'religion' => 'nullable|string|max:100',
+            'social_policy_object' => 'nullable|string|max:255',
+            'note' => 'nullable|string',
+        ];
     }
 
-    /**
-     * Bật chế độ chỉnh sửa thông tin
-     */
-    public function enableEditMode(): void
-    {
-        $this->editInfoMode = true;
-    }
-
-    /**
-     * Tắt chế độ chỉnh sửa thông tin
-     */
-    public function cancelEdit(): void
-    {
-        $this->editInfoMode = false;
-        $this->loadStudentData();
-        $this->resetValidation();
-    }
-
-    /**
-     * Lưu thông tin đã chỉnh sửa
-     */
-    public function saveInfo(): void
+    public function save(): void
     {
         $this->validate();
 
@@ -136,8 +89,8 @@ class Show extends Component
             'nationality' => $this->nationality,
             'ethnic' => $this->ethnic,
             'religion' => $this->religion,
-            'note' => $this->note,
             'social_policy_object' => $this->social_policy_object,
+            'note' => $this->note,
         ];
 
         $this->student->update($data);
@@ -148,8 +101,13 @@ class Show extends Component
             'Cập nhật thông tin sinh viên ' . $this->student->full_name . ' (Mã SV: ' . $this->student->code . ')'
         );
 
-        $this->editInfoMode = false;
         session()->flash('success', 'Thông tin sinh viên đã được cập nhật thành công.');
+        $this->redirect(route('students.show', $this->student->id));
+    }
+
+    public function cancel(): void
+    {
+        $this->redirect(route('students.show', $this->student->id));
     }
 
     /**
