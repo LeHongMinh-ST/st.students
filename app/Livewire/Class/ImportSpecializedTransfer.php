@@ -6,12 +6,14 @@ namespace App\Livewire\Class;
 
 use App\Enums\StatusImport;
 use App\Enums\TypeImport;
+use App\Helpers\LogActivityHelper;
 use App\Imports\SpecializedClassTransferPreviewImport;
 use App\Jobs\ImportSpecializedClassTransferJob;
 use App\Models\ImportHistory;
 use App\Services\SsoService;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -67,21 +69,42 @@ class ImportSpecializedTransfer extends Component
     #[On('onImportFile')]
     public function import($fileName, $filePath): void
     {
-        $facultyId = app(SsoService::class)->getFacultyId();
-        $importHistory = ImportHistory::create([
-            'file_name' => $fileName,
-            'path' => $filePath,
-            'status' => StatusImport::Pending,
-            'total_records' => count($this->previewData),
-            'successful_records' => 0,
-            'faculty_id' => $facultyId,
-            'type' => TypeImport::SpecializedClassTransfer,
-            'created_by' => Auth::id(),
-            'admission_year_id' => 0 // Not needed for specialized class transfer
-        ]);
+        try {
+            $facultyId = app(SsoService::class)->getFacultyId();
+            $importHistory = ImportHistory::create([
+                'file_name' => $fileName,
+                'path' => $filePath,
+                'status' => StatusImport::Pending,
+                'total_records' => count($this->previewData),
+                'successful_records' => 0,
+                'faculty_id' => $facultyId,
+                'type' => TypeImport::SpecializedClassTransfer,
+                'created_by' => Auth::id(),
+                'admission_year_id' => 0 // Not needed for specialized class transfer
+            ]);
 
-        dispatch(new ImportSpecializedClassTransferJob(Auth::id(), $importHistory->id));
-        $this->dispatch('onOpenProcessModal');
+            // Log the import initiation
+            LogActivityHelper::create(
+                'Tạo import phân lớp chuyên ngành',
+                'Tạo import phân lớp chuyên ngành từ file ' . $fileName . ' với ' . count($this->previewData) . ' bản ghi'
+            );
+
+            dispatch(new ImportSpecializedClassTransferJob(Auth::id(), $importHistory->id));
+            $this->dispatch('onOpenProcessModal');
+        } catch (Exception $e) {
+            Log::error('Error creating specialized class transfer import', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            // Log the error
+            LogActivityHelper::create(
+                'Lỗi tạo import phân lớp chuyên ngành',
+                'Lỗi khi tạo import phân lớp chuyên ngành: ' . $e->getMessage()
+            );
+
+            session()->flash('error', 'Có lỗi xảy ra khi tạo import: ' . $e->getMessage());
+        }
     }
 
     public function startImport(): void
@@ -92,9 +115,28 @@ class ImportSpecializedTransfer extends Component
         }
 
         try {
+            $fileName = $this->file->getClientOriginalName();
             $path = $this->file->store('imports');
-            $this->dispatch('onImportFile', fileName: $this->file->getClientOriginalName(), filePath: $path);
+
+            // Log the file upload
+            LogActivityHelper::create(
+                'Tải lên file phân lớp chuyên ngành',
+                'Tải lên file ' . $fileName . ' để phân lớp chuyên ngành'
+            );
+
+            $this->dispatch('onImportFile', fileName: $fileName, filePath: $path);
         } catch (Exception $e) {
+            Log::error('Error storing specialized class transfer file', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            // Log the error
+            LogActivityHelper::create(
+                'Lỗi tải lên file phân lớp chuyên ngành',
+                'Lỗi khi tải lên file phân lớp chuyên ngành: ' . $e->getMessage()
+            );
+
             session()->flash('error', 'Có lỗi xảy ra khi lưu file: ' . $e->getMessage());
         }
     }

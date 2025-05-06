@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Enums\StatusImport;
+use App\Helpers\LogActivityHelper;
 use App\Imports\TeacherAssignmentImport;
 use App\Models\ImportHistory;
 use Illuminate\Bus\Queueable;
@@ -12,8 +13,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Throwable;
 
 class ImportTeacherAssignmentsJob implements ShouldQueue
 {
@@ -33,14 +36,45 @@ class ImportTeacherAssignmentsJob implements ShouldQueue
 
     public function handle(): void
     {
-        $importHistory = ImportHistory::find($this->importHistoryId);
-        $importHistory->status = StatusImport::Processing;
-        $importHistory->save();
+        try {
+            $importHistory = ImportHistory::find($this->importHistoryId);
+            if (!$importHistory) {
+                Log::error('Import history not found', ['id' => $this->importHistoryId]);
+                return;
+            }
 
-        $import = new TeacherAssignmentImport($this->userId, $this->importHistoryId);
+            $importHistory->status = StatusImport::Processing;
+            $importHistory->save();
 
-        Excel::import($import, Storage::path($importHistory->path));
+            // Log the start of the import process
+            LogActivityHelper::create(
+                'Bắt đầu import phân công giáo viên',
+                'Bắt đầu import phân công giáo viên từ file ' . $importHistory->file_name
+            );
 
-        Storage::delete(Storage::path($importHistory->path));
+            $import = new TeacherAssignmentImport($this->userId, $this->importHistoryId);
+
+            Excel::import($import, Storage::path($importHistory->path));
+
+            // Log the completion of the import process
+            LogActivityHelper::create(
+                'Hoàn thành import phân công giáo viên',
+                'Hoàn thành import phân công giáo viên từ file ' . $importHistory->file_name .
+                ' với ' . $importHistory->successful_records . ' bản ghi thành công'
+            );
+
+            Storage::delete(Storage::path($importHistory->path));
+        } catch (Throwable $e) {
+            Log::error('Error in teacher assignment import job', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            // Log the error
+            LogActivityHelper::create(
+                'Lỗi import phân công giáo viên',
+                'Lỗi khi import phân công giáo viên: ' . $e->getMessage()
+            );
+        }
     }
 }

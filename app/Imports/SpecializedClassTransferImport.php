@@ -10,12 +10,14 @@ use App\Enums\StatusImport as ImportStatus;
 use App\Events\ImportFinished;
 use App\Events\ImportProgressUpdated;
 use App\Events\ImportStarted;
+use App\Helpers\LogActivityHelper;
 use App\Models\ClassGenerate;
 use App\Models\ImportError;
 use App\Models\ImportHistory;
 use App\Models\Student;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToArray;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -233,6 +235,15 @@ class SpecializedClassTransferImport implements ToArray, WithChunkReading, WithE
             'end_year' => $startYear,
         ]);
 
+        // Log the end of basic class
+        Log::info('Student basic class ended', [
+            'student_id' => $student->id,
+            'student_code' => $student->code,
+            'class_id' => $currentClass->id,
+            'class_code' => $currentClass->code,
+            'end_year' => $startYear
+        ]);
+
         // Check if student is already in the specialized class
         $existingSpecializedClass = $student->classes()
             ->where('id', $specializedClass->id)
@@ -245,13 +256,39 @@ class SpecializedClassTransferImport implements ToArray, WithChunkReading, WithE
                 'start_year' => $startYear,
                 'end_year' => null,
             ]);
+
+            // Log the update of specialized class
+            Log::info('Student specialized class updated', [
+                'student_id' => $student->id,
+                'student_code' => $student->code,
+                'class_id' => $specializedClass->id,
+                'class_code' => $specializedClass->code,
+                'start_year' => $startYear
+            ]);
         } else {
             // Add student to the specialized class
             $student->classes()->attach($specializedClass->id, [
                 'status' => Status::Active->value,
                 'start_year' => $startYear,
             ]);
+
+            // Log the addition to specialized class
+            Log::info('Student added to specialized class', [
+                'student_id' => $student->id,
+                'student_code' => $student->code,
+                'class_id' => $specializedClass->id,
+                'class_code' => $specializedClass->code,
+                'start_year' => $startYear
+            ]);
         }
+
+        // Log the activity for user tracking
+        LogActivityHelper::create(
+            'Chuyển lớp chuyên ngành',
+            'Chuyển sinh viên ' . $student->full_name . ' (Mã SV: ' . $student->code . ') ' .
+            'từ lớp ' . $currentClass->name . ' sang lớp chuyên ngành ' . $specializedClass->name .
+            ' cho năm học ' . $academicYear
+        );
     }
 
     /**
