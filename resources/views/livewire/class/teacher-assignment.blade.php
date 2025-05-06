@@ -86,7 +86,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Giáo viên chủ nhiệm</label>
-                            <select wire:model.live="teacher_id" class="form-select @error('teacher_id') is-invalid @enderror">
+                            <select wire:model.live="teacher_id" class="form-select select2-teacher @error('teacher_id') is-invalid @enderror">
                                 <option value="">-- Chọn giáo viên chủ nhiệm --</option>
                                 @foreach($teachers as $teacher)
                                     <option value="{{ $teacher['id'] }}">{{ $teacher['name'] }}</option>
@@ -138,14 +138,61 @@
             });
         });
 
+        // Hàm khởi tạo Select2
+        function initTeacherSelect2() {
+            // Hủy Select2 cũ nếu đã khởi tạo
+            if ($('.select2-teacher').hasClass('select2-hidden-accessible')) {
+                $('.select2-teacher').select2('destroy');
+            }
+
+            // Khởi tạo Select2 cho dropdown giáo viên
+            setTimeout(function() {
+                $('.select2-teacher').select2({
+                    dropdownParent: $('#assignment-modal'),
+                    width: '100%',
+                    placeholder: 'Chọn giáo viên',
+                    allowClear: true,
+                    language: {
+                        noResults: function() {
+                            return "Không tìm thấy kết quả";
+                        },
+                        searching: function() {
+                            return "Đang tìm kiếm...";
+                        }
+                    },
+                    // Thêm các tùy chọn để phù hợp với giao diện
+                    containerCssClass: 'select-lg',
+                    dropdownCssClass: 'select2-dropdown-lg'
+                });
+
+                // Xử lý sự kiện thay đổi của Select2 để cập nhật giá trị cho Livewire
+                $('.select2-teacher').on('change', function (e) {
+                    @this.set('teacher_id', $(this).val());
+                });
+
+                // Đặt giá trị hiện tại cho Select2
+                if (@this.teacher_id) {
+                    $('.select2-teacher').val(@this.teacher_id).trigger('change');
+                }
+            }, 100);
+        }
+
         // Xử lý mở modal
         window.addEventListener('onOpenAssignmentModal', () => {
             $('#assignment-modal').modal('show');
+            initTeacherSelect2();
         });
 
         // Xử lý đóng modal
         window.addEventListener('onCloseAssignmentModal', () => {
             $('#assignment-modal').modal('hide');
+        });
+
+        // Khởi tạo lại Select2 khi Livewire cập nhật DOM
+        document.addEventListener('livewire:update', function() {
+            if ($('#assignment-modal').hasClass('show')) {
+                initTeacherSelect2();
+            }
         });
     </script>
     @endscript

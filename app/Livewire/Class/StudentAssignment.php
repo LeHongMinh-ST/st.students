@@ -56,6 +56,7 @@ class StudentAssignment extends Component
 
     public function render()
     {
+
         $classStudents = $this->class->students()
             ->wherePivotIn('role', [
                 StudentRole::President->value,
@@ -191,7 +192,6 @@ class StudentAssignment extends Component
 
     private function loadStudents(): void
     {
-        // Lấy danh sách sinh viên thuộc lớp
         $this->students = $this->class->students()
             ->where('students.status', '!=', 'graduated')
             ->get()

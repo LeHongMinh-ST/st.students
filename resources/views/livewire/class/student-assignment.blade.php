@@ -71,7 +71,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Sinh viên <span class="text-danger">*</span></label>
-                            <select wire:model.live="student_id" class="form-select @error('student_id') is-invalid @enderror">
+                            <select wire:model.live="student_id" class="form-select select2-student @error('student_id') is-invalid @enderror">
                                 <option value="">-- Chọn sinh viên --</option>
                                 @foreach($students as $student)
                                     <option value="{{ $student['id'] }}">{{ $student['name'] }}</option>
@@ -132,14 +132,61 @@
             });
         });
 
+        // Hàm khởi tạo Select2
+        function initStudentSelect2() {
+            // Hủy Select2 cũ nếu đã khởi tạo
+            if ($('.select2-student').hasClass('select2-hidden-accessible')) {
+                $('.select2-student').select2('destroy');
+            }
+
+            // Khởi tạo Select2 cho dropdown sinh viên
+            setTimeout(function() {
+                $('.select2-student').select2({
+                    dropdownParent: $('#student-assignment-modal'),
+                    width: '100%',
+                    placeholder: 'Chọn sinh viên',
+                    allowClear: true,
+                    language: {
+                        noResults: function() {
+                            return "Không tìm thấy kết quả";
+                        },
+                        searching: function() {
+                            return "Đang tìm kiếm...";
+                        }
+                    },
+                    // Thêm các tùy chọn để phù hợp với giao diện
+                    containerCssClass: 'select-lg',
+                    dropdownCssClass: 'select2-dropdown-lg'
+                });
+
+                // Xử lý sự kiện thay đổi của Select2 để cập nhật giá trị cho Livewire
+                $('.select2-student').on('change', function (e) {
+                    @this.set('student_id', $(this).val());
+                });
+
+                // Đặt giá trị hiện tại cho Select2
+                if (@this.student_id) {
+                    $('.select2-student').val(@this.student_id).trigger('change');
+                }
+            }, 100);
+        }
+
         // Xử lý mở modal
         window.addEventListener('onOpenStudentAssignmentModal', () => {
             $('#student-assignment-modal').modal('show');
+            initStudentSelect2();
         });
 
         // Xử lý đóng modal
         window.addEventListener('onCloseStudentAssignmentModal', () => {
             $('#student-assignment-modal').modal('hide');
+        });
+
+        // Khởi tạo lại Select2 khi Livewire cập nhật DOM
+        document.addEventListener('livewire:update', function() {
+            if ($('#student-assignment-modal').hasClass('show')) {
+                initStudentSelect2();
+            }
         });
     </script>
     @endscript
