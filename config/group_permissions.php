@@ -42,5 +42,9 @@ return  [
     [
         'name' => 'Theo dõi hoạt động',
         'code' => 'activity'
+    ],
+    [
+        'name' => 'Quản lý thông tin gia đình',
+        'code' => 'family'
     ]
 ];

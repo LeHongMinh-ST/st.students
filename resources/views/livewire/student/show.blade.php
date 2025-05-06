@@ -442,43 +442,7 @@
         </div>
 
         <div class="tab-pane fade @if ($tab == 'family') active show @endif" id="family" role="tabpanel">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <h5 class="mb-0"><i class="ph-users-three me-2"></i>Thông tin gia đình</h5>
-                </div>
-                @if($families->isEmpty())
-                    <div class="alert alert-info">
-                        <i class="ph-info me-2"></i> Chưa có thông tin gia đình.
-                    </div>
-                @else
-                    <div class="table-responsive">
-                        <table class="table fs-table">
-                            <thead>
-                            <tr class="table-light">
-                                <th style="width: 5%">STT</th>
-                                <th style="width: 20%">Mối quan hệ</th>
-                                <th style="width: 30%">Họ và tên</th>
-                                <th style="width: 25%">Nghề nghiệp</th>
-                                <th style="width: 20%">Số điện thoại</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($families as $index => $family)
-                                <tr>
-                                    <td class="text-center">{{ $index + 1 }}</td>
-                                    <td>
-                                        <x-family-relationship-badge :relationship="$family->relationship"/>
-                                    </td>
-                                    <td style="word-break: break-word">{{ $family->full_name ?: 'N/A' }}</td>
-                                    <td style="word-break: break-word">{{ $family->job ?: 'N/A' }}</td>
-                                    <td style="word-break: break-word">{{ $family->phone ?: 'N/A' }}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @endif
-            </div>
+            <livewire:student.family-manager :student="$student" />
         </div>
 
         <div class="tab-pane fade @if ($tab == 'classes') active show @endif" id="classes" role="tabpanel">

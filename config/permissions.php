@@ -217,6 +217,31 @@ return [
         'name' => 'Xem chi tiết hoạt động',
         'code' => 'activity.view',
         'group' => 'activity'
+    ],
+    [
+        'name' => 'Xem danh sách thành viên gia đình',
+        'code' => 'family.viewAny',
+        'group' => 'family'
+    ],
+    [
+        'name' => 'Xem chi tiết thành viên gia đình',
+        'code' => 'family.view',
+        'group' => 'family'
+    ],
+    [
+        'name' => 'Thêm thành viên gia đình',
+        'code' => 'family.create',
+        'group' => 'family'
+    ],
+    [
+        'name' => 'Cập nhật thành viên gia đình',
+        'code' => 'family.update',
+        'group' => 'family'
+    ],
+    [
+        'name' => 'Xóa thành viên gia đình',
+        'code' => 'family.delete',
+        'group' => 'family'
     ]
 
 ];
