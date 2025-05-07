@@ -321,7 +321,7 @@
 
                                                         <div class="mb-3">
                                                             <label class="form-label fw-semibold">Giới tính:</label>
-                                                            <div>{{ $student->gender === 'male' ? 'Nam' : 'Nữ' }}</div>
+                                                            <div>{{ $student->gender->value == 'male' ? 'Nam' : 'Nữ' }}</div>
                                                         </div>
 
                                                         <div class="mb-3">
@@ -381,7 +381,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Giới tính</th>
-                                                    <td style="word-break: break-word">{{ $student->gender === 'male' ? 'Nam' : 'Nữ' }}</td>
+                                                    <td style="word-break: break-word">{{ $student->gender->value === 'male' ? 'Nam' : 'Nữ' }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Email</th>

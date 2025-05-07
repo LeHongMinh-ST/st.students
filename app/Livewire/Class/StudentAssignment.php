@@ -6,6 +6,7 @@ namespace App\Livewire\Class;
 
 use App\Enums\Status;
 use App\Enums\StudentRole;
+use App\Helpers\LogActivityHelper;
 use App\Models\ClassGenerate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -158,6 +159,17 @@ class StudentAssignment extends Component
             ]
         );
 
+        // Lấy thông tin sinh viên để ghi log
+        $student = $classStudent;
+        $roleName = StudentRole::from($this->role)->label();
+
+        // Ghi log hoạt động
+        LogActivityHelper::create(
+            'Phân công cán sự lớp',
+            'Phân công sinh viên ' . $student->full_name . ' (Mã SV: ' . $student->code . ') ' .
+            'làm ' . $roleName . ' cho lớp ' . $this->class->name . ' (Mã lớp: ' . $this->class->code . ')'
+        );
+
         session()->flash('success', 'Phân công cán sự lớp thành công.');
 
         // Đóng modal
@@ -176,16 +188,34 @@ class StudentAssignment extends Component
 
     public function removeRole(int $studentId): void
     {
-        // Chuyển sinh viên về vai trò sinh viên thường
-        $this->class->students()->updateExistingPivot(
-            $studentId,
-            ['role' => StudentRole::Basic->value]
-        );
+        // Lấy thông tin sinh viên và vai trò hiện tại để ghi log
+        $student = $this->class->students()
+            ->wherePivot('student_id', $studentId)
+            ->first();
 
-        session()->flash('success', 'Đã xóa vai trò cán sự lớp.');
+        if ($student) {
+            $currentRole = $student->pivot->role;
+            $roleName = $currentRole->label();
 
-        // Refresh the class roles in the parent component
-        $this->dispatch('student-assignment-updated');
+            // Chuyển sinh viên về vai trò sinh viên thường
+            $this->class->students()->updateExistingPivot(
+                $studentId,
+                ['role' => StudentRole::Basic->value]
+            );
+
+            // Ghi log hoạt động
+            LogActivityHelper::create(
+                'Xóa vai trò cán sự lớp',
+                'Xóa vai trò ' . $roleName . ' của sinh viên ' . $student->full_name .
+                ' (Mã SV: ' . $student->code . ') trong lớp ' . $this->class->name .
+                ' (Mã lớp: ' . $this->class->code . ')'
+            );
+
+            session()->flash('success', 'Đã xóa vai trò cán sự lớp.');
+
+            // Refresh the class roles in the parent component
+            $this->dispatch('student-assignment-updated');
+        }
     }
 
     private function resetForm(): void

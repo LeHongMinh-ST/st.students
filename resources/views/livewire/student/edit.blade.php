@@ -205,7 +205,7 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Giới tính:</label>
-                        <div>{{ $student->gender === 'male' ? 'Nam' : 'Nữ' }}</div>
+                        <div>{{ $student->gender->value === 'male' ? 'Nam' : 'Nữ' }}</div>
                     </div>
 
                     <div class="mb-3">
