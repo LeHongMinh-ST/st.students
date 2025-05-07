@@ -53,7 +53,7 @@ enum StudentRole: string
     {
         return match($this) {
             self::President => 'Lớp trưởng',
-            self::VicePresident => 'Phó lớp trưởng',
+            self::VicePresident => 'Lớp phó',
             self::Secretary => 'Bí thư',
             self::ViceSecretary => 'Phó bí thư',
             self::Basic => 'Sinh viên',

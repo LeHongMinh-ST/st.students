@@ -78,14 +78,14 @@
                 </div>
                 <div class="card-body py-2">
                     <div class="row g-2">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-2">
                                 <label class="form-label fw-semibold mb-0">Giáo viên chủ nhiệm:</label>
                                 <div>{{ $classTeacher['name'] }}</div>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-2">
                                 <label class="form-label fw-semibold mb-0">Chuyên ngành:</label>
                                 <div>{{ $majorName ?? 'Chưa có thông tin' }}</div>
@@ -93,16 +93,30 @@
                         </div>
                     </div>
                     <div class="row g-2">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-2">
                                 <label class="form-label fw-semibold mb-0">Lớp trưởng:</label>
                                 <div>{{ $classPresident ? $classPresident->full_name . ' (' . $classPresident->code . ')' : 'Chưa phân công' }}</div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <label class="form-label fw-semibold mb-0">Lớp phó:</label>
+                                <div>{{ $classVicePresident ? $classVicePresident->full_name . ' (' . $classVicePresident->code . ')' : 'Chưa phân công' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-md-6">
                             <div class="mb-2">
                                 <label class="form-label fw-semibold mb-0">Bí thư:</label>
                                 <div>{{ $classSecretary ? $classSecretary->full_name . ' (' . $classSecretary->code . ')' : 'Chưa phân công' }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <label class="form-label fw-semibold mb-0">Phó bí thư:</label>
+                                <div>{{ $classViceSecretary ? $classViceSecretary->full_name . ' (' . $classViceSecretary->code . ')' : 'Chưa phân công' }}</div>
                             </div>
                         </div>
                     </div>

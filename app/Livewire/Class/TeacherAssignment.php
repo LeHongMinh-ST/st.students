@@ -118,13 +118,17 @@ class TeacherAssignment extends Component
 
         if ('create' === $this->modalMode) {
             // Check if there's already an assignment for this year
-            $existingAssignment = ClassAssign::where('class_id', $this->class->id)
+            $existingAssignments = ClassAssign::where('class_id', $this->class->id)
                 ->where('year', $this->year)
-                ->first();
+                ->get();
 
-            if ($existingAssignment) {
-                $this->addError('year', 'Đã có phân công cho năm học này. Vui lòng chỉnh sửa phân công hiện có.');
-                return;
+            // If creating a new active assignment, mark all existing assignments as inactive
+            if ($this->status === Status::Active->value && $existingAssignments->isNotEmpty()) {
+                foreach ($existingAssignments as $existingAssignment) {
+                    $existingAssignment->update([
+                        'status' => Status::Inactive->value,
+                    ]);
+                }
             }
 
             ClassAssign::create([
@@ -133,21 +137,19 @@ class TeacherAssignment extends Component
                 'sub_teacher_id' => null, // Không còn sử dụng cố vấn học tập
                 'year' => $this->year,
                 'status' => $this->status,
+                'assigned_at' => now(),
             ]);
 
             session()->flash('success', 'Phân công giáo viên thành công.');
         } else {
             $assignment = ClassAssign::findOrFail($this->editingId);
 
-            // Check if there's already another assignment for this year
-            $existingAssignment = ClassAssign::where('class_id', $this->class->id)
-                ->where('year', $this->year)
-                ->where('id', '!=', $this->editingId)
-                ->first();
-
-            if ($existingAssignment) {
-                $this->addError('year', 'Đã có phân công khác cho năm học này.');
-                return;
+            // If updating to active status, mark all other assignments for this year as inactive
+            if ($this->status === Status::Active->value) {
+                ClassAssign::where('class_id', $this->class->id)
+                    ->where('year', $this->year)
+                    ->where('id', '!=', $this->editingId)
+                    ->update(['status' => Status::Inactive->value]);
             }
 
             $assignment->update([
@@ -155,6 +157,7 @@ class TeacherAssignment extends Component
                 'sub_teacher_id' => null, // Không còn sử dụng cố vấn học tập
                 'year' => $this->year,
                 'status' => $this->status,
+                'assigned_at' => now(),
             ]);
 
             session()->flash('success', 'Cập nhật phân công giáo viên thành công.');

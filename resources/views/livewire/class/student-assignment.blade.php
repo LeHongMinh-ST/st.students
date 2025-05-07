@@ -18,9 +18,11 @@
                 <thead>
                 <tr class="table-light">
                     <th width="5%">STT</th>
-                    <th width="40%">Sinh viên</th>
-                    <th width="20%">Mã sinh viên</th>
-                    <th width="20%">Vai trò</th>
+                    <th width="30%">Sinh viên</th>
+                    <th width="15%">Mã sinh viên</th>
+                    <th width="15%">Vai trò</th>
+                    <th width="15%">Trạng thái</th>
+                    <th width="15%">Thời gian phân công</th>
                     <th width="15%">Thao tác</th>
                 </tr>
                 </thead>
@@ -28,14 +30,22 @@
                 @forelse($classStudents as $item)
                     <tr>
                         <td class="text-center" width="5%">{{ $loop->index + 1 + $classStudents->perPage() * ($classStudents->currentPage() - 1) }}</td>
-                        <td width="40%">
+                        <td width="30%">
                             <a href="{{ route('students.show', $item->id) }}" class="fw-semibold">
                                 {{ $item->full_name }}
                             </a>
                         </td>
-                        <td width="20%">{{ $item->code }}</td>
-                        <td width="20%">
+                        <td width="15%">{{ $item->code }}</td>
+                        <td width="15%">
                             <x-student-role-badge :role="\App\Enums\StudentRole::from($item->pivot->role)" />
+                        </td>
+                        <td width="15%">
+                            <span class="badge {{ $item->pivot->status === 'active' ? 'bg-success' : 'bg-secondary' }}">
+                                {{ $item->pivot->status === 'active' ? 'Hiện tại' : 'Trước đây' }}
+                            </span>
+                        </td>
+                        <td width="15%">
+                            {{ $item->pivot->assigned_at ? $item->pivot->assigned_at->format('d/m/Y H:i') : ($item->pivot->created_at ? $item->pivot->created_at->format('d/m/Y H:i') : 'N/A') }}
                         </td>
                         <td width="15%">
                             <div class="d-inline-flex">
@@ -51,7 +61,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-table-empty :colspan="5" />
+                    <x-table-empty :colspan="7" />
                 @endforelse
                 </tbody>
             </table>

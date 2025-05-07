@@ -19,8 +19,9 @@
                 <tr class="table-light">
                     <th width="5%">STT</th>
                     <th width="15%">Năm học</th>
-                    <th width="50%">Giáo viên chủ nhiệm</th>
+                    <th width="35%">Giáo viên chủ nhiệm</th>
                     <th width="15%">Trạng thái</th>
+                    <th width="15%">Thời gian phân công</th>
                     <th width="15%">Thao tác</th>
                 </tr>
                 </thead>
@@ -29,7 +30,7 @@
                     <tr>
                         <td class="text-center" width="5%">{{ $loop->index + 1 + $assignments->perPage() * ($assignments->currentPage() - 1) }}</td>
                         <td width="15%">Năm học {{ $item->year }}</td>
-                        <td width="50%">
+                        <td width="35%">
                             @if($item->teacher)
                                 {{ $item->teacher->full_name ?? $item->teacher->name }}
                             @else
@@ -37,9 +38,12 @@
                             @endif
                         </td>
                         <td width="15%">
-                                    <span class="badge {{ $item->status->value === 'active' ? 'bg-success' : 'bg-secondary' }}">
-                                        {{ $item->status->value === 'active' ? 'Hiện tại' : 'Trước đây' }}
-                                    </span>
+                            <span class="badge {{ $item->status->value === 'active' ? 'bg-success' : 'bg-secondary' }}">
+                                {{ $item->status->value === 'active' ? 'Hiện tại' : 'Trước đây' }}
+                            </span>
+                        </td>
+                        <td width="15%">
+                            {{ $item->assigned_at ? $item->assigned_at->format('d/m/Y H:i') : ($item->created_at ? $item->created_at->format('d/m/Y H:i') : 'N/A') }}
                         </td>
                         <td width="15%">
                             <div class="d-inline-flex">
@@ -55,7 +59,7 @@
                         </td>
                     </tr>
                 @empty
-                    <x-table-empty :colspan="6" />
+                    <x-table-empty :colspan="7" />
                 @endforelse
                 </tbody>
             </table>

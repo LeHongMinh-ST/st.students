@@ -131,16 +131,19 @@ class StudentAssignment extends Component
 
         // Kiểm tra xem đã có ai giữ vai trò này chưa (nếu là vai trò duy nhất)
         if (in_array($this->role, [StudentRole::President->value, StudentRole::Secretary->value])) {
-            $existingStudent = $this->class->students()
+            $existingStudents = $this->class->students()
                 ->wherePivot('role', $this->role)
                 ->wherePivot('student_id', '!=', $this->student_id)
-                ->first();
+                ->wherePivot('status', Status::Active->value)
+                ->get();
 
-            if ($existingStudent) {
-                // Nếu đã có người giữ vai trò này, chuyển họ về vai trò sinh viên thường
+            foreach ($existingStudents as $existingStudent) {
+                // Nếu đã có người giữ vai trò này, chuyển họ về trạng thái không hoạt động (quá khứ)
                 $this->class->students()->updateExistingPivot(
                     $existingStudent->id,
-                    ['role' => StudentRole::Basic->value]
+                    [
+                        'status' => Status::Inactive->value,
+                    ]
                 );
             }
         }
@@ -148,7 +151,11 @@ class StudentAssignment extends Component
         // Cập nhật vai trò cho sinh viên
         $this->class->students()->updateExistingPivot(
             $this->student_id,
-            ['role' => $this->role]
+            [
+                'role' => $this->role,
+                'status' => Status::Active->value,
+                'assigned_at' => now(),
+            ]
         );
 
         session()->flash('success', 'Phân công cán sự lớp thành công.');

@@ -30,7 +30,9 @@ class Show extends Component
 
     // Class roles
     public ?Student $classPresident = null;
+    public ?Student $classVicePresident = null;
     public ?Student $classSecretary = null;
+    public ?Student $classViceSecretary = null;
     public ?array $classTeacher = null;
     public ?array $classSubTeacher = null;
     public ?string $majorName = null;
@@ -65,11 +67,25 @@ class Show extends Component
         // Find class president (lớp trưởng)
         $this->classPresident = $this->class->students()
             ->wherePivot('role', StudentRole::President)
+            ->wherePivot('status', 'active')
+            ->first();
+
+        // Find class vice president (lớp phó)
+        $this->classVicePresident = $this->class->students()
+            ->wherePivot('role', StudentRole::VicePresident)
+            ->wherePivot('status', 'active')
             ->first();
 
         // Find class secretary (bí thư)
         $this->classSecretary = $this->class->students()
             ->wherePivot('role', StudentRole::Secretary)
+            ->wherePivot('status', 'active')
+            ->first();
+
+        // Find class vice secretary (phó bí thư)
+        $this->classViceSecretary = $this->class->students()
+            ->wherePivot('role', StudentRole::ViceSecretary)
+            ->wherePivot('status', 'active')
             ->first();
 
         // Find active class assignment (giáo viên chủ nhiệm & cố vấn học tập)

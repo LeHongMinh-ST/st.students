@@ -16,10 +16,12 @@ class ClassAssign extends Model
         'sub_teacher_id',
         'year',
         'status',
+        'assigned_at',
     ];
 
     protected $casts = [
         'status' => Status::class,
+        'assigned_at' => 'datetime',
     ];
 
     public function classGenerate(): BelongsTo
