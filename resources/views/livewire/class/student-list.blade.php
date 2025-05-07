@@ -5,11 +5,11 @@
         </div>
         <div class="card-body">
             <div class="py-3 d-flex justify-content-between">
-                <div class="gap-2 d-flex">
+                <div class="gap-2 d-flex flex-wrap">
                     <div>
                         <input wire:model.live.debounce.500ms="search" type="text" class="form-control" placeholder="Tìm kiếm...">
                     </div>
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 flex-wrap">
                         <button type="button" class="btn btn-light {{ $filter === 'all' ? 'active' : '' }}" wire:click="setFilter('all')">Tất cả</button>
                         <button type="button" class="btn btn-light {{ $filter === 'studying' ? 'active' : '' }}" wire:click="setFilter('studying')">Sinh viên đang học</button>
                         <button type="button" class="btn btn-light {{ $filter === 'graduated' ? 'active' : '' }}" wire:click="setFilter('graduated')">Sinh viên đã tốt nghiệp</button>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="card mt-3">
-        <div class="table-responsive">
+        <div class="table-responsive table-preview">
             <div wire:loading class="my-3 text-center w-100">
                 <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
             </div>
@@ -40,7 +40,6 @@
                     <th width="10%">Vai trò</th>
                     <th width="10%">Khóa</th>
                     <th width="10%">Trạng thái</th>
-                    <th width="10%">Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,16 +61,9 @@
                         <td width="10%">
                             <x-student-status-badge :status="$item->status" />
                         </td>
-                        <td width="10%">
-                            <div class="d-inline-flex">
-                                <a href="{{ route('students.show', $item->id) }}" class="text-body" data-bs-popup="tooltip" title="Xem chi tiết">
-                                    <i class="ph-eye"></i>
-                                </a>
-                            </div>
-                        </td>
                     </tr>
                 @empty
-                    <x-table-empty :colspan="9" />
+                    <x-table-empty :colspan="8" />
                 @endforelse
                 </tbody>
             </table>

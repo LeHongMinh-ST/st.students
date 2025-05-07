@@ -69,7 +69,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-3">
+                        <div class="mb-3" wire:ignore>
                             <label class="form-label">Sinh viên <span class="text-danger">*</span></label>
                             <select wire:model.live="student_id" class="form-select select2-student @error('student_id') is-invalid @enderror">
                                 <option value="">-- Chọn sinh viên --</option>
