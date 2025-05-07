@@ -130,7 +130,11 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Đồng ý, xóa!',
-                cancelButtonText: 'Hủy'
+                cancelButtonText: 'Hủy',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-light',
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     @this.deleteAssignment(assignmentId);
