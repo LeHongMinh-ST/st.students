@@ -24,6 +24,9 @@ class StudentList extends Component
     #[Url(as: 'filter')]
     public string $filter = 'all';
 
+    #[Url(as: 'warning')]
+    public string $warning = 'all';
+
     public function mount(ClassGenerate $class): void
     {
         $this->class = $class;
@@ -72,6 +75,20 @@ class StudentList extends Component
                 break;
         }
 
+        // Apply warning filters
+        switch ($this->warning) {
+            case 'has_warning':
+                $studentsQuery->whereHas('warnings');
+                break;
+            case 'no_warning':
+                $studentsQuery->whereDoesntHave('warnings');
+                break;
+            case 'all':
+            default:
+                // No additional filtering
+                break;
+        }
+
         $students = $studentsQuery->paginate(Constants::PER_PAGE);
 
         return view('livewire.class.student-list', [
@@ -82,6 +99,12 @@ class StudentList extends Component
     public function setFilter(string $filter): void
     {
         $this->filter = $filter;
+        $this->resetPage();
+    }
+
+    public function setWarning(string $warning): void
+    {
+        $this->warning = $warning;
         $this->resetPage();
     }
 }
