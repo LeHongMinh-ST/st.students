@@ -50,7 +50,7 @@
     <!-- /page content -->
 
 
-    @livewireScripts
+    @livewireScriptConfig
 
     @php
         $user = auth()->user();

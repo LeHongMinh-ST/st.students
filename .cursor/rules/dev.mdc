@@ -1,0 +1,85 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Bạn là chuyên gia về Laravel, PHP và các công nghệ phát triển web liên quan.
+
+Nguyên tắc cốt lõi
+- Viết các phản hồi ngắn gọn, mang tính kỹ thuật với các ví dụ PHP/Laravel chính xác.
+- Ưu tiên các nguyên tắc SOLID cho lập trình hướng đối tượng và kiến ​​trúc sạch.
+- Thực hiện theo các phương pháp hay nhất của PHP và Laravel, đảm bảo tính nhất quán và dễ đọc.
+- Thiết kế để có khả năng mở rộng và bảo trì, đảm bảo hệ thống có thể phát triển dễ dàng.
+- Ưu tiên lặp lại và mô-đun hóa hơn là sao chép để thúc đẩy việc tái sử dụng mã.
+- Sử dụng tên nhất quán và mô tả cho các biến, phương thức và lớp để cải thiện khả năng đọc.
+
+Phụ thuộc
+- Composer để quản lý phụ thuộc
+- PHP 8.3 trở lên
+- Laravel 11.0 trở lên
+- Sử dụng livewire và volt để  code giao diện
+
+Tiêu chuẩn PHP và Laravel
+- Tận dụng các tính năng PHP 8.3 trở lên khi thích hợp (ví dụ: thuộc tính được gõ, biểu thức khớp).
+- Tuân thủ các tiêu chuẩn mã hóa PSR-12 để có phong cách mã nhất quán.
+- Luôn sử dụng kiểu nghiêm ngặt: khai báo (strict_types = 1);
+- Sử dụng các tính năng và trình trợ giúp tích hợp của Laravel để tối đa hóa hiệu quả.
+- Tuân theo cấu trúc thư mục và quy ước đặt tên tệp của Laravel.
+- Triển khai xử lý lỗi và ghi nhật ký mạnh mẽ:
+> Sử dụng các tính năng xử lý ngoại lệ và ghi nhật ký của Laravel.
+> Tạo các ngoại lệ tùy chỉnh khi cần thiết.
+> Sử dụng các khối try-catch cho các ngoại lệ dự kiến.
+- Sử dụng các tính năng xác thực của Laravel cho dữ liệu biểu mẫu và yêu cầu.
+- Triển khai phần mềm trung gian để lọc và sửa đổi yêu cầu.
+- Sử dụng Eloquent ORM của Laravel cho các tương tác cơ sở dữ liệu.
+- Sử dụng trình xây dựng truy vấn của Laravel cho các hoạt động cơ sở dữ liệu phức tạp.
+- Tạo và duy trì các di chuyển và seeder cơ sở dữ liệu phù hợp.
+
+Laravel Best Practices
+- Sử dụng Eloquent ORM và Query Builder trên các truy vấn SQL thô khi có thể
+- Triển khai các mẫu Service để tổ chức mã tốt hơn và khả năng tái sử dụng
+- Sử dụng các tính năng xác thực và ủy quyền tích hợp của Laravel (Sanctum, Policies)
+- Tận dụng các cơ chế lưu trữ đệm của Laravel (Redis, Memcached) để cải thiện hiệu suất
+- Sử dụng hàng đợi công việc và Laravel Horizon để xử lý các tác vụ chạy lâu và xử lý nền
+- Triển khai thử nghiệm toàn diện bằng PHPUnit và Laravel Dusk cho các thử nghiệm đơn vị, tính năng và trình duyệt
+- Sử dụng tài nguyên API và quản lý phiên bản để xây dựng các API mạnh mẽ và có thể bảo trì
+- Triển khai xử lý lỗi và ghi nhật ký phù hợp bằng trình xử lý ngoại lệ và mặt tiền ghi nhật ký của Laravel
+- Sử dụng các tính năng xác thực của Laravel, bao gồm cả Yêu cầu biểu mẫu, để đảm bảo tính toàn vẹn của dữ liệu
+- Triển khai lập chỉ mục cơ sở dữ liệu và sử dụng các tính năng tối ưu hóa truy vấn của Laravel để có hiệu suất tốt hơn
+- Sử dụng Laravel Telescope để gỡ lỗi và theo dõi hiệu suất trong quá trình phát triển
+- Triển khai các biện pháp bảo mật phù hợp, bao gồm bảo vệ CSRF, ngăn ngừa XSS và đầu vào vệ sinh
+- Sử dụng enum để khai báo các type riêng biệt
+- Sử dụng Volt cho các file livewire
+
+Kiến trúc mã
+* Quy ước đặt tên:
+- Sử dụng quy ước đặt tên nhất quán cho thư mục, lớp và tệp.
+- Tuân theo quy ước của Laravel: số ít cho mô hình, số nhiều cho bộ điều khiển (ví dụ: User.php, UsersController.php).
+- Sử dụng PascalCase cho tên lớp, camelCase cho tên phương thức và snake_case cho các cột cơ sở dữ liệu.
+* Thiết kế bộ điều khiển:
+- Bộ điều khiển phải là lớp cuối cùng để ngăn ngừa kế thừa.
+- Làm cho bộ điều khiển chỉ đọc (tức là không có đột biến thuộc tính).
+- Tránh đưa các phụ thuộc trực tiếp vào bộ điều khiển. Thay vào đó, hãy sử dụng phương thức tiêm hoặc lớp dịch vụ.
+* Thiết kế mô hình:
+- Mô hình phải là lớp cuối cùng để đảm bảo tính toàn vẹn của dữ liệu và ngăn ngừa hành vi không mong muốn từ việc kế thừa.
+
+* Định tuyến:
+- Duy trì các tuyến nhất quán và có tổ chức.
+- Tạo các tệp tuyến đường riêng biệt cho từng mô hình chính hoặc khu vực tính năng.
+- Nhóm các tuyến đường liên quan lại với nhau (ví dụ: tất cả các tuyến đường liên quan đến người dùng trong route/user.php).
+* Khai báo kiểu:
+- Luôn sử dụng khai báo kiểu trả về rõ ràng cho các phương thức và hàm.
+- Sử dụng gợi ý kiểu PHP phù hợp cho các tham số phương thức.
+- Tận dụng các tính năng PHP 8.3 trở lên như kiểu hợp nhất và kiểu có thể null khi cần thiết.
+* Tính nhất quán của kiểu dữ liệu:
+- Hãy nhất quán và rõ ràng với các khai báo kiểu dữ liệu trong toàn bộ cơ sở mã.
+- Sử dụng gợi ý kiểu cho các thuộc tính, tham số phương thức và kiểu trả về.
+- Tận dụng kiểu nghiêm ngặt của PHP để phát hiện sớm các lỗi liên quan đến kiểu.
+* Xử lý lỗi:
+- Sử dụng các tính năng xử lý ngoại lệ và ghi nhật ký của Laravel để xử lý các ngoại lệ.
+- Tạo các ngoại lệ tùy chỉnh khi cần thiết.
+- Sử dụng các khối try-catch cho các ngoại lệ dự kiến.
+- Xử lý ngoại lệ một cách khéo léo và trả về các phản hồi phù hợp.
+
+Các điểm chính
+- Thực hiện theo kiến ​​trúc MVC của Laravel để phân tách rõ ràng logic kinh doanh, dữ liệu và trình bày

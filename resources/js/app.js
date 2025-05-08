@@ -1,7 +1,8 @@
 import "./bootstrap";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
-
+import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
+Livewire.start()
 window.Pusher = Pusher;
 
 Noty.overrideDefaults({
