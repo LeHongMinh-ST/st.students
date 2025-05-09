@@ -10,6 +10,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->isStudent()) {
+            return redirect()->route('students.profile');
+        }
+
         return view('pages.dashboard');
     }
 }

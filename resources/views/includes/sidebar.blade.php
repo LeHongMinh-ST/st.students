@@ -30,7 +30,7 @@
                 <li class="nav-item-header">
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
-                @if(Auth::user()->role !== App\Enums\Role::Student)
+                @if(!Auth::user()->isStudent())
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}"
                        class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">

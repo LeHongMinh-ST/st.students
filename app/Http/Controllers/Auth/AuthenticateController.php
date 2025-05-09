@@ -46,6 +46,10 @@ class AuthenticateController extends Controller
 
             Auth::login($user);
 
+            if ($user->isStudent()) {
+                return redirect()->route('students.profile');
+            }
+
             return redirect()->route('dashboard');
         } catch (Throwable $th) {
             Log::error($th->getMessage());
