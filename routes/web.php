@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WarningController;
 use App\Http\Controllers\Auth\AuthenticateController;
+use App\Http\Controllers\StudentProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/logout', [AuthenticateController::class, 'logout'])->name('handleLogout');
@@ -62,4 +63,8 @@ Route::middleware('auth.sso')->group(function (): void {
     });
 
     Route::get('/download-template/{name}', [FileContrller::class, 'downloadFileTemplateImport'])->name('file.download-template');
+
+    // Student routes
+    Route::get('/student/profile', [StudentProfileController::class, 'show'])
+        ->name('student.profile');
 });

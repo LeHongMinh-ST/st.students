@@ -109,6 +109,11 @@ class User extends Authenticatable
         return $this->role === RoleEnum::SuperAdmin->value;
     }
 
+    public function isStudent(): bool
+    {
+        return $this->role === RoleEnum::Student->value;
+    }
+
     /**
      * Scope a query to filter users by search term.
      *

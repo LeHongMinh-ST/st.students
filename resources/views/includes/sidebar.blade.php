@@ -30,6 +30,7 @@
                 <li class="nav-item-header">
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
+                @if(Auth::user()->role !== App\Enums\Role::Student)
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}"
                        class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -37,6 +38,7 @@
                         <span>Bảng điều khiển</span>
                     </a>
                 </li>
+                @endif
 
                 @if(Auth::user()->can('viewAny', \App\Models\ClassGenerate::class) || Auth::user()->can('manageTeacher', \App\Models\ClassGenerate::class) || Auth::user()->can('manageSubTeacher', \App\Models\ClassGenerate::class))
                 <li class="nav-item-header">
@@ -169,6 +171,20 @@
                     </li>
                 @endif
 
+                {{-- Sidebar for student --}}
+                @if(Auth::user()->isStudent())
+                <li class="nav-item-header">
+                    <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Thông tin sinh viên</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('student.profile') }}"
+                       class="nav-link {{ request()->routeIs('student.profile') ? 'active' : '' }}">
+                        <i class="ph-user-circle"></i>
+                        <span>Thông tin cá nhân</span>
+                    </a>
+                </li>
+                @endif
 
             </ul>
         </div>
