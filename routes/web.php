@@ -45,6 +45,15 @@ Route::middleware('auth.sso')->group(function (): void {
             Route::post('/{update}/approve', [App\Http\Controllers\Admin\StudentUpdateController::class, 'approve'])->name('student-updates.approve');
             Route::post('/{update}/reject', [App\Http\Controllers\Admin\StudentUpdateController::class, 'reject'])->name('student-updates.reject');
         });
+
+        // Quản lý phản ánh
+        Route::prefix('feedbacks')->group(function (): void {
+            Route::get('/', [App\Http\Controllers\Admin\FeedbackController::class, 'index'])->name('feedbacks.index');
+            Route::get('/create', [App\Http\Controllers\Admin\FeedbackController::class, 'create'])->name('feedbacks.create');
+            Route::get('/{feedback}', [App\Http\Controllers\Admin\FeedbackController::class, 'show'])->name('feedbacks.show');
+            Route::get('/{feedback}/edit', [App\Http\Controllers\Admin\FeedbackController::class, 'edit'])->name('feedbacks.edit');
+            Route::get('/teacher', [App\Http\Controllers\Admin\FeedbackController::class, 'teacherIndex'])->name('feedbacks.teacher-index');
+        });
         Route::resource('roles', RoleController::class)->only(['index', 'create', 'edit']);
         Route::resource('posts', PostController::class);
         Route::get('activities', [ActivityController::class, 'index'])->name('activities.index');

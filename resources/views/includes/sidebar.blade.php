@@ -127,7 +127,7 @@
 
 
 
-                @if(Auth::user()->can('viewAny', \App\Models\Post::class))
+                @if(Auth::user()->can('viewAny', \App\Models\Post::class) || Auth::user()->can('viewAny', \App\Models\Feedback::class))
                 <li class="nav-item-header">
                     <div class="opacity-50 text-uppercase fs-sm lh-sm sidebar-resize-hide">Thông báo</div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
@@ -140,6 +140,16 @@
                        class="nav-link {{ request()->routeIs('posts.*') ? 'active' : '' }}">
                         <i class="ph-note"></i>
                         <span>Bài viết</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('viewAny', \App\Models\Feedback::class)
+                <li class="nav-item">
+                    <a href="{{ route('feedbacks.index') }}"
+                       class="nav-link {{ request()->routeIs('feedbacks.*') ? 'active' : '' }}">
+                        <i class="ph-chat-text"></i>
+                        <span>Phản ánh</span>
                     </a>
                 </li>
                 @endcan

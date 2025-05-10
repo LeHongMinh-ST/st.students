@@ -50,5 +50,9 @@ return  [
     [
         'name' => 'Bảng điều khiển',
         'code' => 'dashboard'
+    ],
+    [
+        'name' => 'Quản lý phản ánh',
+        'code' => 'feedback'
     ]
 ];

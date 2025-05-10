@@ -277,6 +277,41 @@ return [
         'name' => 'Xem thống kê tổng số lớp học',
         'code' => 'dashboard.classes',
         'group' => 'dashboard'
+    ],
+    [
+        'name' => 'Xem danh sách phản ánh',
+        'code' => 'feedback.index',
+        'group' => 'feedback'
+    ],
+    [
+        'name' => 'Xem chi tiết phản ánh',
+        'code' => 'feedback.show',
+        'group' => 'feedback'
+    ],
+    [
+        'name' => 'Tạo phản ánh',
+        'code' => 'feedback.create',
+        'group' => 'feedback'
+    ],
+    [
+        'name' => 'Sửa phản ánh',
+        'code' => 'feedback.edit',
+        'group' => 'feedback'
+    ],
+    [
+        'name' => 'Xóa phản ánh',
+        'code' => 'feedback.delete',
+        'group' => 'feedback'
+    ],
+    [
+        'name' => 'Phản hồi phản ánh',
+        'code' => 'feedback.reply',
+        'group' => 'feedback'
+    ],
+    [
+        'name' => 'Cập nhật trạng thái phản ánh',
+        'code' => 'feedback.update-status',
+        'group' => 'feedback'
     ]
 
 ];
