@@ -257,6 +257,26 @@ return [
         'name' => 'Duyệt yêu cầu chỉnh sửa thông tin',
         'code' => 'student.update.approve',
         'group' => 'student'
+    ],
+    [
+        'name' => 'Xem thống kê tổng số sinh viên',
+        'code' => 'dashboard.students',
+        'group' => 'dashboard'
+    ],
+    [
+        'name' => 'Xem thống kê sinh viên tốt nghiệp',
+        'code' => 'dashboard.graduated',
+        'group' => 'dashboard'
+    ],
+    [
+        'name' => 'Xem thống kê sinh viên cảnh báo',
+        'code' => 'dashboard.warned',
+        'group' => 'dashboard'
+    ],
+    [
+        'name' => 'Xem thống kê tổng số lớp học',
+        'code' => 'dashboard.classes',
+        'group' => 'dashboard'
     ]
 
 ];

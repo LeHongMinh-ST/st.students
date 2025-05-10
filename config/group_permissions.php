@@ -46,5 +46,9 @@ return  [
     [
         'name' => 'Quản lý thông tin gia đình',
         'code' => 'family'
+    ],
+    [
+        'name' => 'Bảng điều khiển',
+        'code' => 'dashboard'
     ]
 ];

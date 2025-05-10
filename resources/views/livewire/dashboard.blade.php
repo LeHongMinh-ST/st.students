@@ -1,6 +1,7 @@
 <div>
     <!-- Statistic Cards -->
     <div class="row">
+        @if($canViewTotalStudents)
         <!-- Total Students - Cool Blue -->
         <div class="col-sm-6 col-xl-3">
             <a href="{{ route('students.index') }}" class="text-white">
@@ -21,7 +22,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if($canViewGraduatedStudents)
         <!-- Graduated Students - Teal -->
         <div class="col-sm-6 col-xl-3">
             <a href="{{ route('graduation.index') }}" class="text-white">
@@ -44,7 +47,9 @@
                 </div>
             </a>
         </div>
+        @endif
 
+        @if($canViewWarnedStudents)
         <!-- Warned Students - Orange -->
         <div class="col-sm-6 col-xl-3">
             <a href="{{ route('warnings.index') }}" class="text-white">
@@ -64,9 +69,10 @@
                     </div>
                 </div>
             </a>
-
         </div>
+        @endif
 
+        @if($canViewTotalClasses)
         <!-- Total Classes - Warm Red -->
         <div class="col-sm-6 col-xl-3">
             <a href="{{ route('classes.index') }}" class="text-white">
@@ -88,5 +94,14 @@
                 </div>
             </a>
         </div>
+        @endif
+
+        @if(!$canViewTotalStudents && !$canViewGraduatedStudents && !$canViewWarnedStudents && !$canViewTotalClasses)
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="ph-info me-2"></i> Bạn không có quyền xem bất kỳ thống kê nào trên bảng điều khiển. Vui lòng liên hệ quản trị viên để được cấp quyền.
+            </div>
+        </div>
+        @endif
     </div>
 </div>
