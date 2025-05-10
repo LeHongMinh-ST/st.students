@@ -78,12 +78,22 @@
                 @can('viewAny', \App\Models\Student::class)
                 <li class="nav-item">
                     <a href="{{ route('students.index') }}"
-                       class="nav-link {{ request()->routeIs('students.*') ? 'active' : '' }}">
+                       class="nav-link {{ request()->routeIs('students.index') || request()->routeIs('students.show') || request()->routeIs('students.edit') || request()->routeIs('students.edit-detail') || request()->routeIs('students.import') ? 'active' : '' }}">
                         <i class="ph-users-four"></i>
                         <span>Khóa sinh viên</span>
                     </a>
                 </li>
                 @endcan
+
+                @if(Auth::user()->can('viewAny', \App\Models\StudentUpdate::class) || Auth::user()->can('approveAsClassMonitor', \App\Models\StudentUpdate::class) || Auth::user()->can('approveAsTeacher', \App\Models\StudentUpdate::class) || Auth::user()->can('approveAsAdmin', \App\Models\StudentUpdate::class) || Auth::user()->isStudent())
+                <li class="nav-item">
+                    <a href="{{ route('student-updates.index') }}"
+                       class="nav-link {{ request()->routeIs('student-updates.*') ? 'active' : '' }}">
+                        <i class="ph-clipboard-text"></i>
+                        <span>Yêu cầu chỉnh sửa thông tin</span>
+                    </a>
+                </li>
+                @endif
 
                 @can('viewAny', \App\Models\GraduationCeremony::class)
                 <li class="nav-item">

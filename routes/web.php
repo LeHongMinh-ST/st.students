@@ -35,6 +35,15 @@ Route::middleware('auth.sso')->group(function (): void {
         Route::get('classes-import-specialized-transfer', [ClassGenerateController::class, 'importSpecializedTransfer'])->name('classes.import-specialized-transfer');
         Route::prefix('students')->group(function (): void {
             Route::get('/import/{admission_year}/admission-year', [StudentController::class, 'import'])->name('students.import');
+            Route::get('/{student}/request-edit', [StudentController::class, 'requestEdit'])->name('students.request-edit');
+        });
+
+        // Quản lý yêu cầu chỉnh sửa thông tin
+        Route::prefix('student-updates')->group(function (): void {
+            Route::get('/', [App\Http\Controllers\Admin\StudentUpdateController::class, 'index'])->name('student-updates.index');
+            Route::get('/{update}', [App\Http\Controllers\Admin\StudentUpdateController::class, 'show'])->name('student-updates.show');
+            Route::post('/{update}/approve', [App\Http\Controllers\Admin\StudentUpdateController::class, 'approve'])->name('student-updates.approve');
+            Route::post('/{update}/reject', [App\Http\Controllers\Admin\StudentUpdateController::class, 'reject'])->name('student-updates.reject');
         });
         Route::resource('roles', RoleController::class)->only(['index', 'create', 'edit']);
         Route::resource('posts', PostController::class);

@@ -242,6 +242,21 @@ return [
         'name' => 'Xóa thành viên gia đình',
         'code' => 'family.delete',
         'group' => 'family'
+    ],
+    [
+        'name' => 'Xem danh sách yêu cầu chỉnh sửa thông tin',
+        'code' => 'student.update.index',
+        'group' => 'student'
+    ],
+    [
+        'name' => 'Xem chi tiết yêu cầu chỉnh sửa thông tin',
+        'code' => 'student.update.show',
+        'group' => 'student'
+    ],
+    [
+        'name' => 'Duyệt yêu cầu chỉnh sửa thông tin',
+        'code' => 'student.update.approve',
+        'group' => 'student'
     ]
 
 ];

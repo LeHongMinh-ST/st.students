@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Livewire\Student;
 
+use App\Enums\StudentRole;
 use App\Enums\StudentStatus;
 use App\Helpers\Constants;
 use App\Helpers\LogActivityHelper;
+use App\Models\ClassStudent;
 use App\Models\Student;
+use App\Models\StudentUpdate;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -90,9 +94,29 @@ class Show extends Component
 
         $families = $this->student->families;
 
+        // Lấy danh sách yêu cầu chỉnh sửa thông tin của sinh viên
+        $updateRequests = StudentUpdate::where('student_id', $this->student->id)
+            ->latest()
+            ->paginate(Constants::PER_PAGE, ['*'], 'update_page');
+
+        // Kiểm tra xem người dùng hiện tại có phải là lớp trưởng không
+        $isClassMonitor = false;
+        $user = Auth::user();
+
+        if ($user && $user->isStudent()) {
+            $student = Student::where('user_id', $user->id)->first();
+            if ($student) {
+                $isClassMonitor = ClassStudent::where('student_id', $student->id)
+                    ->where('role', StudentRole::President->value)
+                    ->exists();
+            }
+        }
+
         return view('livewire.student.show', [
             'classes' => $classes,
-            'families' => $families
+            'families' => $families,
+            'updateRequests' => $updateRequests,
+            'isClassMonitor' => $isClassMonitor
         ]);
     }
 

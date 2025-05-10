@@ -121,7 +121,7 @@ class AuthenticateController extends Controller
         if ($userData['role'] === Role::Student->value) {
             $student = Student::where('code', $userData['code'])->first();
             if ($student) {
-                $student->update([  
+                $student->update([
                     'user_id' => $user->id,
                     'first_name' => $userData['first_name'],
                     'last_name' => $userData['last_name'],

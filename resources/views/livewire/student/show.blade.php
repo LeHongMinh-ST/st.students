@@ -39,19 +39,23 @@
                         </a>
                     </li>
 
-                    <li class="nav-item-divider"></li>
                     <li class="nav-item" role="presentation">
-                        @can('update', $student)
-                        <a href="{{ route('students.edit-detail', $student->id) }}" class="nav-link">
-                            <i class="mr-2 ph-note-pencil"></i><span>Chỉnh sửa</span>
+                        <a href="#" class="nav-link @if ($tab == 'update_requests') active @endif"
+                           wire:click="setTab('update_requests')">
+                            <i class="mr-2 ph-clipboard-text"></i>
+                            Yêu cầu chỉnh sửa thông tin
                         </a>
-                        @endcan
-                        @if (Auth::user()->isStudent())
+                    </li>
+
+                    @can('update', $student)
+                        <li class="nav-item-divider"></li>
+                        <li class="nav-item" role="presentation">
                             <a href="{{ route('students.edit-detail', $student->id) }}" class="nav-link">
                                 <i class="mr-2 ph-note-pencil"></i><span>Chỉnh sửa</span>
                             </a>
-                        @endif
-                    </li>
+                        </li>
+                    @endcan
+
                 </ul>
             </div>
             <!-- /navigation -->
@@ -250,6 +254,60 @@
                     </table>
                 </div>
                 {{ $classes->links('vendor.pagination.theme') }}
+            </div>
+        </div>
+
+        <!-- Tab Yêu cầu chỉnh sửa thông tin -->
+        <div class="tab-pane fade @if ($tab == 'update_requests') show active @endif" id="update_requests" role="tabpanel">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="ph-clipboard-text me-2"></i>Yêu cầu chỉnh sửa thông tin</h5>
+
+                    @if (Auth::user()->isStudent() && Auth::user()->id === $student->user_id)
+                        <a href="{{ route('students.request-edit', $student->id) }}" class="btn btn-primary">
+                            <i class="ph-plus me-1"></i> Tạo yêu cầu mới
+                        </a>
+                    @endif
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="table-light">
+                                    <th width="5%">STT</th>
+                                    <th width="20%">Ngày yêu cầu</th>
+                                    <th width="15%">Trạng thái</th>
+                                    <th width="10%">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($updateRequests as $index => $request)
+                                    <tr>
+                                        <td class="text-center">{{ $index + 1 + ($updateRequests->currentPage() - 1) * $updateRequests->perPage() }}</td>
+                                        <td>{{ $request->created_at->format('d/m/Y H:i') }}</td>
+                                        <td>
+                                            <span class="badge {{ $request->status->badgeColor() }}">{{ $request->status->label() }}</span>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('student-updates.show', $request->id) }}" class="btn btn-sm btn-info">
+                                                <i class="ph-eye"></i> Xem
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center">Không có yêu cầu chỉnh sửa thông tin nào.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-3">
+                        {{ $updateRequests->links('vendor.pagination.theme') }}
+                    </div>
+                </div>
             </div>
         </div>
 

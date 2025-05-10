@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AdmissionYear;
 use App\Models\Student;
+use App\Models\StudentUpdate;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -48,5 +49,44 @@ class StudentController extends Controller
         Gate::authorize('update', $student);
 
         return view('pages.student.edit-detail', compact('student'));
+    }
+
+    public function requestEdit(Student $student): View|Application|Factory|RedirectResponse
+    {
+        // Sinh viên chỉ có thể yêu cầu chỉnh sửa thông tin của chính mình
+        Gate::authorize('create', [StudentUpdate::class, $student]);
+
+        return view('pages.student.request-edit', compact('student'));
+    }
+
+    public function viewUpdateRequest(StudentUpdate $update): View|Application|Factory|RedirectResponse
+    {
+        Gate::authorize('view', $update);
+
+        return view('pages.student.view-update-request', compact('update'));
+    }
+
+    public function classMonitorApprovals(): View|Application|Factory|RedirectResponse
+    {
+        // Kiểm tra xem người dùng có phải là lớp trưởng không
+        Gate::authorize('approveAsClassMonitor', StudentUpdate::class);
+
+        return view('pages.student.class-monitor-approvals');
+    }
+
+    public function teacherApprovals(): View|Application|Factory|RedirectResponse
+    {
+        // Kiểm tra xem người dùng có phải là giáo viên không
+        Gate::authorize('approveAsTeacher', StudentUpdate::class);
+
+        return view('pages.student.teacher-approvals');
+    }
+
+    public function adminApprovals(): View|Application|Factory|RedirectResponse
+    {
+        // Kiểm tra xem người dùng có quyền duyệt không
+        Gate::authorize('approveAsAdmin', StudentUpdate::class);
+
+        return view('pages.student.admin-approvals');
     }
 }

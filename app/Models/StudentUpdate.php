@@ -72,7 +72,7 @@ class StudentUpdate extends Model
         'school_year',
         'person_email',
         'gender',
-        'permanet_residence',
+        'permanent_residence',
         'dob',
         'pob',
         'address',
