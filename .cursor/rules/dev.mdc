@@ -50,6 +50,7 @@ Laravel Best Practices
 - Triển khai các biện pháp bảo mật phù hợp, bao gồm bảo vệ CSRF, ngăn ngừa XSS và đầu vào vệ sinh
 - Sử dụng enum để khai báo các type riêng biệt
 - Sử dụng Volt cho các file livewire
+- Sử dụng layout dạng component vd x-layout thay thì @extend như cũ.
 
 Kiến trúc mã
 * Quy ước đặt tên:

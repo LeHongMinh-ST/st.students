@@ -23,7 +23,9 @@
                             <th style="width: 25%">Họ và tên</th>
                             <th style="width: 25%">Nghề nghiệp</th>
                             <th style="width: 15%">Số điện thoại</th>
-                            <th style="width: 10%">Thao tác</th>
+                            @can('update', $student)
+                                <th style="width: 10%">Thao tác</th>
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +38,7 @@
                                 <td style="word-break: break-word">{{ $family->full_name ?: 'N/A' }}</td>
                                 <td style="word-break: break-word">{{ $family->job ?: 'N/A' }}</td>
                                 <td style="word-break: break-word">{{ $family->phone ?: 'N/A' }}</td>
+                                @can('update', $student)
                                 <td>
                                     <div class="d-inline-flex">
                                         @can('update', $family)
@@ -51,6 +54,7 @@
                                         @endcan
                                     </div>
                                 </td>
+                                @endcan
                             </tr>
                         @endforeach
                     </tbody>

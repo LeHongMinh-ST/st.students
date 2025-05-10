@@ -46,10 +46,6 @@ class AuthenticateController extends Controller
 
             Auth::login($user);
 
-            if ($user->isStudent()) {
-                return redirect()->route('students.profile');
-            }
-
             return redirect()->route('dashboard');
         } catch (Throwable $th) {
             Log::error($th->getMessage());
@@ -123,17 +119,23 @@ class AuthenticateController extends Controller
         }
 
         if ($userData['role'] === Role::Student->value) {
-            Student::updateOrCreate([
-                'code' => $userData['code'],
-                'email' => $userData['email']
-            ], [
-                'user_id' => $user->id,
-                'first_name' => $userData['first_name'],
-                'last_name' => $userData['last_name'],
-                'email' => $userData['email'],
-                'phone' => $userData['phone'],
-                'code' => $userData['code']
-            ]);
+            $student = Student::where('code', $userData['code'])->first();
+            if ($student) {
+                $student->update([  
+                    'user_id' => $user->id,
+                    'first_name' => $userData['first_name'],
+                    'last_name' => $userData['last_name'],
+                ]);
+            } else {
+                Student::create([
+                    'user_id' => $user->id,
+                    'first_name' => $userData['first_name'],
+                    'last_name' => $userData['last_name'],
+                    'email' => $userData['email'],
+                    'phone' => $userData['phone'],
+                    'code' => $userData['code'],
+                ]);
+            }
         }
         return $user;
     }
