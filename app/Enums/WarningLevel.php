@@ -30,8 +30,8 @@ enum WarningLevel: string
     public function description(): string
     {
         return match($this) {
-            self::Level1 => 'Cảnh báo mức 1: Sinh viên có một lần cảnh báo trong học kỳ gần nhất.',
-            self::Level2 => 'Cảnh báo mức 2: Sinh viên có hai lần cảnh báo liên tiếp.',
+            self::Level1 => 'Cảnh báo mức 1: Sinh viên có trong đợt cảnh báo gần nhất.',
+            self::Level2 => 'Cảnh báo mức 2: Sinh viên có trong 2 đợt cảnh báo liên tiếp gần nhất.',
         };
     }
 

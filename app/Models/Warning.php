@@ -49,18 +49,36 @@ class Warning extends Model
      */
     public static function getWarningLevel(int $studentId): ?\App\Enums\WarningLevel
     {
-        $warningCount = StudentWarning::where('student_id', $studentId)
-            ->whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)')
-            ->count();
+        // Lấy 2 đợt cảnh báo gần nhất
+        $latestWarnings = StudentWarning::where('student_id', $studentId)
+            ->join('warnings', 'student_warnings.warning_id', '=', 'warnings.id')
+            ->orderBy('warnings.created_at', 'desc')
+            ->take(2)
+            ->get();
 
-        if (0 === $warningCount) {
+        // Nếu không có đợt cảnh báo nào, trả về null
+        if ($latestWarnings->isEmpty()) {
             return null;
         }
 
-        if (1 === $warningCount) {
+        // Lấy đợt cảnh báo gần nhất
+        $latestWarning = $latestWarnings->first();
+
+        // Lấy đợt cảnh báo gần nhất của toàn hệ thống
+        $systemLatestWarning = Warning::orderBy('created_at', 'desc')->first();
+
+        // Nếu đợt cảnh báo gần nhất của sinh viên không phải là đợt cảnh báo gần nhất của hệ thống
+        // tức là sinh viên không có trong đợt cảnh báo gần nhất, trả về null
+        if ($systemLatestWarning && $latestWarning->warning_id !== $systemLatestWarning->id) {
+            return null;
+        }
+
+        // Nếu chỉ có 1 đợt cảnh báo, trả về cảnh báo mức 1
+        if (1 === $latestWarnings->count()) {
             return \App\Enums\WarningLevel::Level1;
         }
 
+        // Nếu có 2 đợt cảnh báo liên tiếp, trả về cảnh báo mức 2
         return \App\Enums\WarningLevel::Level2;
     }
 
@@ -114,11 +132,18 @@ class Warning extends Model
             return 0;
         }
 
-        // Count students who have only one warning in the last year
+        // Đợt cảnh báo gần nhất của hệ thống
+        $latestWarning = Warning::orderBy('created_at', 'desc')->first();
+
+        // Nếu đợt cảnh báo hiện tại không phải là đợt cảnh báo gần nhất, trả về 0
+        if ($latestWarning && $latestWarning->id !== $this->id) {
+            return 0;
+        }
+
+        // Đếm số sinh viên chỉ có 1 đợt cảnh báo
         $count = 0;
         foreach ($studentIds as $studentId) {
             $warningCount = StudentWarning::where('student_id', $studentId)
-                ->whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)')
                 ->count();
 
             if (1 === $warningCount) {
@@ -140,11 +165,18 @@ class Warning extends Model
             return 0;
         }
 
-        // Count students who have two or more warnings in the last year
+        // Đợt cảnh báo gần nhất của hệ thống
+        $latestWarning = Warning::orderBy('created_at', 'desc')->first();
+
+        // Nếu đợt cảnh báo hiện tại không phải là đợt cảnh báo gần nhất, trả về 0
+        if ($latestWarning && $latestWarning->id !== $this->id) {
+            return 0;
+        }
+
+        // Đếm số sinh viên có 2 đợt cảnh báo liên tiếp
         $count = 0;
         foreach ($studentIds as $studentId) {
             $warningCount = StudentWarning::where('student_id', $studentId)
-                ->whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)')
                 ->count();
 
             if ($warningCount >= 2) {
