@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\User;
 
+use App\Enums\Role;
 use App\Enums\UserType;
 use App\Helpers\Constants;
 use App\Models\User;
@@ -25,6 +26,7 @@ class Index extends Component
 
         $users = User::query()
             ->with('userRoles')
+            ->where('role', '!=', Role::Student)
             ->where('faculty_id', $facultyId)
             ->where(function ($query): void {
                 $query->whereNotNull('type')

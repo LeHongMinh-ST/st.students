@@ -99,12 +99,12 @@ class User extends Authenticatable
         return $this->userRoles()->pluck('name')->implode(', ');
     }
 
-    /**
-     * Kiểm tra xem người dùng có phải là admin hay không
-     *
-     * @return bool
-     */
     public function isAdmin(): bool
+    {
+        return $this->role === RoleEnum::SuperAdmin->value;
+    }
+
+    public function isSuperAdmin(): bool
     {
         return $this->role === RoleEnum::SuperAdmin->value;
     }

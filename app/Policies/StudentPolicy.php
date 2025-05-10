@@ -25,7 +25,13 @@ class StudentPolicy
      */
     public function view(User $user, Student $student): bool
     {
-        return StudentHelper::checkUserStudent($user, $student) || $user->hasPermission('student.show');
+        // Người dùng có quyền xem sinh viên
+        if ($user->hasPermission('student.show')) {
+            return true;
+        }
+
+        // Kiểm tra quyền xem sinh viên dựa trên vai trò (giáo viên chủ nhiệm, cố vấn, sinh viên)
+        return StudentHelper::checkUserStudent($user, $student);
     }
 
     /**

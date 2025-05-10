@@ -37,8 +37,7 @@ class UserController extends Controller
         $user->load('userRoles');
 
         $response = $this->ssoService->get('/api/users/' . $user->sso_id);
-
-        $userData = $response['data'];
+        $userData = $response['data'] ?? $user['user_data'];
 
         return view('pages.user.show', compact('user', 'userData'));
     }

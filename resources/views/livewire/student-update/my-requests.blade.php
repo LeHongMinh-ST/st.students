@@ -43,14 +43,12 @@
                         </td>
                     </tr>
                 @empty
-                    <tr>
-                        <td colspan="4" class="text-center">Bạn chưa có yêu cầu chỉnh sửa thông tin nào.</td>
-                    </tr>
+                    <x-table-empty :colspan="4" />
                 @endforelse
             </tbody>
         </table>
     </div>
-    
+
     <div class="mt-3">
         {{ $requests->links('vendor.pagination.theme') }}
     </div>

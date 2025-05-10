@@ -51,9 +51,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="6" class="text-center">Không có yêu cầu chỉnh sửa thông tin nào.</td>
-                            </tr>
+                            <x-table-empty :colspan="6" />
                         @endforelse
                     </tbody>
                 </table>

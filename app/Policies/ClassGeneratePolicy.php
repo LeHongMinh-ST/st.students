@@ -6,6 +6,7 @@ namespace App\Policies;
 
 use App\Models\ClassGenerate;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ClassGeneratePolicy
 {
@@ -22,7 +23,40 @@ class ClassGeneratePolicy
      */
     public function view(User $user, ClassGenerate $class): bool
     {
-        return $user->hasPermission('class.index');
+        // Superadmin hoặc người dùng có quyền xem danh sách lớp
+        if ($user->isSuperAdmin() || $user->hasPermission('class.index')) {
+            return true;
+        }
+
+        // Giáo viên chủ nhiệm của lớp
+        if ($user->hasPermission('class.teacher')) {
+            $isTeacher = DB::table('class_assigns')
+                ->where('class_id', $class->id)
+                ->where('teacher_id', $user->id)
+                ->where('status', \App\Enums\Status::Active->value)
+                ->exists();
+
+            if ($isTeacher) {
+                return true;
+            }
+        }
+
+        // Sinh viên của lớp
+        if ($user->isStudent()) {
+            $student = \App\Models\Student::where('user_id', $user->id)->first();
+            if ($student) {
+                $isInClass = DB::table('class_students')
+                    ->where('class_id', $class->id)
+                    ->where('student_id', $student->id)
+                    ->exists();
+
+                if ($isInClass) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
