@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Livewire\Class;
 
 use App\Enums\Status;
+use App\Helpers\LogActivityHelper;
+use App\Mail\TeacherAssignmentNotification;
 use App\Models\ClassAssign;
 use App\Models\ClassGenerate;
 use App\Models\User;
 use App\Services\SsoService;
+use Exception;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -131,7 +135,7 @@ class TeacherAssignment extends Component
                 }
             }
 
-            ClassAssign::create([
+            $assignment = ClassAssign::create([
                 'class_id' => $this->class->id,
                 'teacher_id' => $this->teacher_id,
                 'sub_teacher_id' => null, // Không còn sử dụng cố vấn học tập
@@ -139,6 +143,29 @@ class TeacherAssignment extends Component
                 'status' => $this->status,
                 'assigned_at' => now(),
             ]);
+
+            // Lấy thông tin giáo viên
+            $teacher = User::find($this->teacher_id);
+
+            // Ghi log hoạt động
+            LogActivityHelper::create(
+                'Phân công giáo viên chủ nhiệm',
+                'Phân công giáo viên ' . ($teacher->full_name ?? $teacher->name) .
+                ' làm giáo viên chủ nhiệm lớp ' . $this->class->name .
+                ' (Mã lớp: ' . $this->class->code . ') cho năm học ' . $this->year
+            );
+
+            // Gửi email thông báo cho giáo viên
+            try {
+                Mail::to($teacher->email)->send(new TeacherAssignmentNotification(
+                    $teacher,
+                    $this->class,
+                    $this->year
+                ));
+            } catch (Exception $e) {
+                // Log lỗi nhưng không dừng quá trình
+                \Illuminate\Support\Facades\Log::error('Không thể gửi email thông báo phân công giáo viên: ' . $e->getMessage());
+            }
 
             session()->flash('success', 'Phân công giáo viên thành công.');
         } else {
@@ -159,6 +186,29 @@ class TeacherAssignment extends Component
                 'status' => $this->status,
                 'assigned_at' => now(),
             ]);
+
+            // Lấy thông tin giáo viên
+            $teacher = User::find($this->teacher_id);
+
+            // Ghi log hoạt động
+            LogActivityHelper::create(
+                'Cập nhật phân công giáo viên chủ nhiệm',
+                'Cập nhật phân công giáo viên ' . ($teacher->full_name ?? $teacher->name) .
+                ' làm giáo viên chủ nhiệm lớp ' . $this->class->name .
+                ' (Mã lớp: ' . $this->class->code . ') cho năm học ' . $this->year
+            );
+
+            // Gửi email thông báo cho giáo viên
+            try {
+                Mail::to($teacher->email)->send(new TeacherAssignmentNotification(
+                    $teacher,
+                    $this->class,
+                    $this->year
+                ));
+            } catch (Exception $e) {
+                // Log lỗi nhưng không dừng quá trình
+                \Illuminate\Support\Facades\Log::error('Không thể gửi email thông báo phân công giáo viên: ' . $e->getMessage());
+            }
 
             session()->flash('success', 'Cập nhật phân công giáo viên thành công.');
         }

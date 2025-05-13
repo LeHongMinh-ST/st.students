@@ -7,7 +7,10 @@ namespace App\Livewire\Class;
 use App\Enums\Status;
 use App\Enums\StudentRole;
 use App\Helpers\LogActivityHelper;
+use App\Mail\StudentAssignmentNotification;
 use App\Models\ClassGenerate;
+use Exception;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -169,6 +172,16 @@ class StudentAssignment extends Component
             'Phân công sinh viên ' . $student->full_name . ' (Mã SV: ' . $student->code . ') ' .
             'làm ' . $roleName . ' cho lớp ' . $this->class->name . ' (Mã lớp: ' . $this->class->code . ')'
         );
+
+        try {
+            Mail::to($student->email)->send(new StudentAssignmentNotification(
+                $student,
+                $this->class,
+                $roleName
+            ));
+        } catch (Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Không thể gửi email thông báo phân công cán sự lớp: ' . $e->getMessage());
+        }
 
         session()->flash('success', 'Phân công cán sự lớp thành công.');
 
