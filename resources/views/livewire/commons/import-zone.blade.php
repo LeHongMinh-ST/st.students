@@ -16,12 +16,12 @@
             </div>
         </div>
 
-        <!-- Nút tải file mẫu -->
-        <div class="mb-2">
-            <a href="{{ route('file.download-template', ['name' => $tempFile]) }}">
-                <i class="ph-download-simple me-1"></i> Tải tệp mẫu
-            </a>
-        </div>
+{{--        <!-- Nút tải file mẫu -->--}}
+{{--        <div class="mb-2">--}}
+{{--            <a href="{{ route('file.download-template', ['name' => $tempFile]) }}">--}}
+{{--                <i class="ph-download-simple me-1"></i> Tải tệp mẫu--}}
+{{--            </a>--}}
+{{--        </div>--}}
 
         @if (count($previewData) > 0)
             <div class="text-center" wire:transition>

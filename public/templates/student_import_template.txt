@@ -1,0 +1,24 @@
+Mã nhập học,Mã sinh viên,Họ tên,Ngày sinh,Giới tính,Lớp,Khoa,Niên khóa,Dân tộc,Điện thoại,Email,Địa chỉ,Họ tên bố,SĐT của bố,Họ tên mẹ,SĐT của mẹ
+NH001,SV001,Nguyễn Văn A,01/01/2000,Nam,CNTT01,Công nghệ thông tin,2022-2026,Kinh,0987654321,nguyenvana@example.com,Hà Nội,Nguyễn Văn B,0987654322,Nguyễn Thị C,0987654323
+NH002,SV002,Trần Thị B,02/02/2000,Nữ,CNTT01,Công nghệ thông tin,2022-2026,Kinh,0987654324,tranthib@example.com,Hà Nội,Trần Văn D,0987654325,Trần Thị E,0987654326
+NH003,SV003,Lê Văn C,03/03/2000,Nam,CNTT02,Công nghệ thông tin,2022-2026,Kinh,0987654327,levanc@example.com,Hà Nội,Lê Văn F,0987654328,Lê Thị G,0987654329
+
+Hướng dẫn:
+1. Cột A: Mã nhập học
+2. Cột B: Mã sinh viên (bắt buộc)
+3. Cột C: Họ tên (bắt buộc)
+4. Cột D: Ngày sinh (định dạng: DD/MM/YYYY)
+5. Cột E: Giới tính (Nam/Nữ)
+6. Cột F: Lớp (bắt buộc) - Mã lớp trong hệ thống
+7. Cột G: Khoa
+8. Cột H: Niên khóa (định dạng: YYYY-YYYY)
+9. Cột I: Dân tộc
+10. Cột J: Điện thoại
+11. Cột K: Email
+12. Cột L: Địa chỉ
+13. Cột M: Họ tên bố
+14. Cột N: SĐT của bố
+15. Cột O: Họ tên mẹ
+16. Cột P: SĐT của mẹ
+
+Lưu ý: Đây là file hướng dẫn. Vui lòng tạo file Excel (.xlsx, .xls) với cấu trúc tương tự.

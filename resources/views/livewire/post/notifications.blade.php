@@ -45,7 +45,7 @@
         </div>
 
         <div class="dropdown-footer border-top text-center py-2">
-            <a href="#" class="text-body">Xem tất cả thông báo</a>
+            <a href="{{ route('posts.index') }}" class="text-body">Xem tất cả thông báo</a>
         </div>
     </div>
 </div>

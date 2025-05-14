@@ -30,7 +30,42 @@
             <div class="tab-content">
                 <div class="tab-pane fade @if ($tab == 'import') show active @endif" id="import" role="tabpanel">
                     <div class="mt-3 border-0 shadow-lg card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Import danh sách sinh viên</h5>
+                        </div>
                         <div class="card-body">
+                            <div class="alert alert-info mb-3">
+                                <div class="d-flex">
+                                    <i class="ph-info me-2"></i>
+                                    <div>
+                                        <h6 class="fw-semibold">Hướng dẫn import</h6>
+                                        <p>
+                                            Tải file mẫu và điền thông tin sinh viên theo định dạng sau:
+                                            <ul>
+                                                <li>Cột A: Mã nhập học</li>
+                                                <li>Cột B: Mã sinh viên</li>
+                                                <li>Cột C: Họ tên</li>
+                                                <li>Cột D: Ngày sinh (định dạng: DD/MM/YYYY)</li>
+                                                <li>Cột E: Giới tính (Nam/Nữ)</li>
+                                                <li>Cột F: Lớp</li>
+                                                <li>Cột G: Khoa</li>
+                                                <li>Cột H: Niên khóa (định dạng: YYYY-YYYY)</li>
+                                                <li>Cột I: Dân tộc</li>
+                                                <li>Cột J: Điện thoại</li>
+                                                <li>Cột K: Email</li>
+                                                <li>Cột L: Địa chỉ</li>
+                                                <li>Cột M: Họ tên bố</li>
+                                                <li>Cột N: SĐT của bố</li>
+                                                <li>Cột O: Họ tên mẹ</li>
+                                                <li>Cột P: SĐT của mẹ</li>
+                                            </ul>
+                                        </p>
+                                        <a href="{{ route('file.download-template', ['name' => 'template_course.xlsx']) }}" class="btn btn-light">
+                                            <i class="ph-download me-2"></i> Tải file mẫu
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                             <livewire:commons.import-zone :tempFile="'template_course.xlsx'" />
 
                         </div>

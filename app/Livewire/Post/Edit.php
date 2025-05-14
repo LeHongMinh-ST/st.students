@@ -95,16 +95,21 @@ class Edit extends Component
         $this->redirect(route('posts.index'));
     }
 
+    /**
+     * Create notifications for all users in the same faculty when a post is published
+     */
     private function createNotifications(): void
     {
         $facultyId = app(SsoService::class)->getFacultyId();
 
         // Get all users in the same faculty
-        $users = User::whereHas('userRoles', function ($query): void {
-            $query->whereHas('permissions', function ($q): void {
-                $q->where('code', 'post.index');
-            });
-        })->get();
+        $users = User::where('faculty_id', $facultyId)
+            ->whereHas('userRoles', function ($query): void {
+                $query->whereHas('permissions', function ($q): void {
+                    $q->where('code', 'post.index');
+                });
+            })
+            ->get();
 
         foreach ($users as $user) {
             PostNotification::create([
