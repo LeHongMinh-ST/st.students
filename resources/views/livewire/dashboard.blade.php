@@ -104,4 +104,116 @@
         </div>
         @endif
     </div>
+
+    <!-- Activity and Approval Tables -->
+    <div class="row mt-4">
+        <!-- Recent Activities -->
+        @if($canViewRecentActivities)
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="mb-0">Hoạt động mới nhất</h5>
+                    <div>
+                        <a href="{{ route('activities.index') }}" class="btn btn-link">
+                            <i class="ph-arrow-right me-1"></i>Xem tất cả
+                        </a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div wire:loading class="my-3 text-center w-100">
+                        <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
+                    </div>
+                    <table class="table fs-table" wire:loading.remove>
+                        <thead>
+                            <tr class="table-light">
+                                <th width="30%">Người dùng</th>
+                                <th width="45%">Hành động</th>
+                                <th width="25%">Thời gian</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($recentActivities as $activity)
+                            <tr>
+                                <td width="30%" class="fw-semibold">{{ $activity['user_name'] }}</td>
+                                <td width="45%">{{ $activity['action'] }}</td>
+                                <td width="25%">{{ \Carbon\Carbon::parse($activity['created_at'])->format('d/m/Y H:i') }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3" class="text-center">
+                                    <img src="{{ asset('assets/images/empty.png') }}" width="150px" alt="empty">
+                                    <div class="text-center mb-2">Không có hoạt động nào!</div>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @endif
+
+        <!-- Pending Approval Requests -->
+        @if($canViewPendingUpdates)
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="mb-0">Yêu cầu duyệt thông tin</h5>
+                    <div>
+                        <a href="{{ route('student-updates.index') }}" class="btn btn-link">
+                            <i class="ph-arrow-right me-1"></i>Xem tất cả
+                        </a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div wire:loading class="my-3 text-center w-100">
+                        <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
+                    </div>
+                    <table class="table fs-table" wire:loading.remove>
+                        <thead>
+                            <tr class="table-light">
+                                <th width="40%">Sinh viên</th>
+                                <th width="30%">Trạng thái</th>
+                                <th width="30%">Thời gian</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($pendingUpdates as $update)
+                            <tr>
+                                <td width="40%">
+                                    <a href="{{ route('student-updates.show', $update['id']) }}" class="fw-semibold">
+                                        {{ $update['student']['full_name'] ?? 'N/A' }}
+                                        <span class="text-muted">({{ $update['student']['code'] ?? 'N/A' }})</span>
+                                    </a>
+                                </td>
+                                <td width="30%">
+                                    @php
+                                        $status = \App\Enums\StudentUpdateStatus::from($update['status']);
+                                        $badgeClass = match($status) {
+                                            \App\Enums\StudentUpdateStatus::Pending => 'bg-warning',
+                                            \App\Enums\StudentUpdateStatus::ClassOfficerApproved => 'bg-info',
+                                            \App\Enums\StudentUpdateStatus::TeacherApproved => 'bg-primary',
+                                            \App\Enums\StudentUpdateStatus::OfficerApproved => 'bg-success',
+                                            \App\Enums\StudentUpdateStatus::Reject => 'bg-danger',
+                                        };
+                                    @endphp
+                                    <span class="badge {{ $badgeClass }}">{{ $status->label() }}</span>
+                                </td>
+                                <td width="30%">{{ \Carbon\Carbon::parse($update['created_at'])->format('d/m/Y H:i') }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3" class="text-center">
+                                    <img src="{{ asset('assets/images/empty.png') }}" width="150px" alt="empty">
+                                    <div class="text-center mb-2">Không có yêu cầu nào!</div>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @endif
+    </div>
 </div>

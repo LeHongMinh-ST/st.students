@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Enums\StudentStatus;
+use App\Enums\StudentUpdateStatus;
 use App\Models\ClassGenerate;
+use App\Models\LogActivity;
 use App\Models\Student;
+use App\Models\StudentUpdate;
 use App\Services\SsoService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +26,11 @@ class Dashboard extends Component
     public bool $canViewGraduatedStudents = false;
     public bool $canViewWarnedStudents = false;
     public bool $canViewTotalClasses = false;
+    public bool $canViewRecentActivities = false;
+    public bool $canViewPendingUpdates = false;
+
+    public array $recentActivities = [];
+    public array $pendingUpdates = [];
 
     public function mount(): void
     {
@@ -34,6 +42,9 @@ class Dashboard extends Component
         $this->canViewGraduatedStudents = $user->isAdmin() || $user->hasPermission('dashboard.graduated');
         $this->canViewWarnedStudents = $user->isAdmin() || $user->hasPermission('dashboard.warned');
         $this->canViewTotalClasses = $user->isAdmin() || $user->hasPermission('dashboard.classes');
+        $this->canViewRecentActivities = $user->isAdmin() || $user->hasPermission('activity.index');
+        $this->canViewPendingUpdates = $user->isAdmin() || $user->hasPermission('student.update.index') ||
+            $user->hasPermission('student.update.approve') || $this->isTeacher($user) || $this->isClassMonitor($user);
 
         // Get total students
         if ($this->canViewTotalStudents) {
@@ -63,10 +74,107 @@ class Dashboard extends Component
         if ($this->canViewTotalClasses) {
             $this->totalClasses = ClassGenerate::where('faculty_id', $facultyId)->count();
         }
+
+        // Get recent activities
+        if ($this->canViewRecentActivities) {
+            $this->recentActivities = LogActivity::orderBy('created_at', 'desc')
+                ->limit(5)
+                ->get()
+                ->toArray();
+        }
+
+        // Get pending updates
+        if ($this->canViewPendingUpdates) {
+            $query = StudentUpdate::with('student');
+
+            if ($user->isAdmin() || $user->hasPermission('student.update.index')) {
+                // Admin can see all pending updates
+                $query->where('status', StudentUpdateStatus::TeacherApproved->value);
+            } elseif ($this->isTeacher($user)) {
+                // Teacher can see updates approved by class monitor
+                $classIds = $this->getClassIdsWhereUserIsTeacher($user);
+                $studentIds = DB::table('class_students')
+                    ->whereIn('class_id', $classIds)
+                    ->pluck('student_id')
+                    ->toArray();
+
+                $query->whereIn('student_id', $studentIds)
+                    ->where('status', StudentUpdateStatus::ClassOfficerApproved->value);
+            } elseif ($this->isClassMonitor($user)) {
+                // Class monitor can see pending updates from their class
+                $classIds = $this->getClassIdsWhereUserIsMonitor($user);
+                $studentIds = DB::table('class_students')
+                    ->whereIn('class_id', $classIds)
+                    ->pluck('student_id')
+                    ->toArray();
+
+                $query->whereIn('student_id', $studentIds)
+                    ->where('status', StudentUpdateStatus::Pending->value);
+            }
+
+            $this->pendingUpdates = $query->orderBy('created_at', 'desc')
+                ->limit(5)
+                ->get()
+                ->toArray();
+        }
     }
 
     public function render()
     {
         return view('livewire.dashboard');
+    }
+
+    /**
+     * Check if user is a teacher for any class
+     */
+    private function isTeacher($user): bool
+    {
+        return $user->hasPermission('class.teacher') && DB::table('class_assigns')
+            ->where('teacher_id', $user->id)
+            ->exists();
+    }
+
+    /**
+     * Check if user is a class monitor for any class
+     */
+    private function isClassMonitor($user): bool
+    {
+        $student = Student::where('user_id', $user->id)->first();
+        if (!$student) {
+            return false;
+        }
+
+        return DB::table('class_students')
+            ->where('student_id', $student->id)
+            ->where('role', 'class_monitor')
+            ->exists();
+    }
+
+    /**
+     * Get class IDs where user is a teacher
+     */
+    private function getClassIdsWhereUserIsTeacher($user): array
+    {
+        return DB::table('class_assigns')
+            ->where('teacher_id', $user->id)
+            ->pluck('class_id')
+            ->toArray();
+    }
+
+    /**
+     * Get class IDs where user is a class monitor
+     */
+    private function getClassIdsWhereUserIsMonitor($user): array
+    {
+        $student = Student::where('user_id', $user->id)->first();
+        if (!$student) {
+            return [];
+        }
+
+        return DB::table('class_students')
+            ->where('student_id', $student->id)
+            ->where('role', 'class_monitor')
+            ->pluck('class_id')
+            ->toArray();
     }
 }
