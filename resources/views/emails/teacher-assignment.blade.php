@@ -38,12 +38,12 @@
     <div class="header">
         <h2>Thông báo phân công giáo viên chủ nhiệm</h2>
     </div>
-    
+
     <div class="content">
-        <p>Kính gửi <span class="highlight">{{ $teacher->full_name ?? $teacher->name }}</span>,</p>
-        
+        <p>Kính gửi thầy/cô <span class="highlight">{{ $teacher->full_name ?? $teacher->name }}</span>,</p>
+
         <p>Chúng tôi xin thông báo rằng bạn đã được phân công làm giáo viên chủ nhiệm cho lớp <span class="highlight">{{ $class->name }}</span> (Mã lớp: {{ $class->code }}) trong năm học <span class="highlight">{{ $year }}</span>.</p>
-        
+
         <p>Thông tin chi tiết:</p>
         <ul>
             <li>Họ và tên giáo viên: {{ $teacher->full_name ?? $teacher->name }}</li>
@@ -52,15 +52,15 @@
             <li>Năm học: {{ $year }}</li>
             <li>Thời gian phân công: {{ now()->format('d/m/Y H:i') }}</li>
         </ul>
-        
+
         <p>Chúc mừng bạn đã được tin tưởng giao trọng trách này. Chúng tôi tin rằng bạn sẽ hoàn thành tốt nhiệm vụ được giao.</p>
-        
+
         <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với phòng đào tạo.</p>
-        
+
         <p>Trân trọng,<br>
         Ban quản lý đào tạo</p>
     </div>
-    
+
     <div class="footer">
         <p>Email này được gửi tự động, vui lòng không trả lời.</p>
         <p>&copy; {{ date('Y') }} Hệ thống quản lý sinh viên trực tuyến</p>
