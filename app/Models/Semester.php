@@ -36,15 +36,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Semester extends Model
 {
     protected $fillable = [
-        'name',
-        'start_date',
-        'end_date',
+        'semester',
         'school_year_id',
-    ];
-
-    protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
     ];
 
     public function schoolYear(): BelongsTo

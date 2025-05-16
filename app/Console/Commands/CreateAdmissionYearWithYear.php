@@ -31,10 +31,22 @@ class CreateAdmissionYearWithYear extends Command
     {
         $schoolYear = $this->argument('year');
         $admissionYear = SchoolHelper::calculateAdmissionYear((int)$schoolYear);
-        AdmissionYear::create([
-            'admission_year' => $admissionYear,
-            'school_year' => $schoolYear,
-        ]);
+
+        // Check if admission year already exists
+        $exists = AdmissionYear::where('school_year', $schoolYear)->exists();
+
+        if ($exists) {
+            $this->info("Admission year for school year {$schoolYear} already exists. Skipping.");
+            return 0;
+        }
+
+        // Create new admission year
+        AdmissionYear::updateOrCreate(
+            ['school_year' => $schoolYear],
+            ['admission_year' => $admissionYear]
+        );
+
+        $this->info("Created admission year {$admissionYear} for school year {$schoolYear}.");
         return 0;
     }
 }
