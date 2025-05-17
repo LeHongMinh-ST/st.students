@@ -28,14 +28,14 @@ class FacultySelected extends Component
         }
     }
 
-    public function updatedFacultyId($facultyId): void
+    public function updatedFacultyId($facultyId)
     {
         // Chỉ lưu vào database
         if (auth()->check()) {
             auth()->user()->update(['faculty_id' => $facultyId]);
         }
 
-        $this->dispatch('reloadPage');
+        return redirect('/');
     }
 
     private function fetchData()
