@@ -63,7 +63,7 @@ class AuthenticateController extends Controller
 
     private function getAccessToken(string $code): array
     {
-        $response = Http::asForm()->post(config('auth.sso.uri') . '/oauth/token', [
+        $response = Http::asForm()->post(config('auth.sso.ip') . '/oauth/token', [
             'grant_type' => 'authorization_code',
             'client_id' => config('auth.sso.client_id'),
             'client_secret' => config('auth.sso.client_secret'),
@@ -76,7 +76,7 @@ class AuthenticateController extends Controller
 
     private function getUserData(string $accessToken): array
     {
-        $response = Http::withToken($accessToken)->get(config('auth.sso.uri') . '/api/user');
+        $response = Http::withToken($accessToken)->get(config('auth.sso.ip') . '/api/user');
 
         return $response->json();
     }

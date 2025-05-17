@@ -25,7 +25,7 @@ class SsoService
     public function get(string $endPoint, $data = [])
     {
         try {
-            $response = Http::withToken($this->accessToken)->get(config('auth.sso.uri') . $endPoint, $data);
+            $response = Http::withToken($this->accessToken)->get(config('auth.sso.ip') . $endPoint, $data);
 
             return $response->json();
         } catch (Throwable $th) {
@@ -40,7 +40,7 @@ class SsoService
     public function post(string $endPoint, $data = [])
     {
         try {
-            $response = Http::withToken($this->accessToken)->post(config('auth.sso.uri') . $endPoint, $data);
+            $response = Http::withToken($this->accessToken)->post(config('auth.sso.ip') . $endPoint, $data);
 
             return $response->json();
         } catch (Throwable $th) {
@@ -79,7 +79,7 @@ class SsoService
         // Nếu không có dữ liệu trong database và có access token, thử lấy dữ liệu từ API
         if ($this->accessToken) {
             try {
-                $response = Http::withToken($this->accessToken)->get(config('auth.sso.uri') . '/api/user');
+                $response = Http::withToken($this->accessToken)->get(config('auth.sso.ip') . '/api/user');
                 if ($response->successful()) {
                     $userData = $response->json();
 
