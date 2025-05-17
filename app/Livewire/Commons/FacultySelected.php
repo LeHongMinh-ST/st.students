@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Livewire\Commons;
 
 use App\Services\SsoService;
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class FacultySelected extends Component
@@ -30,11 +32,19 @@ class FacultySelected extends Component
 
     public function updatedFacultyId($facultyId)
     {
-        // Chỉ lưu vào database
-        if (auth()->check()) {
-            auth()->user()->update(['faculty_id' => $facultyId]);
+        try {
+            Log::info('Update faculty');
+            // Chỉ lưu vào database
+            if (auth()->check()) {
+                auth()->user()->update(['faculty_id' => $facultyId]);
+            }
+
+        } catch (Exception $e) {
+            Log::error('');
+            Log::error($e->getMessage());
         }
 
+        Log::info('Redirect');
         return redirect('/');
     }
 
