@@ -63,7 +63,7 @@ class AuthenticateController extends Controller
 
     private function getAccessToken(string $code): array
     {
-        $response = Http::asForm()->post(config('auth.sso.uri') . '/oauth/token', [
+        $response = Http::withoutVerifying()->asForm()->post(config('auth.sso.uri') . '/oauth/token', [
             'grant_type' => 'authorization_code',
             'client_id' => config('auth.sso.client_id'),
             'client_secret' => config('auth.sso.client_secret'),
