@@ -84,7 +84,7 @@ class ImportQuitStudentsJob implements ShouldQueue
                     }
 
                     // Determine quit type
-                    $quitTypeValue = match (mb_strtolower(trim($quitType))) {
+                    $quitTypeValue = match (mb_strtolower(mb_trim($quitType))) {
                         'tự thôi học', 'thôi học' => StudentStatus::ToDropOut->value,
                         'tạm dừng', 'tạm dừng học tập' => StudentStatus::TemporarilySuspended->value,
                         'đuổi học', 'buộc thôi học' => StudentStatus::Expelled->value,

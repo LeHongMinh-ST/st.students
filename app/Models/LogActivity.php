@@ -35,5 +35,5 @@ class LogActivity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'user_name', 'action', 'details', 'ip_address'];
+    protected $fillable = ['user_id', 'user_name', 'action', 'details', 'ip_address', 'faculty_id'];
 }

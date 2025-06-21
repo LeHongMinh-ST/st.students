@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Commons;
 
+use App\Enums\Role;
 use App\Services\SsoService;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -25,7 +26,7 @@ class FacultySelected extends Component
     public function mount(): void
     {
         // Chỉ lấy faculty_id từ database
-        if (auth()->check() && auth()->user()->faculty_id) {
+        if (auth()->check() && auth()->user()->faculty_id && Role::SuperAdmin !== auth()->user()->role) {
             $this->facultyId = auth()->user()->faculty_id;
         }
     }

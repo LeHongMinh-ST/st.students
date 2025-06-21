@@ -50,7 +50,8 @@
     <!-- /page content -->
 
 
-    @livewireScriptConfig
+    {{-- Script Livewire --}}
+    @livewireScripts
 
     @php
         $user = auth()->user();

@@ -93,7 +93,7 @@ class ImportGraduationStudentsJob implements ShouldQueue
                         $rank = RankGraduate::fromGpa($gpaFloat);
                     } else {
                         // Try to match the provided rank with an enum value
-                        $rank = match (mb_strtolower(trim($rankValue))) {
+                        $rank = match (mb_strtolower(mb_trim($rankValue))) {
                             'xuất sắc', 'excellent' => RankGraduate::Excellent,
                             'giỏi', 'very good' => RankGraduate::VeryGood,
                             'khá', 'good' => RankGraduate::Good,

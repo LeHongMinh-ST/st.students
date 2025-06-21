@@ -22,12 +22,15 @@ class LogActivityHelper
     {
         $userData = app(SsoService::class)->getDataUser();
 
+        $facultyId = app(SsoService::class)->getFacultyId();
+
         LogActivity::create([
             'user_id' => Auth::id(),
             'user_name' => $userData['full_name'],
             'action' => $action,
             'details' => $details,
             'ip_address' => request()->ip(),
+            'faculty_id' => $facultyId,
         ]);
     }
 

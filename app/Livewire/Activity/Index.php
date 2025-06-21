@@ -50,6 +50,7 @@ class Index extends Component
         $facultyId = app(SsoService::class)->getFacultyId();
 
         $activities = LogActivity::query()
+            ->where('faculty_id', $facultyId)
             ->when($this->search, function ($query): void {
                 $query->where(function ($q): void {
                     $searchTerm = '%' . $this->search . '%';

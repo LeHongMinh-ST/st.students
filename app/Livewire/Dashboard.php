@@ -77,7 +77,8 @@ class Dashboard extends Component
 
         // Get recent activities
         if ($this->canViewRecentActivities) {
-            $this->recentActivities = LogActivity::orderBy('created_at', 'desc')
+            $this->recentActivities = LogActivity::where('faculty_id', $facultyId)
+                ->orderBy('created_at', 'desc')
                 ->limit(5)
                 ->get()
                 ->toArray();
