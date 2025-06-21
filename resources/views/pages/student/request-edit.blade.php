@@ -18,7 +18,7 @@
                 <div class="d-flex">
                     <div class="py-2 breadcrumb">
                         <a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
-                        <a href="{{ route('students.index') }}" class="breadcrumb-item">Sinh viên</a>
+                        <a href="{{ route('students.index', ['admission_year' => $student->admissionYear->admission_year]) }}" class="breadcrumb-item">Sinh viên</a>
                         <a href="{{ route('students.show', $student->id) }}" class="breadcrumb-item">{{ $student->full_name }} - {{ $student->code }}</a>
                         <span class="breadcrumb-item active">Yêu cầu chỉnh sửa thông tin</span>
                     </div>

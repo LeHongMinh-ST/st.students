@@ -16,11 +16,22 @@ use Illuminate\Support\Facades\Gate;
 
 class StudentController extends Controller
 {
-    public function index(): View|Application|Factory|RedirectResponse
+    public function index($admissionYear): View|Application|Factory|RedirectResponse
     {
         Gate::authorize('viewAny', Student::class);
 
-        return view('pages.student.index');
+        $admissionYear = AdmissionYear::where('admission_year', $admissionYear)->first();
+        if (!$admissionYear) {
+            abort(404);
+        }
+
+        return view('pages.student.index', compact('admissionYear'));
+    }
+
+    public function admissions(): View|Application|Factory|RedirectResponse
+    {
+        Gate::authorize('viewAny', Student::class);
+        return view('pages.student.admissions');
     }
 
     public function import(AdmissionYear $admissionYear): View|Application|Factory|RedirectResponse

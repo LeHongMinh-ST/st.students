@@ -66,7 +66,13 @@ class Import extends Component
             'admission_year_id' => $this->admissionYear->id
         ]);
         dispatch(new ImportStudentsJob(Auth::id(), $importHistory->id, $this->admissionYear->id));
-        $this->dispatch('onOpenProcessModal');
+        // $this->dispatch('onOpenProcessModal');
+
+        $this->dispatch(
+            'alert',
+            type: 'success',
+            message: 'Tệp đã được nhập vào, hệ thống sẽ xử lý trong giây lát.'
+        );
     }
 
 

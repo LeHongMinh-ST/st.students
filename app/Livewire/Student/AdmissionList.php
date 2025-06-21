@@ -43,8 +43,8 @@ class AdmissionList extends Component
         $this->perPage += 12;
     }
 
-    public function setAdmissionYear($admissionYear): void
+    public function setAdmissionYear($admissionYear)
     {
-        $this->dispatch('onSetAdmissionYear', admissionYear: $admissionYear)->to('student.index');
+        return redirect()->route('students.index', ['admission_year' => $admissionYear]);
     }
 }

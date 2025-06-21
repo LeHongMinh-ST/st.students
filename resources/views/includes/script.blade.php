@@ -1,3 +1,4 @@
+
 {{-- <!-- Core JS files --> --}}
 <script src="{{ asset('assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
 {{-- <!-- /core JS files --> --}}
@@ -20,7 +21,6 @@
 
 
 {{-- <!-- /theme JS files --> --}}
-
 
 @vite('resources/js/app.js')
 
@@ -45,11 +45,5 @@
                 type: 'error',
             }).show();
         @endif
-        {{-- @error('error') --}}
-        {{--    new Noty({ --}}
-        {{--        title: 'Lỗi', --}}
-        {{--        type: 'error', --}}
-        {{--    }).show(); --}}
-        {{-- @enderror --}}
     })
 </script>

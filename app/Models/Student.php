@@ -135,6 +135,7 @@ class Student extends Model
         'note',
         'user_id',
         'admission_year_id',
+        'faculty_id',
     ];
 
     protected $casts = [

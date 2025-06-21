@@ -9,6 +9,7 @@
     @include('includes.style')
     {{ $custom_css ?? '' }}
     {{ $styles ?? '' }}
+        
     @include('includes.script')
     {{ $custom_js ?? '' }}
 </head>

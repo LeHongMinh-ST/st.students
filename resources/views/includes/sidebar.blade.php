@@ -77,8 +77,8 @@
 
                 @can('viewAny', \App\Models\Student::class)
                 <li class="nav-item">
-                    <a href="{{ route('students.index') }}"
-                       class="nav-link {{ request()->routeIs('students.index') || request()->routeIs('students.show') || request()->routeIs('students.edit') || request()->routeIs('students.edit-detail') || request()->routeIs('students.import') ? 'active' : '' }}">
+                    <a href="{{ route('students.admissions') }}"
+                       class="nav-link {{ request()->routeIs('students.admissions') || request()->routeIs('students.index') || request()->routeIs('students.show') || request()->routeIs('students.edit') || request()->routeIs('students.edit-detail') || request()->routeIs('students.import') ? 'active' : '' }}">
                         <i class="ph-users-four"></i>
                         <span>Khóa sinh viên</span>
                     </a>

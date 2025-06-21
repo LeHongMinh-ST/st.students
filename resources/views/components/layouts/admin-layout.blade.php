@@ -49,10 +49,6 @@
     </div>
     <!-- /page content -->
 
-
-    {{-- Script Livewire --}}
-    @livewireScripts
-
     @php
         $user = auth()->user();
         $userData = $user->user_data;
@@ -89,7 +85,11 @@
             }
         });
     </script>
+
     {{ $scripts ?? '' }}
+
+    @livewireScripts
+
 </body>
 
 </html>

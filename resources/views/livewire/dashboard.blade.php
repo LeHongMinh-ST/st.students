@@ -4,7 +4,7 @@
         @if($canViewTotalStudents)
         <!-- Total Students - Cool Blue -->
         <div class="col-sm-6 col-xl-3">
-            <a href="{{ route('students.index') }}" class="text-white">
+            <a href="{{ route('students.admissions') }}" class="text-white">
                 <div class="card bg-primary">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
