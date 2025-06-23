@@ -119,7 +119,7 @@ class Student extends Model
         'school_year_start',
         'school_year_end',
         'gender',
-        'permanet_residence',
+        'permanent_residence',
         'dob',
         'pob',
         'address',

@@ -56,6 +56,7 @@ class ClassGenerate extends Model
         'faculty_id',
         'training_industry_id',
         'admission_year_id',
+        'description',
     ];
 
     protected $casts = [

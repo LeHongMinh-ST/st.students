@@ -23,14 +23,13 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToArray;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Events\BeforeImport;
 use Maatwebsite\Excel\Events\ImportFailed;
 
-class StudentImport implements ToArray, WithChunkReading, WithEvents, WithStartRow
+class StudentImport implements ToArray, WithEvents, WithStartRow
 {
     protected $userId;
 

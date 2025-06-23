@@ -113,6 +113,14 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+        'old_db' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('OLD_DB_DATABASE', 'old_db'),
+            'username' => env('OLD_DB_USERNAME', 'root'),
+            'password' => env('OLD_DB_PASSWORD', ''),
+        ],
 
     ],
 

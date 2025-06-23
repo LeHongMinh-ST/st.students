@@ -27,7 +27,7 @@
                                     <select wire:model="semester_id" id="semester_id" class="form-select @error('semester_id') is-invalid @enderror">
                                         <option value="">-- Chọn học kỳ --</option>
                                         @foreach($semesters as $semester)
-                                            <option value="{{ $semester['id'] }}">{{ $semester['name'] }}</option>
+                                            <option value="{{ $semester['id'] }}">{{ $semester['semester'] }}</option>
                                         @endforeach
                                     </select>
                                     @error('semester_id')
