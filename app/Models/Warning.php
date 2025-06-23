@@ -55,7 +55,6 @@ class Warning extends Model
             ->orderBy('warnings.created_at', 'desc')
             ->take(2)
             ->get();
-
         // Nếu không có đợt cảnh báo nào, trả về null
         if ($latestWarnings->isEmpty()) {
             return null;
@@ -95,7 +94,6 @@ class Warning extends Model
     public function students(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'student_warnings')
-            ->withPivot(['note', 'gpa'])
             ->withTimestamps();
     }
 

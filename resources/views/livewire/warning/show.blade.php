@@ -19,30 +19,6 @@
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Năm học:</label>
-                        <div>{{ $warning->school_year }}</div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Số quyết định:</label>
-                        <div>{{ $warning->decision_number }}</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Ngày quyết định:</label>
-                        <div>{{ $warning->decision_date->format('d/m/Y') }}</div>
-                    </div>
-                </div>
-            </div>
-
             <div class="text-end">
                 @can('update', $warning)
                     <a href="{{ route('warnings.edit', $warning->id) }}" class="btn btn-primary">Chỉnh sửa <i class="ph-pencil ms-2"></i></a>
@@ -107,8 +83,6 @@
                             <th width="5%">STT</th>
                             <th width="20%">Họ và tên</th>
                             <th width="15%">Mã sinh viên</th>
-                            <th width="15%">Điểm TB</th>
-                            <th width="15%">Mức cảnh báo</th>
                             <th width="20%">Lý do</th>
                             <th width="10%">Thao tác</th>
                         </tr>
@@ -123,14 +97,7 @@
                                     </a>
                                 </td>
                                 <td width="15%">{{ $item->code }}</td>
-                                <td width="15%">{{ number_format($item->pivot->gpa, 2) }}</td>
-                                <td width="15%">
-                                    @if($item->warningLevel)
-                                        <span class="badge {{ $item->warningLevel->badgeColor() }}">{{ $item->warningLevel->label() }}</span>
-                                    @else
-                                        <span class="badge bg-secondary">Chưa xác định</span>
-                                    @endif
-                                </td>
+                                
                                 <td width="20%">{{ $item->pivot->note ?: 'N/A' }}</td>
                                 <td width="10%">
                                     <div class="d-inline-flex">

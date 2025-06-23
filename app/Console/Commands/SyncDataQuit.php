@@ -51,16 +51,16 @@ class SyncDataQuit extends Command
                     'decision_date' => $quit->certification_date,
                     'type' => $quit->type,
                 ]);
+                $data = [];
                 foreach ($studentsQuit as $studentQuit) {
                     $student = Student::where('code', $studentQuit->code)->first();
                     $noteQuit = $studentQuit->note_quit;
                     if (!$noteQuit) {
                         $noteQuit = 'Thôi học, chuyển ngành sang khoa khác';
                     }
-                    $newQuit->students()->sync([
-                        $student->id => ['note_quit' => $noteQuit],
-                    ]);
+                    $data[$student->id] = ['note_quit' => $noteQuit];
                 }
+                $newQuit->students()->sync($data);
                 echo 'Quit ' . $quit->name . ' synced successfully' . PHP_EOL;
             }
             DB::commit();

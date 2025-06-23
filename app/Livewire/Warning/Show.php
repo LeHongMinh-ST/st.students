@@ -35,7 +35,6 @@ class Show extends Component
                         ->orWhere('email', 'like', $searchTerm);
                 });
             })
-            ->withPivot(['note', 'gpa'])
             ->paginate(Constants::PER_PAGE);
 
         return view('livewire.warning.show', [

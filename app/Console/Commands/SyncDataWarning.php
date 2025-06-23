@@ -42,12 +42,14 @@ class SyncDataWarning extends Command
                 ->select('warnings.*', 'semesters.semester', 'school_years.start_year', 'school_years.end_year')
                 ->get();
             foreach ($oldWarning as $warning) {
-                $studentsWarning = DB::connection('old_db')
+                $studentsWarnings = DB::connection('old_db')
                     ->table('student_warnings')
                     ->join('students', 'student_warnings.student_id', '=', 'students.id')
                     ->select('student_warnings.*', 'students.code')
                     ->where('warning_id', $warning->id)
-                    ->pluck('code')->toArray();
+                    ->pluck('code')
+                    ->toArray();
+
                 $schoolYear = SchoolYear::where('start_year', $warning->start_year)->where('end_year', $warning->end_year)->first();
                 $semester = Semester::where('semester', $warning->semester)->where('school_year_id', $schoolYear->id)->first();
                 $newWarning = Warning::create([
@@ -55,10 +57,8 @@ class SyncDataWarning extends Command
                     'semester_id' => $semester->id,
                     'faculty_id' => $warning->faculty_id,
                 ]);
-                foreach ($studentsWarning as $studentWarning) {
-                    $student = Student::where('code', $studentWarning)->first();
-                    $newWarning->students()->sync($student->id);
-                }
+                $studentIds = Student::whereIn('code', $studentsWarnings)->pluck('id')->toArray();
+                $newWarning->students()->sync($studentIds);
                 echo 'Warning ' . $warning->name . ' synced successfully' . PHP_EOL;
             }
             DB::commit();
