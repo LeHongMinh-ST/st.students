@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -36,8 +37,7 @@ class Warning extends Model
         'semester_id',
         'faculty_id',
         'school_year',
-        'decision_number',
-        'decision_date',
+
     ];
 
     protected $casts = [
