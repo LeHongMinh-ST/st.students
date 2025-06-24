@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Enums\RankGraduate;
 use App\Models\GraduationCeremony;
 use App\Models\Student;
 use Exception;
@@ -55,9 +56,17 @@ class SyncDataGraduate extends Command
                 foreach ($graduateStudents as $item) {
                     $student = Student::where('code', $item->code)->first();
                     if ($student) {
+                        if ($item->rank) {
+                            $rank = match (mb_strtolower(mb_trim($item->rank))) {
+                                'xuất sắc', 'excellent', 'Xuất xắc' => RankGraduate::Excellent,
+                                'giỏi', 'very good', 'Giỏi' => RankGraduate::VeryGood,
+                                'khá', 'good', 'Khá' => RankGraduate::Good,
+                                default => RankGraduate::Average,
+                            };
+                        }
                         $studentIds[$student->id] = [
                             'gpa' => $item->gpa,
-                            'rank' => $item->rank,
+                            'rank' => $item->rank ? $rank->value : null,
                             'email' => $item->email ?? null,
                         ];
                     }

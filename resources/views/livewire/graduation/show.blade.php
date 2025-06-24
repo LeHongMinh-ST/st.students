@@ -122,7 +122,7 @@
                                 <td width="25%">{{ $item->pivot->email ?: $item->email }}</td>
                                 <td width="15%">{{ number_format($item->pivot->gpa, 2) }}</td>
                                 <td width="20%">
-                                    {{ $item->pivot->rank }}
+                                    <x-rank-graduate-badge :rank="$item->pivot->rank" />
                                 </td>
                             </tr>
                         @empty
