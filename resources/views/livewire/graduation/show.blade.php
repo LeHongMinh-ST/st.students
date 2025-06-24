@@ -125,7 +125,7 @@
                                     @if ($item->pivot->rank)
                                         <x-rank-graduate-badge :rank="$item->pivot->rank" />
                                     @else
-                                        <span class="badge bg-secondary">N/A/span>
+                                        <span class="badge bg-secondary">N/A</span>
                                     @endif
                                 </td>
                             </tr>
