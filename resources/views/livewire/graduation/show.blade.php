@@ -122,7 +122,11 @@
                                 <td width="25%">{{ $item->pivot->email ?: $item->email }}</td>
                                 <td width="15%">{{ number_format($item->pivot->gpa, 2) }}</td>
                                 <td width="20%">
-                                    <x-rank-graduate-badge :rank="$item->pivot->rank" />
+                                    @if ($item->pivot->rank)
+                                        <x-rank-graduate-badge :rank="$item->pivot->rank" />
+                                    @else
+                                        <span class="badge bg-secondary">N/A/span>
+                                    @endif
                                 </td>
                             </tr>
                         @empty
