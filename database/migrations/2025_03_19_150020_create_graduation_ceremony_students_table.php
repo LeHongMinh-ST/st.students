@@ -17,9 +17,9 @@ return new class () extends Migration {
             $table->id();
             $table->unsignedBigInteger('graduation_ceremony_id')->index();
             $table->unsignedBigInteger('student_id')->index();
-            $table->float('gpa');
-            $table->string('rank')->default(RankGraduate::Good->value);
-            $table->string('email');
+            $table->float('gpa')->nullable();
+            $table->string('rank')->default(RankGraduate::Good->value)->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }
