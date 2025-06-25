@@ -51,7 +51,7 @@ enum UserType: string
         return match($this) {
             self::Admin => 'Quản trị viên',
             self::Teacher => 'Giảng viên',
-            self::Officer => 'Cán bộ khoa',
+            self::Officer => 'Giảng viên - Cán bộ khoa',
             self::Student => 'Sinh viên',
         };
     }
