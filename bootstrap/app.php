@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth.sso' => AuthenticateSSO::class,
             'check.faculty' => CheckFaculty::class,
-        ]);
+        ])->trustProxies('*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
 
