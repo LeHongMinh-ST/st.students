@@ -78,7 +78,7 @@
     </style>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             let facultyId = @json($facultyId ?? null);
             if (!facultyId) {
                 document.getElementById('overlay').style.display = "block";
@@ -89,7 +89,25 @@
     {{ $scripts ?? '' }}
 
     @livewireScripts
-
+    {{-- <!-- /JS custom  --> --}}
+    <script>
+        $(document).ready(function () {
+            @if (\session()->has('success'))
+                new Noty({
+                    title: 'Thành công',
+                    text: '{{ \session()->pull('success') }}',
+                    type: 'success',
+                }).show();
+            @endif
+            @if (\session()->has('error'))
+                new Noty({
+                    title: 'Lỗi',
+                    text: {{ \session()->pull('error') }},
+                    type: 'error',
+                }).show();
+            @endif
+    })
+    </script>
 </body>
 
 </html>
