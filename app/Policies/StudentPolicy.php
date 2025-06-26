@@ -25,7 +25,7 @@ class StudentPolicy
      */
     public function view(User $user, Student $student): bool
     {
-        return $user->hasPermission('student.show') || StudentHelper::checkUserStudent($user, $student);
+        return $user->hasPermission('student.index') || StudentHelper::checkUserStudent($user, $student);
     }
 
     /**
