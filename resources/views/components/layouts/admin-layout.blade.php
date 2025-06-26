@@ -89,25 +89,31 @@
     {{ $scripts ?? '' }}
 
     @livewireScripts
-    {{-- <!-- /JS custom  --> --}}
+
     <script>
-        $(document).ready(function () {
-            @if (\session()->has('success'))
+        document.addEventListener('DOMContentLoaded', function () {
+            @if (session()->has('success'))
                 new Noty({
-                    title: 'Thành công',
-                    text: '{{ \session()->pull('success') }}',
                     type: 'success',
+                    layout: 'topRight',
+                    theme: 'metroui',
+                    text: @json(session()->pull('success')),
+                    timeout: 3000
                 }).show();
             @endif
-            @if (\session()->has('error'))
+
+            @if (session()->has('error'))
                 new Noty({
-                    title: 'Lỗi',
-                    text: {{ \session()->pull('error') }},
                     type: 'error',
+                    layout: 'topRight',
+                    theme: 'metroui',
+                    text: @json(session()->pull('error')),
+                    timeout: 3000
                 }).show();
             @endif
-    })
+    });
     </script>
+
 </body>
 
 </html>
