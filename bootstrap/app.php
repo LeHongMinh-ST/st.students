@@ -7,6 +7,7 @@ use App\Http\Middleware\CheckFaculty;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -20,8 +21,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth.sso' => AuthenticateSSO::class,
             'check.faculty' => CheckFaculty::class,
+            'api.client' => CheckClientCredentials::class,
         ])->trustProxies('*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-
+        $exceptions->render(function (Illuminate\Auth\AuthenticationException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Token is not provided or invalid.',
+                    'error' => 'Unauthorized'
+                ], 401);
+            }
+        });
     })->create();
