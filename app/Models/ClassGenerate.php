@@ -70,4 +70,15 @@ class ClassGenerate extends Model
             ->withPivot(['start_year', 'end_year', 'status', 'role'])
             ->withTimestamps();
     }
+
+    public function scopeSearch($query, $search)
+    {
+        if ($search) {
+            $searchTerm = '%' . $search . '%';
+            $query->where('name', 'like', $searchTerm)
+                ->orWhere('code', 'like', $searchTerm);
+        }
+
+        return $query;
+    }
 }
