@@ -38,7 +38,7 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Ngày quyết định:</label>
-                        <div>{{ $quit->decision_date->format('d/m/Y') }}</div>
+                        <div>{{ $quit->decision_date ? $quit->decision_date->format('d/m/Y') : 'N/A' }}</div>
                     </div>
                 </div>
             </div>
