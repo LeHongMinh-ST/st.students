@@ -107,7 +107,7 @@ class AuthenticateController extends Controller
             ]);
         } else {
             $userType = $this->determineUserType($userData['role']);
-            $user->update([
+            User::where('sso_id', $userData['id'])->update([
                 'full_name' => $userData['full_name'],
                 'code' => $userData['code'] ?? null,
                 'access_token' => $accessToken,
@@ -116,6 +116,7 @@ class AuthenticateController extends Controller
                 'role' => $userData['role'],
                 'type' => $userType
             ]);
+            $user = User::where('sso_id', $userData['id'])->first();
         }
 
         if ($userData['role'] === Role::Student->value) {
