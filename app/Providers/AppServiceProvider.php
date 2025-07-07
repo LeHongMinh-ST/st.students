@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        LogViewer::auth(fn () => 'stdse@vnua.edu.vn' === auth()->user()->email);
+        LogViewer::auth(fn () => 'super_admin' === auth()->user()->role);
 
 
         Blade::component('auth-layout', AuthLayout::class);
