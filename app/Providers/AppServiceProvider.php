@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Enums\Role;
-use App\Services\SsoService;
 use App\View\Components\Import\StatusBadge as ImportStatusBadge;
 use App\View\Components\Layouts\AdminLayout;
 use App\View\Components\Layouts\AuthLayout;
@@ -41,10 +39,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        LogViewer::auth(function () {
-            $userData = app(SsoService::class)->getDataUser();
-            return $userData['role'] === Role::SuperAdmin->value;
-        });
+        LogViewer::auth(fn () => 'stdse@vnua.edu.vn' === auth()->user()->email);
 
 
         Blade::component('auth-layout', AuthLayout::class);
