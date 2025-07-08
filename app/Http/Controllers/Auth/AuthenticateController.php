@@ -49,7 +49,6 @@ class AuthenticateController extends Controller
             return redirect()->route('dashboard');
         } catch (Throwable $th) {
             Log::error($th->getMessage());
-
             return abort(401);
         }
     }
