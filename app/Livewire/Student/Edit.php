@@ -121,15 +121,89 @@ class Edit extends Component
             $data['thumbnail'] = $path;
         }
 
+        $oldData = $this->student->getAttributes();
+
         $this->student->update($data);
+
+        $detailLog = $this->getDetailLog($this->checkChangeStatus($oldData, $data));
 
         // Log the successful student update
         LogActivityHelper::create(
             'Cập nhật sinh viên',
-            'Cập nhật thông tin sinh viên ' . $this->student->full_name . ' (Mã SV: ' . $this->student->code . ')'
+            'Cập nhật thông tin sinh viên ' . $this->student->full_name . ' (Mã SV: ' . $this->student->code . ') ' . $detailLog
         );
 
         session()->flash('success', 'Thông tin sinh viên đã được cập nhật thành công.');
         $this->redirect(route('students.show', $this->student->id));
     }
+
+    /**
+     * Compare old and new data to find changed keys and values.
+     *
+     * @param array $oldData The original data array.
+     * @param array $newData The updated data array.
+     * @return array An array containing the old and new values for changed keys.
+     */
+    private function checkChangeStatus(array $oldData, array $newData): array
+    {
+        // Initialize an array to store changes
+        $changes = [];
+
+        // Define the fields that are enums and need to use getLabel()
+        $enumFields = ['status', 'social_policy_object', 'gender', 'training_type'];
+
+        // Iterate over the new data to find changes
+        foreach ($newData as $key => $newValue) {
+            // Check if the value has changed compared to the old data
+            if (array_key_exists($key, $oldData) && $oldData[$key] !== $newValue) {
+                // If the field is an enum, get the label for both old and new values
+                if (in_array($key, $enumFields)) {
+                    $oldValue = $oldData[$key]->getLabel();
+                    $newValue = $newValue->getLabel();
+                } else {
+                    $oldValue = $oldData[$key];
+                }
+
+                // Store the changed key with old and new values
+                $changes[$key] = [
+                    'old' => $oldValue,
+                    'new' => $newValue
+                ];
+            }
+        }
+
+        return $changes;
+    }
+
+    private function getDetailLog(array $changes): string
+    {
+        $detailLog = '';
+        foreach ($changes as $key => $change) {
+            $detailLog .= $this->getKeyLabel($key) . ' từ ' . $change['old'] . ' sang ' . $change['new'] . ', ';
+        }
+        return $detailLog;
+    }
+
+    private function getKeyLabel(string $key): string
+    {
+        return match ($key) {
+            'status' => 'trạng thái',
+            'social_policy_object' => 'đối tượng chính sách',
+            'gender' => 'giới tính',
+            'training_type' => 'loại hình đào tạo',
+            'pob' => 'nơi sinh',
+            'address' => 'địa chỉ',
+            'countryside' => 'quê quán',
+            'phone' => 'số điện thoại',
+            'nationality' => 'quốc tịch',
+            'citizen_identification' => 'CMND/CCCD',
+            'ethnic' => 'dân tộc',
+            'religion' => 'tôn giáo',
+            'thumbnail' => 'ảnh đại diện',
+            'note' => 'ghi chú',
+            'email' => 'email',
+            default => 'không xác định',
+        };
+    }
+
 }
