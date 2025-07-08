@@ -81,7 +81,7 @@ class Show extends Component
         LogActivityHelper::create(
             'Cập nhật trạng thái sinh viên',
             'Cập nhật trạng thái sinh viên ' . $this->student->full_name . ' (Mã SV: ' . $this->student->code . ') ' .
-            'từ ' . $oldStatus->name . ' sang ' . $this->studentStatus->name
+            'từ ' . $oldStatus->getLabel() . ' sang ' . $this->studentStatus->getLabel()
         );
 
         $this->editStatusMode = false;
