@@ -57,7 +57,7 @@ class AuthenticateController extends Controller
     {
         app(SsoService::class)->clearAuth();
 
-        return redirect(config('auth.sso.uri'));
+        return redirect()->route('landing');
     }
 
     private function getAccessToken(string $code): array
