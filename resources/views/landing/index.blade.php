@@ -505,7 +505,7 @@
                 </div>
                 <div class="header-right">
                     <div class="auth-buttons">
-                        <a href="{{ route('sso.redirect') }}" class="btn btn-outline">Đăng nhập</a>
+                        <a href="{{ route('sso.redirect') }}" class="btn btn-outline">Đăng nhập với ST SSO</a>
                     </div>
                 </div>
             </div>
