@@ -29,8 +29,8 @@ class Dashboard extends Component
     public bool $canViewRecentActivities = false;
     public bool $canViewPendingUpdates = false;
 
-    public array $recentActivities = [];
-    public array $pendingUpdates = [];
+    public $recentActivities = [];
+    public $pendingUpdates = [];
 
     public function mount(): void
     {
@@ -80,8 +80,7 @@ class Dashboard extends Component
             $this->recentActivities = LogActivity::where('faculty_id', $facultyId)
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
-                ->get()
-                ->toArray();
+                ->get();
         }
 
         // Get pending updates
@@ -115,8 +114,7 @@ class Dashboard extends Component
 
             $this->pendingUpdates = $query->orderBy('created_at', 'desc')
                 ->limit(5)
-                ->get()
-                ->toArray();
+                ->get();
         }
     }
 

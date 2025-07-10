@@ -134,9 +134,9 @@
                         <tbody>
                             @forelse($recentActivities as $activity)
                             <tr>
-                                <td width="30%" class="fw-semibold">{{ $activity['user_name'] }}</td>
-                                <td width="45%">{{ $activity['action'] }}</td>
-                                <td width="25%">{{ $activity['created_at']->format('d/m/Y H:i') }}</td>
+                                <td width="30%" class="fw-semibold">{{ $activity->user_name }}</td>
+                                <td width="45%">{{ $activity->action }}</td>
+                                <td width="25%">{{ $activity->created_at->format('d/m/Y H:i') }}</td>
                             </tr>
                             @empty
                             <tr>
@@ -181,9 +181,9 @@
                             @forelse($pendingUpdates as $update)
                             <tr>
                                 <td width="40%">
-                                    <a href="{{ route('student-updates.show', $update['id']) }}" class="fw-semibold">
-                                        {{ $update['student']['full_name'] ?? 'N/A' }}
-                                        <span class="text-muted">({{ $update['student']['code'] ?? 'N/A' }})</span>
+                                    <a href="{{ route('student-updates.show', $update->id) }}" class="fw-semibold">
+                                        {{ $update->student->full_name ?? 'N/A' }}
+                                        <span class="text-muted">({{ $update->student->code ?? 'N/A' }})</span>
                                     </a>
                                 </td>
                                 <td width="30%">
