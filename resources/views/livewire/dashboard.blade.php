@@ -136,7 +136,7 @@
                             <tr>
                                 <td width="30%" class="fw-semibold">{{ $activity['user_name'] }}</td>
                                 <td width="45%">{{ $activity['action'] }}</td>
-                                <td width="25%">{{ \Carbon\Carbon::parse($activity['created_at'])->format('d/m/Y H:i') }}</td>
+                                <td width="25%">{{ \Carbon\Carbon::make($activity['created_at'])->format('d/m/Y H:i') }}</td>
                             </tr>
                             @empty
                             <tr>
