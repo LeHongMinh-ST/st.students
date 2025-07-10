@@ -46,7 +46,7 @@ class FacultySelected extends Component
         }
 
         Log::info('Redirect');
-        return redirect('/');
+        return redirect('/dashboard');
     }
 
     private function fetchData()
