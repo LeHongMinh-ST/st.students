@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Student;
 
+use App\Http\Resources\Family\FamilyResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,14 +19,38 @@ class StudentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'last_name' => $this->last_name,
             'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
             'full_name' => $this->last_name . ' ' . $this->first_name,
             'email' => $this->email,
+            'email_edu' => $this->email_edu,
             'code' => $this->code,
+            'status' => $this->status,
+            'school_year_start' => $this->school_year_start,
+            'school_year_end' => $this->school_year_end,
+            'gender' => $this->gender,
             'training_industry_id' => $this->training_industry_id,
+            'nationality' => $this->nationality,
+            'citizen_identification' => $this->citizen_identification,
+            'ethnic' => $this->ethnic,
+            'religion' => $this->religion,
+            'thumbnail' => $this->thumbnail,
+            'social_policy_object' => $this->social_policy_object,
+            'note' => $this->note,
+            'user_id' => $this->user_id,
+            'admission_year_id' => $this->admission_year_id,
+            'faculty_id' => $this->faculty_id,
+            'permanent_residence' => $this->permanent_residence,
+            'dob' => $this->dob,
+            'pob' => $this->pob,
+            'address' => $this->address,
+            'countryside' => $this->countryside,
+            'training_type' => $this->training_type,
+            'phone' => $this->phone,
+            'nationality' => $this->nationality,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'families' => FamilyResource::collection($this->whenLoaded('families')),
         ];
     }
 }
