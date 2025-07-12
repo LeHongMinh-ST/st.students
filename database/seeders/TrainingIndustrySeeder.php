@@ -28,10 +28,18 @@ class TrainingIndustrySeeder extends Seeder
                 'description' => 'Ngành đào tạo về mạng máy tính, truyền thông dữ liệu, an toàn thông tin',
                 'faculty_id' => $facultyIdInformationTechnology,
             ],
+            [
+                'code' => '7480203',
+                'name' => 'Kỹ thuật phần mềm',
+                'description' => 'Ngành đào tạo về kỹ thuật phần mềm, lập trình, phát triển phần mềm',
+                'faculty_id' => $facultyIdInformationTechnology,
+            ],
         ];
 
         foreach ($trainingIndustries as $industry) {
-            $this->checkIssetBeforeCreate($industry);
+            if ($industry['faculty_id'] === $facultyIdInformationTechnology) {
+                $this->checkIssetBeforeCreate($industry);
+            }
         }
     }
 

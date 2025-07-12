@@ -40,6 +40,12 @@ class StudentController extends Controller
                     $q->where('class_id', $request->class_id);
                 });
             })
+            ->when($request->is_graduate, function ($query): void {
+                $query->whereHas('graduationCeremonies');
+            })
+            ->when($request->with_family, function ($query): void {
+                $query->with(['families']);
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(Constants::PER_PAGE);
 
