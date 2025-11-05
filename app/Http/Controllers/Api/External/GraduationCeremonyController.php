@@ -55,7 +55,7 @@ class GraduationCeremonyController extends Controller
 
         Log::debug('Graduation Ceremony: ' . $graduationCeremony->name);
 
-        $students = $graduationCeremony->students()->with('students.class')->orderBy('created_at', 'desc')->get();
+        $students = $graduationCeremony->students()->with('classes')->orderBy('created_at', 'desc')->get();
         Log::debug('Students: ' . count($students));
 
         return StudentsGraduationCeremonyResource::collection($students);
