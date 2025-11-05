@@ -14,28 +14,29 @@ Route::get('/user', fn (Request $request) => $request->user())->middleware('auth
 
 // External API routes (cần authentication)
 Route::prefix('v1/external')->middleware([
-    'api', 'api.client'
+    'api',
+    'api.client'
 ])->group(function (): void {
     Route::prefix('/training-industries')->group(function (): void {
-        Route::get('/faculty/{facultyId}', [TrainingIndustryController::class, 'getByFaculty']);
+        Route::get('/', [TrainingIndustryController::class, 'index']);
     });
 
     Route::prefix('/graduation-ceremonies')->group(function (): void {
-        Route::get('/faculty/{facultyId}', [GraduationCeremonyController::class, 'getByFaculty']);
+        Route::get('/', [GraduationCeremonyController::class, 'index']);
     });
 
     Route::prefix('/classes')->group(function (): void {
-        Route::get('/faculty/{facultyId}', [ClassGenerateController::class, 'getByFaculty']);
+        Route::get('/', [ClassGenerateController::class, 'index']);
     });
 
     // admission_year
     Route::prefix('/admission-years')->group(function (): void {
-        Route::get('/faculty/{facultyId}', [AdmissionYearController::class, 'getByFaculty']);
+        Route::get('/', [AdmissionYearController::class, 'index']);
     });
 
     // students
     Route::prefix('/students')->group(function (): void {
         // student in graduation ceremony and faculty
-        Route::get('/faculty/{facultyId}', [StudentController::class, 'getByFaculty']);
+        Route::get('/', [StudentController::class, 'index']);
     });
 });

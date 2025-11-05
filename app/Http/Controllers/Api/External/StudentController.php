@@ -16,8 +16,11 @@ class StudentController extends Controller
     {
     }
 
-    public function getByFaculty(Request $request, $facultyId)
+    public function index(Request $request)
     {
+
+        $auth = auth('api')->user();
+        $facultyId = $auth->faculty_id;
         $students = Student::where('faculty_id', $facultyId)
             ->when($request->q, function ($query) use ($request): void {
                 $query->search($request->q);

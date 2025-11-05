@@ -8,7 +8,6 @@ use App\Enums\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Throwable;
 
 class SsoService
@@ -178,6 +177,5 @@ class SsoService
         if (403 === $codeError) {
             abort(403);
         }
-
     }
 }

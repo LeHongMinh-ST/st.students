@@ -16,13 +16,10 @@ class ClassGenerateController extends Controller
     {
     }
 
-    /**
-     * Get training industries by faculty ID.
-     *
-     * @param int $facultyId
-     */
-    public function getByFaculty(Request $request, $facultyId)
+    public function index(Request $request)
     {
+        $auth = auth('api')->user();
+        $facultyId = $auth->faculty_id;
         $query = ClassGenerate::when($facultyId, function ($query) use ($facultyId): void {
             $query->where('faculty_id', $facultyId);
         });
