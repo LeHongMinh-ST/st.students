@@ -22,6 +22,7 @@ Route::post('/verify', function (Request $request) {
         if ($response->successful()) {
             $userData = $response->json();
             $user = User::where('faculty_id', $userData['faculty_id'])->where('sso_id', $userData['id'])->first();
+            Log::debug('User: ' . $user);
 
             if ($user) {
 
