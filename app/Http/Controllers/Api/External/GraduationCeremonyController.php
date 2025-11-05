@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\GraduationCeremony\GraduationCeremonyResource;
 use App\Http\Resources\Student\StudentsGraduationCeremonyResource;
 use App\Models\GraduationCeremony;
-use App\Models\Student;
 use Illuminate\Http\Request;
 
 class GraduationCeremonyController extends Controller
@@ -52,14 +51,9 @@ class GraduationCeremonyController extends Controller
     {
         $auth = auth('api')->user();
 
-        $students = Student::where('faculty_id', $auth->faculty_id)
-            ->whereHas('graduationCeremonies', function ($q) use ($id): void {
-                $q->where('graduation_ceremonies.id', $id);
-            })
-            ->with(['classes', 'admissionYears'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(Constants::PER_PAGE);
+        $graduationCeremony = GraduationCeremony::where('faculty_id', $auth->faculty_id)->findOrFail($id);
 
+        $students = $graduationCeremony->students()->with('students.class')->orderBy('created_at', 'desc')->get();
 
         return StudentsGraduationCeremonyResource::collection($students);
     }
