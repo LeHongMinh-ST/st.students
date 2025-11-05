@@ -33,7 +33,7 @@ Route::post('/verify', function (Request $request) {
             }
             return response()->json([
                 'success' => false,
-                'message' => 'Token is not provided or invalid.',
+                'message' => 'User not found.',
                 'error' => 'Unauthorized'
             ], 401);
         }
