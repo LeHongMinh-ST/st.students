@@ -7,7 +7,9 @@ namespace App\Http\Controllers\Api\External;
 use App\Helpers\Constants;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GraduationCeremony\GraduationCeremonyResource;
+use App\Http\Resources\Student\StudentsGraduationCeremonyResource;
 use App\Models\GraduationCeremony;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class GraduationCeremonyController extends Controller
@@ -33,5 +35,32 @@ class GraduationCeremonyController extends Controller
             ->paginate(Constants::PER_PAGE);
 
         return GraduationCeremonyResource::collection($trainingIndustries);
+    }
+
+
+    public function show(int $id)
+    {
+        $auth = auth('api')->user();
+
+        $graduationCeremony = GraduationCeremony::where('faculty_id', $auth->faculty_id)->findOrFail($id);
+
+        return GraduationCeremonyResource::make($graduationCeremony);
+    }
+
+
+    public function students(int $id)
+    {
+        $auth = auth('api')->user();
+
+        $students = Student::where('faculty_id', $auth->faculty_id)
+            ->whereHas('graduationCeremonies', function ($q) use ($id): void {
+                $q->where('graduation_ceremonies.id', $id);
+            })
+            ->with(['classes', 'admissionYears'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(Constants::PER_PAGE);
+
+
+        return StudentsGraduationCeremonyResource::collection($students);
     }
 }
