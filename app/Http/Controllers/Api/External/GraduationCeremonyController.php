@@ -53,7 +53,10 @@ class GraduationCeremonyController extends Controller
 
         $graduationCeremony = GraduationCeremony::where('faculty_id', $auth->faculty_id)->findOrFail($id);
 
+        Log::debug('Graduation Ceremony: ' . $graduationCeremony->name);
+
         $students = $graduationCeremony->students()->with('students.class')->orderBy('created_at', 'desc')->get();
+        Log::debug('Students: ' . count($students));
 
         return StudentsGraduationCeremonyResource::collection($students);
     }
