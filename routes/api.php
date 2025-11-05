@@ -10,11 +10,13 @@ use App\Http\Controllers\Api\External\TrainingIndustryController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', fn (Request $request) => $request->user())->middleware('auth:api');
 Route::post('/verify', function (Request $request) {
     $tokenSSO = $request->access_token;
+    Log::info('Verifying token: ' . $tokenSSO);
     try {
         $response = Http::withToken($tokenSSO)->get(config('auth.sso.ip') . '/api/user');
         if ($response->successful()) {
@@ -38,6 +40,7 @@ Route::post('/verify', function (Request $request) {
             ], 401);
         }
     } catch (Throwable $th) {
+        Log::error('Failed to fetch user data from API: ' . $th->getMessage());
         return response()->json([
             'success' => false,
             'message' => 'Token is not provided or invalid.',
