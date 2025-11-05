@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', fn (Request $request) => $request->user())->middleware('auth:api');
-Route::get('/verify', function (Request $request) {
+Route::post('/verify', function (Request $request) {
     $tokenSSO = $request->access_token;
     try {
         $response = Http::withToken($tokenSSO)->get(config('auth.sso.ip') . '/api/user');
