@@ -50,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('student-status-badge', StudentStatusBadge::class);
         Blade::component('student-role-badge', StudentRoleBadge::class);
 
-        LogViewer::auth(fn () => 'super_admin' === optional(auth()->user())->role);
+        LogViewer::auth(fn ($request) => $request->user()
+            && 'super_admin' === $request->user()->role);
     }
 }
