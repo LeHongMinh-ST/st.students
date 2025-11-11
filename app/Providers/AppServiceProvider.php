@@ -26,7 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
     }
 
     /**
@@ -39,7 +38,6 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        LogViewer::auth(fn () => 'super_admin' === auth()->user()->role);
 
 
         Blade::component('auth-layout', AuthLayout::class);
@@ -51,5 +49,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('table-placeholder', TablePlaceholder::class);
         Blade::component('student-status-badge', StudentStatusBadge::class);
         Blade::component('student-role-badge', StudentRoleBadge::class);
+
+        LogViewer::auth(fn () => 'super_admin' === optional(auth()->user())->role);
     }
 }

@@ -33,7 +33,8 @@ class ImportGraduationStudentsJob implements ShouldQueue
         private readonly int $userId,
         private readonly int $importHistoryId,
         private readonly int $ceremonyId
-    ) {}
+    ) {
+    }
 
     public function handle(): void
     {
