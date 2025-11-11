@@ -15,6 +15,7 @@ use App\View\Components\Table\TableEmpty;
 use App\View\Components\User\RoleBadge;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
@@ -50,7 +51,10 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('student-status-badge', StudentStatusBadge::class);
         Blade::component('student-role-badge', StudentRoleBadge::class);
 
-        LogViewer::auth(fn ($request) => $request->user()
-            && 'super_admin' === $request->user()->role);
+        LogViewer::auth(function ($request) {
+            Log::info('request user' . $request->user()->role);
+            return $request->user()
+                && 'super_admin' === $request->user()->role;
+        });
     }
 }
