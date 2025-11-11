@@ -64,6 +64,7 @@ class ImportGraduationStudentsJob implements ShouldQueue
             $errors = [];
 
             DB::beginTransaction();
+            Log::info('Total rows: ' . count($rows));
 
             foreach ($rows as $index => $row) {
                 try {
@@ -128,11 +129,10 @@ class ImportGraduationStudentsJob implements ShouldQueue
             DB::commit();
 
             $importHistory->update([
-                'status' => $errors ? StatusImport::PartiallySuccessful : StatusImport::Successful,
+                'status' => $errors ? StatusImport::PartialyFaild : StatusImport::Completed,
                 'successful_records' => $successCount,
                 'errors' => $errors ? json_encode($errors) : null,
             ]);
-
         } catch (Exception $e) {
             DB::rollBack();
 

@@ -52,8 +52,9 @@ class Import extends Component
             $import = new GraduationStudentPreviewImport();
             $this->previewData = Excel::toArray($import, $this->file)[0];
 
-            // Remove header row
+            /* // Remove header row */
             array_shift($this->previewData);
+
 
             // Format preview data
             $this->previewData = array_map(fn ($row, $index) => [
@@ -75,6 +76,7 @@ class Import extends Component
     public function import($fileName, $filePath): void
     {
         $facultyId = app(SsoService::class)->getFacultyId();
+
         $importHistory = ImportHistory::create([
             'file_name' => $fileName,
             'path' => $filePath,

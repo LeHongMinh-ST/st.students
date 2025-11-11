@@ -4,13 +4,27 @@ declare(strict_types=1);
 
 namespace App\Imports;
 
+use Maatwebsite\Excel\Concerns\RemembersRowNumber;
 use Maatwebsite\Excel\Concerns\ToArray;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class GraduationStudentPreviewImport implements ToArray, WithHeadingRow
+class GraduationStudentPreviewImport implements ToArray
 {
-    public function array(array $rows): array
+    use RemembersRowNumber;
+
+    public array $data = [];
+
+    public function array(array $array): void
     {
-        return $rows;
+        $this->data = array_merge($this->data, $array);
+    }
+
+    public function startRow(): int
+    {
+        return 2;
+    }
+
+    public function chunkSize(): int
+    {
+        return 100;
     }
 }
