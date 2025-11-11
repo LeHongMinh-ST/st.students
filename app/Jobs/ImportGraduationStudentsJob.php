@@ -33,8 +33,7 @@ class ImportGraduationStudentsJob implements ShouldQueue
         private readonly int $userId,
         private readonly int $importHistoryId,
         private readonly int $ceremonyId
-    ) {
-    }
+    ) {}
 
     public function handle(): void
     {
@@ -88,7 +87,7 @@ class ImportGraduationStudentsJob implements ShouldQueue
                     }
 
                     // Convert GPA to float
-                    $gpaFloat = (float) str_replace(',', '.', $gpa);
+                    $gpaFloat = (float) str_replace(',', '.', (string) $gpa);
 
                     // Determine rank if not provided
                     if (!$rankValue) {

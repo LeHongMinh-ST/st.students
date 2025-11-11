@@ -31,7 +31,9 @@ class Edit extends Component
         $this->name = $ceremony->name;
         $this->school_year = $ceremony->school_year;
         $this->certification = $ceremony->certification;
-        $this->certification_date = $ceremony->certification_date;
+        $this->certification_date = $ceremony->certification_date
+            ? \Carbon\Carbon::parse($ceremony->certification_date)->format('Y-m-d')
+            : null;
     }
 
     public function render()

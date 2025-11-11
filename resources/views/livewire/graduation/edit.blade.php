@@ -47,7 +47,7 @@
                                     <label for="certification_date" class="col-form-label">
                                         Ngày quyết định <span class="required text-danger">*</span>
                                     </label>
-                                    <input wire:model="certification_date" type="date" id="certification_date"
+                                    <input wire:model="certification_date" type="date" id="certification_date" value="{{ $certification_date }}"
                                            class="form-control @error('certification_date') is-invalid @enderror">
                                     @error('certification_date')
                                         <div class="invalid-feedback">{{ $message }}</div>
