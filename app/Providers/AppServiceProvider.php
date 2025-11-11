@@ -52,9 +52,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('student-role-badge', StudentRoleBadge::class);
 
         LogViewer::auth(function ($request) {
-            Log::info('request user' . $request->user()->role);
+            Log::info('request user ' . $request->user()?->role);
             return $request->user()
-                && 'super_admin' === $request->user()->role;
+                && 'super_admin' === $request->user()?->role;
         });
     }
 }
