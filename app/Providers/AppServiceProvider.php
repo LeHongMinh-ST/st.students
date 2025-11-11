@@ -53,8 +53,8 @@ class AppServiceProvider extends ServiceProvider
 
         LogViewer::auth(function ($request) {
             Log::info('request user ' . $request->user()?->role);
-            return $request->user()
-                && 'super_admin' === $request->user()?->role;
+            $role = $request->user()?->role;
+            return 'super_admin' === $role;
         });
     }
 }
