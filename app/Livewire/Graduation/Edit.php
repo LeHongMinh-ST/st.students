@@ -6,6 +6,7 @@ namespace App\Livewire\Graduation;
 
 use App\Helpers\LogActivityHelper;
 use App\Models\GraduationCeremony;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -72,6 +73,7 @@ class Edit extends Component
         $this->redirect(route('graduation.index'));
     }
 
+    #[On('deleteGraduation')]
     public function delete(): void
     {
         $ceremonyName = $this->ceremony->name;
