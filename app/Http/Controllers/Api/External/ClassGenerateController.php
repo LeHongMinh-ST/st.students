@@ -12,14 +12,20 @@ use Illuminate\Http\Request;
 
 class ClassGenerateController extends Controller
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function index(Request $request)
     {
         $auth = auth('api')->user();
         $facultyId = $auth->faculty_id;
+
+        if (in_array($auth->role, ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
+
         $query = ClassGenerate::when($facultyId, function ($query) use ($facultyId): void {
             $query->where('faculty_id', $facultyId);
         });

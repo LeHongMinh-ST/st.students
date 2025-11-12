@@ -13,13 +13,17 @@ use Illuminate\Http\Request;
 
 class AdmissionYearController extends Controller
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function index(Request $request)
     {
         $auth = auth('api')->user();
+        if (in_array($auth->role, ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
         $facultyId = $auth->faculty_id;
         $query = AdmissionYear::when($facultyId, function ($query) use ($facultyId): void {
             $query->where('faculty_id', $facultyId);

@@ -15,7 +15,14 @@ class GraduationCeremonyController extends Controller
 {
     public function index(Request $request)
     {
+
         $auth = auth('api')->user();
+        if (in_array($auth->role, ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
         $facultyId = $auth->faculty_id;
         $query = GraduationCeremony::with('students')->when($facultyId, function ($query) use ($facultyId): void {
             $query->where('faculty_id', $facultyId);
@@ -41,6 +48,12 @@ class GraduationCeremonyController extends Controller
     {
         $auth = auth('api')->user();
 
+        if (in_array($auth->role, ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
         $graduationCeremony = GraduationCeremony::where('faculty_id', $auth->faculty_id)->findOrFail($id);
 
         return GraduationCeremonyResource::make($graduationCeremony);
@@ -51,6 +64,12 @@ class GraduationCeremonyController extends Controller
     {
         $auth = auth('api')->user();
 
+        if (in_array($auth->role, ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
         $graduationCeremony = GraduationCeremony::where('faculty_id', $auth->faculty_id)->findOrFail($id);
 
         $students = $graduationCeremony->students()->paginate(Constants::PER_PAGE);
