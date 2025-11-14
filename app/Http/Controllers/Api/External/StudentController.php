@@ -18,7 +18,8 @@ class StudentController extends Controller
     {
 
         $auth = auth('api')->user();
-        if (in_array($auth->role, ['officer', 'system admin'])) {
+        $authData = $auth->user_data;
+        if (in_array($authData['role'], ['officer', 'system admin'])) {
             return response()->json([
                 'message' => 'You are not authorized to perform this action',
                 'code' => 403
