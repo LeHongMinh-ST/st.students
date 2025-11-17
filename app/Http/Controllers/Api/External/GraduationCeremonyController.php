@@ -78,4 +78,44 @@ class GraduationCeremonyController extends Controller
 
         return StudentsGraduationCeremonyResource::collection($students);
     }
+
+    public function showTotal(Request $request)
+    {
+        $ids = $request->get('ids', []);
+        $auth = auth('api')->user();
+        $authData = $auth->user_data;
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
+        $total = GraduationCeremony::where('faculty_id', $auth->faculty_id)
+            ->whereIn('id', $ids)
+            ->withCount('students')
+            ->get()
+            ->sum('students_count');
+
+        return response()->json([
+            'survey_students' => $total
+        ]);
+    }
+
+    public function showAll()
+    {
+        $auth = auth('api')->user();
+        $authData = $auth->user_data;
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
+        $graduationCeremonies = GraduationCeremony::where('faculty_id', $auth->faculty_id)
+            ->withCount('students')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return GraduationCeremonyResource::collection($graduationCeremonies);
+    }
 }

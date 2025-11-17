@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
 
 class ClassGenerateController extends Controller
 {
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     public function index(Request $request)
     {
