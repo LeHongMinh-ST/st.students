@@ -18,7 +18,7 @@ class GraduationCeremonyController extends Controller
 
         $auth = auth('api')->user();
         $authData = $auth->user_data;
-        if (in_array($authData['role'], ['officer', 'system admin'])) {
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
             return response()->json([
                 'message' => 'You are not authorized to perform this action',
                 'code' => 403
@@ -50,7 +50,7 @@ class GraduationCeremonyController extends Controller
         $auth = auth('api')->user();
 
         $authData = $auth->user_data;
-        if (in_array($authData['role'], ['officer', 'system admin'])) {
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
             return response()->json([
                 'message' => 'You are not authorized to perform this action',
                 'code' => 403
@@ -66,7 +66,7 @@ class GraduationCeremonyController extends Controller
     {
         $auth = auth('api')->user();
         $authData = $auth->user_data;
-        if (in_array($authData['role'], ['officer', 'system admin'])) {
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
             return response()->json([
                 'message' => 'You are not authorized to perform this action',
                 'code' => 403
