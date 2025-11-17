@@ -97,7 +97,9 @@ class GraduationCeremonyController extends Controller
             ->sum('students_count');
 
         return response()->json([
-            'survey_students' => $total
+            'data' => [
+                'survey_students' => $total
+            ]
         ]);
     }
 
