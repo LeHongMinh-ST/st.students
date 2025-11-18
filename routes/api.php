@@ -63,6 +63,7 @@ Route::prefix('v1/external')->middleware([
         Route::get('/', [GraduationCeremonyController::class, 'index']);
         Route::get('/total', [GraduationCeremonyController::class, 'showTotal']);
         Route::get('/all', [GraduationCeremonyController::class, 'showAll']);
+        Route::get('/survey-graduations', [GraduationCeremonyController::class, 'surveyGraduations']);
         Route::get('/{id}', [GraduationCeremonyController::class, 'show']);
         Route::get('/{id}/students', [GraduationCeremonyController::class, 'students']);
     });

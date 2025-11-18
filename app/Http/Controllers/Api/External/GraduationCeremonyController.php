@@ -120,4 +120,28 @@ class GraduationCeremonyController extends Controller
 
         return GraduationCeremonyResource::collection($graduationCeremonies);
     }
+
+    public function surveyGraduations(Request $request)
+    {
+        $auth = auth('api')->user();
+        $ids = $request->get('ids', []);
+        $authData = $auth->user_data;
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
+
+        $graduations = GraduationCeremony::where('faculty_id', $auth->faculty_id)
+            ->whereIn('id', $ids)
+            ->select('id', 'name')
+            ->get();
+
+        return response()->json([
+            'data' => [
+                'graduations' => $graduations
+            ]
+        ]);
+    }
 }
