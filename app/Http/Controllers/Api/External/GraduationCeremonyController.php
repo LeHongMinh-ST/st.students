@@ -135,7 +135,7 @@ class GraduationCeremonyController extends Controller
 
         $graduations = GraduationCeremony::where('faculty_id', $auth->faculty_id)
             ->whereIn('id', $ids)
-            ->select('id', 'name')
+            ->select('id', 'name', 'school_year')
             ->get();
 
         return response()->json([
