@@ -76,21 +76,20 @@
                     <div class="mt-2 row">
                         <div class="col">
                             <!-- Status Text -->
-                            <p class="mb-2 text-info">{{ $importStatus }}</p>
 
                             <!-- Import Stats -->
                             <div class="row text-center">
                                 <div class="col-4">
                                     <div class="text-success">
                                         <i class="ph-check-circle"></i>
-                                        <strong>{{ $importedCount }}</strong>
+                                        <strong>{{ $importSuccessCount }}</strong>
                                         <br><small>Thành công</small>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="text-danger">
                                         <i class="ph-x-circle"></i>
-                                        <strong>{{ $errorCount }}</strong>
+                                        <strong>{{ $importErrorCount }}</strong>
                                         <br><small>Lỗi</small>
                                     </div>
                                 </div>
