@@ -10,13 +10,19 @@ use App\Http\Resources\GraduationCeremony\GraduationCeremonyResource;
 use App\Http\Resources\Student\StudentsGraduationCeremonyResource;
 use App\Models\GraduationCeremony;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class GraduationCeremonyController extends Controller
 {
     public function index(Request $request)
     {
-
         $auth = auth('api')->user();
+        Log::info('DEBUG USER', [
+            'id' => $auth->id,
+            'role' => $auth->user_data['role'] ?? null,
+            'faculty' => $auth->faculty_id,
+            'source' => 'external',
+        ]);
         $authData = $auth->user_data;
         if (!in_array($authData['role'], ['officer', 'system admin'])) {
             return response()->json([
