@@ -18,12 +18,12 @@ class GraduationCeremonyController extends Controller
 
         $auth = auth('api')->user();
         $authData = $auth->user_data;
-        // if (!in_array($authData['role'], ['officer', 'system admin'])) {
-        //     return response()->json([
-        //         'message' => 'You are not authorized to perform this action',
-        //         'code' => 403
-        //     ]);
-        // }
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
         $facultyId = $auth->faculty_id;
         $query = GraduationCeremony::with('students')->when($facultyId, function ($query) use ($facultyId): void {
             $query->where('faculty_id', $facultyId);
@@ -49,13 +49,13 @@ class GraduationCeremonyController extends Controller
     {
         $auth = auth('api')->user();
 
-        // $authData = $auth->user_data;
-        // if (!in_array($authData['role'], ['officer', 'system admin'])) {
-        //     return response()->json([
-        //         'message' => 'You are not authorized to perform this action',
-        //         'code' => 403
-        //     ]);
-        // }
+        $authData = $auth->user_data;
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
         $graduationCeremony = GraduationCeremony::where('faculty_id', $auth->faculty_id)->findOrFail($id);
 
         return GraduationCeremonyResource::make($graduationCeremony);
@@ -66,12 +66,12 @@ class GraduationCeremonyController extends Controller
     {
         $auth = auth('api')->user();
         $authData = $auth->user_data;
-        // if (!in_array($authData['role'], ['officer', 'system admin'])) {
-        //     return response()->json([
-        //         'message' => 'You are not authorized to perform this action',
-        //         'code' => 403
-        //     ]);
-        // }
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
         $graduationCeremony = GraduationCeremony::where('faculty_id', $auth->faculty_id)->findOrFail($id);
 
         $students = $graduationCeremony->students()->paginate(Constants::PER_PAGE);
@@ -84,12 +84,12 @@ class GraduationCeremonyController extends Controller
         $ids = $request->get('ids', []);
         $auth = auth('api')->user();
         $authData = $auth->user_data;
-        // if (!in_array($authData['role'], ['officer', 'system admin'])) {
-        //     return response()->json([
-        //         'message' => 'You are not authorized to perform this action',
-        //         'code' => 403
-        //     ]);
-        // }
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
         $total = GraduationCeremony::where('faculty_id', $auth->faculty_id)
             ->whereIn('id', $ids)
             ->withCount('students')
@@ -107,12 +107,12 @@ class GraduationCeremonyController extends Controller
     {
         $auth = auth('api')->user();
         $authData = $auth->user_data;
-        // if (!in_array($authData['role'], ['officer', 'system admin'])) {
-        //     return response()->json([
-        //         'message' => 'You are not authorized to perform this action',
-        //         'code' => 403
-        //     ]);
-        // }
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
         $graduationCeremonies = GraduationCeremony::where('faculty_id', $auth->faculty_id)
             ->withCount('students')
             ->orderBy('created_at', 'desc')
@@ -126,12 +126,12 @@ class GraduationCeremonyController extends Controller
         $auth = auth('api')->user();
         $ids = $request->get('ids', []);
         $authData = $auth->user_data;
-        // if (!in_array($authData['role'], ['officer', 'system admin'])) {
-        //     return response()->json([
-        //         'message' => 'You are not authorized to perform this action',
-        //         'code' => 403
-        //     ]);
-        // }
+        if (!in_array($authData['role'], ['officer', 'system admin'])) {
+            return response()->json([
+                'message' => 'You are not authorized to perform this action',
+                'code' => 403
+            ]);
+        }
 
         $graduations = GraduationCeremony::where('faculty_id', $auth->faculty_id)
             ->whereIn('id', $ids)
