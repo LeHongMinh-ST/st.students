@@ -109,6 +109,39 @@ class GraduationCeremonyController extends Controller
         ]);
     }
 
+    public function allStudents(Request $request)
+    {
+        $ids = $request->get('ids', []);
+
+        // Kiểm tra nếu ids không phải mảng hoặc rỗng thì trả về mảng rỗng
+        if (!is_array($ids) || empty($ids)) {
+            return response()->json([
+                'data' => [
+                    'survey_students' => []
+                ]
+            ]);
+        }
+
+        $auth = auth('api')->user();
+
+        // Lấy các đợt tốt nghiệp thuộc khoa hiện tại và nằm trong danh sách ids gửi lên
+        // Eager load 'students' để lấy luôn sinh viên
+        $ceremonies = GraduationCeremony::where('faculty_id', $auth->faculty_id)
+            ->whereIn('id', $ids)
+            ->with('students')
+            ->get();
+
+        // Lấy ra collection students từ các ceremonies và gộp lại thành 1 mảng phẳng
+        $students = $ceremonies->pluck('students')->flatten();
+
+        return response()->json([
+            'data' => [
+                // Sử dụng Resource để format dữ liệu sinh viên giống hàm students() ở trên
+                'survey_students' => StudentsGraduationCeremonyResource::collection($students)
+            ]
+        ]);
+    }
+
     public function showAll()
     {
         $auth = auth('api')->user();
