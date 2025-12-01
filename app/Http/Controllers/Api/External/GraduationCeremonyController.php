@@ -131,8 +131,15 @@ class GraduationCeremonyController extends Controller
             ->with('students')
             ->get();
 
-        // Lấy ra collection students từ các ceremonies và gộp lại thành 1 mảng phẳng
-        $students = $ceremonies->pluck('students')->flatten();
+        // Dùng flatMap để duyệt qua từng Ceremony và Students của nó
+        $students = $ceremonies->flatMap(function ($ceremony) {
+            return $ceremony->students->map(function ($student) use ($ceremony) {
+                $student->ceremony_certification = $ceremony->certification;
+                $student->ceremony_certification_date = $ceremony->certification_date;
+
+                return $student;
+            });
+        });
 
         return response()->json([
             'data' => [

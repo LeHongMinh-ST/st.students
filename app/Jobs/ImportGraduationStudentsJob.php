@@ -50,6 +50,7 @@ class ImportGraduationStudentsJob implements ShouldQueue
             $importHistory->update(['status' => StatusImport::Failed]);
             return;
         }
+        Log::info('Starting import for ceremony', ['ceremony_id' => $ceremony->id]);
 
         try {
             $importHistory->update(['status' => StatusImport::Processing]);
@@ -73,6 +74,9 @@ class ImportGraduationStudentsJob implements ShouldQueue
                     $email = $row[2] ?? null;
                     $gpa = $row[3] ?? null;
                     $rankValue = $row[4] ?? null;
+                    $industryCode = $row[5] ?? null;
+                    $industryName = $row[6] ?? null;
+                    Log::info('Importing row ' . ($index + 2) . ': ' . json_encode($row));
 
                     if (!$studentCode || !$fullName) {
                         $errors[] = "Dòng " . ($index + 2) . ": Thiếu mã sinh viên hoặc họ tên";
@@ -81,8 +85,10 @@ class ImportGraduationStudentsJob implements ShouldQueue
 
                     // Find student by code
                     $student = Student::where('code', $studentCode)->first();
+                    Log::info('Found student: ' . $student);
 
                     if (!$student) {
+                        Log::warning('Student not found', ['code' => $studentCode]);
                         $errors[] = "Dòng " . ($index + 2) . ": Không tìm thấy sinh viên với mã " . $studentCode;
                         continue;
                     }
@@ -106,12 +112,22 @@ class ImportGraduationStudentsJob implements ShouldQueue
                     // Update student status to graduated
                     $student->update(['status' => StudentStatus::Graduated]);
 
+                    Log::info('Attaching student to ceremony', [
+                        'student_id' => $student->id,
+                        'gpa' => $gpaFloat,
+                        'rank' => $rank->value,
+                        'email' => $email ?: $student->email,
+                        'industry_code' => $industryCode,
+                        'industry_name' => $industryName
+                    ]);
                     // Attach student to ceremony
                     $ceremony->students()->syncWithoutDetaching([
                         $student->id => [
                             'gpa' => $gpaFloat,
                             'rank' => $rank->value,
                             'email' => $email ?: $student->email,
+                            'industry_code' => $industryCode,
+                            'industry_name' => $industryName
                         ]
                     ]);
 

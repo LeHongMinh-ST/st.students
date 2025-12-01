@@ -35,7 +35,7 @@ class Show extends Component
                         ->orWhere('email', 'like', $searchTerm);
                 });
             })
-            ->withPivot(['gpa', 'rank', 'email'])
+            ->withPivot(['gpa', 'rank', 'email','industry_code','industry_name'])
             ->paginate(Constants::PER_PAGE);
 
         return view('livewire.graduation.show', [
