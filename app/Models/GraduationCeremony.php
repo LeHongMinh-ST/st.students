@@ -57,7 +57,7 @@ class GraduationCeremony extends Model
     public function students(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'graduation_ceremony_students')
-            ->withPivot(['gpa', 'rank', 'email'])
+            ->withPivot(['gpa', 'rank', 'email','industry_code','industry_name'])
             ->withTimestamps();
     }
 

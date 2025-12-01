@@ -64,6 +64,8 @@ class Import extends Component
                 'email' => $row[2] ?? '',
                 'gpa' => $row[3] ?? '',
                 'xep_loai' => $row[4] ?? '',
+                'ma_nganh'  => isset($row[5]) ? trim((string)$row[5]) : '',
+                'ten_nganh' => $row[6] ?? '',
             ], $this->previewData, array_keys($this->previewData));
 
             $this->showPreview = true;

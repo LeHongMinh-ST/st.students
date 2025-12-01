@@ -17,6 +17,8 @@
                                 <li>Cột C: Email (nếu khác email trong hệ thống)</li>
                                 <li>Cột D: Điểm trung bình (GPA)</li>
                                 <li>Cột E: Xếp loại (Xuất sắc, Giỏi, Khá, Trung bình) - có thể để trống, hệ thống sẽ tự động xếp loại dựa trên GPA</li>
+                                <li>Cột F: Mã ngành</li>
+                                <li>Cột G: Tên ngành</li>
                             </ul>
                         </p>
                         <a href="{{ asset('templates/graduation_students_template.xlsx') }}" class="btn btn-light">
@@ -56,6 +58,8 @@
                                     <th>Email</th>
                                     <th>Điểm TB</th>
                                     <th>Xếp loại</th>
+                                    <th>Mã ngành</th>
+                                    <th>Tên ngành</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,6 +71,8 @@
                                         <td>{{ $row['email'] }}</td>
                                         <td>{{ $row['gpa'] }}</td>
                                         <td>{{ $row['xep_loai'] }}</td>
+                                        <td>{{ $row['ma_nganh'] }}</td>
+                                        <td>{{ $row['ten_nganh'] }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

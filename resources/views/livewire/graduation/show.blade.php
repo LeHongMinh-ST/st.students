@@ -105,8 +105,10 @@
                             <th width="20%">Họ và tên</th>
                             <th width="15%">Mã sinh viên</th>
                             <th width="25%">Email</th>
-                            <th width="15%">Điểm TB</th>
-                            <th width="20%">Xếp loại</th>
+                            <th width="10%">Điểm TB</th>
+                            <th width="15%">Xếp loại</th>
+                            <th width="5%">Mã ngành</th>
+                            <th width="30%">Tên ngành</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,14 +122,16 @@
                                 </td>
                                 <td width="15%">{{ $item->code }}</td>
                                 <td width="25%">{{ $item->pivot->email ?: $item->email }}</td>
-                                <td width="15%">{{ number_format($item->pivot->gpa, 2) }}</td>
-                                <td width="20%">
+                                <td width="10%">{{ number_format($item->pivot->gpa, 2) }}</td>
+                                <td width="15%">
                                     @if ($item->pivot->rank)
                                         <x-rank-graduate-badge :rank="\App\Enums\RankGraduate::from($item->pivot->rank)" />
                                     @else
                                         <span class="badge bg-secondary">N/A</span>
                                     @endif
                                 </td>
+                                <td width="5%">{{ $item->pivot->industry_code }}</td>
+                                <td width="30%">{{ $item->pivot->industry_name }}</td>
                             </tr>
                         @empty
                             <tr>
