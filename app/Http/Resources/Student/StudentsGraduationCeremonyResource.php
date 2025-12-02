@@ -34,7 +34,7 @@ class StudentsGraduationCeremonyResource extends JsonResource
             'school_year_end' => $this->school_year_end,
             'gender' => $this->gender,
             // 'training_industry_id' => $this->training_industry_id,
-            'citizen_identification' => $this->citizen_identification,
+            'citizen_identification' => $this->pivot?->citizen_identification ?: $this->citizen_identification,
             'ethnic' => $this->ethnic,
             'religion' => $this->religion,
             // 'thumbnail' => $this->thumbnail,

@@ -60,6 +60,7 @@
                                     <th>Xếp loại</th>
                                     <th>Mã ngành</th>
                                     <th>Tên ngành</th>
+                                    <th>Căn cước công dân</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -73,6 +74,7 @@
                                         <td>{{ $row['xep_loai'] }}</td>
                                         <td>{{ $row['ma_nganh'] }}</td>
                                         <td>{{ $row['ten_nganh'] }}</td>
+                                        <td>{{ $row['can_cuoc_cong_dan'] }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
