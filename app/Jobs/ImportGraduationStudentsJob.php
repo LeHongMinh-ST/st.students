@@ -76,6 +76,7 @@ class ImportGraduationStudentsJob implements ShouldQueue
                     $rankValue = $row[4] ?? null;
                     $industryCode = $row[5] ?? null;
                     $industryName = $row[6] ?? null;
+                    $citizen_identification = $row[7] ?? null;
                     Log::info('Importing row ' . ($index + 2) . ': ' . json_encode($row));
 
                     if (!$studentCode || !$fullName) {
@@ -118,7 +119,8 @@ class ImportGraduationStudentsJob implements ShouldQueue
                         'rank' => $rank->value,
                         'email' => $email ?: $student->email,
                         'industry_code' => $industryCode,
-                        'industry_name' => $industryName
+                        'industry_name' => $industryName,
+                        'citizen_identification' => $citizen_identification
                     ]);
                     // Attach student to ceremony
                     $ceremony->students()->syncWithoutDetaching([
@@ -127,7 +129,8 @@ class ImportGraduationStudentsJob implements ShouldQueue
                             'rank' => $rank->value,
                             'email' => $email ?: $student->email,
                             'industry_code' => $industryCode,
-                            'industry_name' => $industryName
+                            'industry_name' => $industryName,
+                            'citizen_identification' => $citizen_identification
                         ]
                     ]);
 

@@ -98,48 +98,52 @@
                 <div wire:loading class="my-3 text-center w-100">
                     <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
                 </div>
-                <table class="table fs-table" wire:loading.remove>
-                    <thead>
-                        <tr class="table-light">
-                            <th width="5%">STT</th>
-                            <th width="20%">Họ và tên</th>
-                            <th width="15%">Mã sinh viên</th>
-                            <th width="25%">Email</th>
-                            <th width="10%">Điểm TB</th>
-                            <th width="15%">Xếp loại</th>
-                            <th width="5%">Mã ngành</th>
-                            <th width="30%">Tên ngành</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($students as $item)
-                            <tr>
-                                <td class="text-center" width="5%">{{ $loop->index + 1 + $students->perPage() * ($students->currentPage() - 1) }}</td>
-                                <td width="20%">
-                                    <a href="{{ route('students.show', $item->id) }}" class="fw-semibold">
-                                        {{ $item->full_name }}
-                                    </a>
-                                </td>
-                                <td width="15%">{{ $item->code }}</td>
-                                <td width="25%">{{ $item->pivot->email ?: $item->email }}</td>
-                                <td width="10%">{{ number_format($item->pivot->gpa, 2) }}</td>
-                                <td width="15%">
-                                    @if ($item->pivot->rank)
-                                        <x-rank-graduate-badge :rank="\App\Enums\RankGraduate::from($item->pivot->rank)" />
-                                    @else
-                                        <span class="badge bg-secondary">N/A</span>
-                                    @endif
-                                </td>
-                                <td width="5%">{{ $item->pivot->industry_code }}</td>
-                                <td width="30%">{{ $item->pivot->industry_name }}</td>
+                <div class="table-responsive">
+                    <table class="table fs-table text-nowrap" wire:loading.remove>
+                        <thead>
+                            <tr class="table-light">
+                                <th width="5%">STT</th>
+                                <th>Họ và tên</th>
+                                <th>Mã sinh viên</th>
+                                <th>Email</th>
+                                <th>Điểm TB</th>
+                                <th width="10%">Xếp loại</th>
+                                <th>Mã ngành</th>
+                                <th>Tên ngành</th>
+                                <th>Căn cước công dân</th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center">Không có dữ liệu</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @forelse($students as $item)
+                                <tr>
+                                    <td class="text-center">{{ $loop->index + 1 + $students->perPage() * ($students->currentPage() - 1) }}</td>
+                                    <td>
+                                        <a href="{{ route('students.show', $item->id) }}" class="fw-semibold">
+                                            {{ $item->full_name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ $item->code }}</td>
+                                    <td>{{ $item->pivot->email ?: $item->email }}</td>
+                                    <td>{{ number_format($item->pivot->gpa, 2) }}</td>
+                                    <td width="10%">
+                                        @if ($item->pivot->rank)
+                                            <x-rank-graduate-badge :rank="\App\Enums\RankGraduate::from($item->pivot->rank)" />
+                                        @else
+                                            <span class="badge bg-secondary">N/A</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $item->pivot->industry_code }}</td>
+                                    <td>{{ $item->pivot->industry_name }}</td>
+                                    <td>{{ $item->pivot->citizen_identification}}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="9" class="text-center">Không có dữ liệu</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
             {{ $students->links('vendor.pagination.theme') }}
         </div>
