@@ -19,6 +19,8 @@
                                 <li>Cột E: Xếp loại (Xuất sắc, Giỏi, Khá, Trung bình) - có thể để trống, hệ thống sẽ tự động xếp loại dựa trên GPA</li>
                                 <li>Cột F: Mã ngành</li>
                                 <li>Cột G: Tên ngành</li>
+                                <li>Cột H: Căn cước công dân</li>
+                                <li>Cột I: Số điện thoại</li>
                             </ul>
                         </p>
                         <a href="{{ asset('templates/graduation_students_template.xlsx') }}" class="btn btn-light">
