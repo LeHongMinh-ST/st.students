@@ -67,6 +67,7 @@ class Import extends Component
                 'ma_nganh'  => isset($row[5]) ? trim((string)$row[5]) : '',
                 'ten_nganh' => $row[6] ?? '',
                 'can_cuoc_cong_dan' => isset($row[7]) ? trim((string)$row[7]) : '',
+                'so_dien_thoai' => isset($row[8]) ? trim((string)$row[8]) : '',
             ], $this->previewData, array_keys($this->previewData));
 
             $this->showPreview = true;

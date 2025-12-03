@@ -21,7 +21,7 @@ class StudentsGraduationCeremonyResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'full_name' => $this->last_name . ' ' . $this->first_name,
-            'email' => $this->pivot?->email ?: $this->email,
+            'email' => $this->pivot?->email ?: '',
             'industry_code' => $this->pivot?->industry_code,
             'industry_name' => $this->pivot?->industry_name,
             'email_edu' => $this->email_edu,
@@ -49,7 +49,7 @@ class StudentsGraduationCeremonyResource extends JsonResource
             'address' => $this->address,
             'countryside' => $this->countryside,
             'training_type' => $this->training_type,
-            'phone' => $this->phone,
+            'phone' => $this->pivot?->phone_number ?: '',
             'nationality' => $this->nationality,
         ];
     }

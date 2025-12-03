@@ -61,6 +61,7 @@
                                     <th>Mã ngành</th>
                                     <th>Tên ngành</th>
                                     <th>Căn cước công dân</th>
+                                    <th>Số điện thoại</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,6 +76,7 @@
                                         <td>{{ $row['ma_nganh'] }}</td>
                                         <td>{{ $row['ten_nganh'] }}</td>
                                         <td>{{ $row['can_cuoc_cong_dan'] }}</td>
+                                        <td>{{ $row['so_dien_thoai'] }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

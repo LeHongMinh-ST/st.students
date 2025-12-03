@@ -111,6 +111,7 @@
                                 <th>Mã ngành</th>
                                 <th>Tên ngành</th>
                                 <th>Căn cước công dân</th>
+                                <th>Số điện thoại</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -135,6 +136,7 @@
                                     <td>{{ $item->pivot->industry_code }}</td>
                                     <td>{{ $item->pivot->industry_name }}</td>
                                     <td>{{ $item->pivot->citizen_identification}}</td>
+                                    <td>{{ $item->pivot->phone_number }}</td>
                                 </tr>
                             @empty
                                 <tr>
