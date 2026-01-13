@@ -103,7 +103,7 @@
                                     <tbody>
                                         @forelse ($previewData as $row)
                                             <tr>
-                                                <td>{{ $row['stt'] }}</td>
+                                                <td>{{ @$row['stt'] }}</td>
                                                 <td>{{ $row['ma_nhap_hoc'] }}</td>
                                                 <td>{{ $row['ma_sv'] }}</td>
                                                 <td>{{ $row['ho_ten'] }}</td>
