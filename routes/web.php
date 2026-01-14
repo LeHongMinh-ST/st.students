@@ -83,6 +83,7 @@ Route::middleware('auth.sso')->group(function (): void {
     });
 
     Route::get('/download-template/{name}', [FileContrller::class, 'downloadFileTemplateImport'])->name('file.download-template');
+    Route::get('/download-import-error/{historyId}', [FileContrller::class, 'downloadImportErrorLog'])->name('file.download-import-error');
 
     // Student routes
     Route::get('/student/profile', [StudentProfileController::class, 'show'])

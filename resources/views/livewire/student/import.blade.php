@@ -151,7 +151,7 @@
                                         <th>Số bản ghi thất bại</th>
                                         <th>Người thực hiện</th>
                                         <th>Thời gian</th>
-                                        {{-- <th class="text-center">Hành động</th> --}}
+                                        <th class="text-center">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -165,11 +165,20 @@
                                             <td>{{ $item->total_records - $item->successful_records }}</td>
                                             <td>{{ $item->user?->full_name }}</td>
                                             <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
-                                            {{-- <td class="text-center"> --}}
-                                            {{--    <a href="text-muted" data-bs-popup="tooltip" title="Tải xuống bản ghi lỗi"> --}}
-                                            {{--        <i class="ph-download-simple"></i> --}}
-                                            {{--    </a> --}}
-                                            {{-- </td> --}}
+                                            <td class="text-center">
+                                                @if ($item->hasErrors())
+                                                    <a
+                                                        href="{{ route('file.download-import-error', $item->id) }}"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        data-bs-popup="tooltip"
+                                                        title="Tải xuống bản ghi lỗi"
+                                                    >
+                                                        <i class="ph-download-simple me-1"></i> Tải lỗi
+                                                    </a>
+                                                @else
+                                                    <span class="text-muted">-</span>
+                                                @endif
+                                            </td>
                                         </tr>
 
                                     @empty

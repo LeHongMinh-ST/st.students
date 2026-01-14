@@ -69,4 +69,24 @@ class ImportHistory extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    /**
+     * Get all errors associated with this import history.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function errors(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ImportError::class);
+    }
+
+    /**
+     * Check if this import has any errors.
+     *
+     * @return bool
+     */
+    public function hasErrors(): bool
+    {
+        return $this->total_records > $this->successful_records;
+    }
 }

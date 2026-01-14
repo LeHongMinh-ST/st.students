@@ -56,6 +56,7 @@ class ImportZone extends Component
 
         $this->previewData = $import->data;
 
+
         $this->dispatch('onSetFileImport', previewData: $this->previewData);
     }
 
